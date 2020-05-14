@@ -1,10 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+
 import App from './App';
 
 describe('<App />', () => {
-  it('should render', () => {
-    const component = shallow(<App />);
-    expect(component.exists()).toBe(true);
+  test('should render', () => {
+    const { container } = render(<App />);
+    expect(container).toBeDefined();
   });
 });

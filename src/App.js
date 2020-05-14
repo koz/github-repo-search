@@ -2,15 +2,18 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import createStore from './redux/createStore';
 const store = createStore();
+import { BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from './styles/global';
-import Router from './Router';
+import Routes from './Routes';
 
 const App = () => (
   <>
     <GlobalStyle />
     <Provider store={store}>
-      <Router />
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
     </Provider>
   </>
 );
