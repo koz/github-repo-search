@@ -4,12 +4,13 @@ import createStore from './redux/createStore';
 const store = createStore();
 
 import { GlobalStyle } from './styles/global';
+import Router from './Router';
 
 const App = () => (
   <>
     <GlobalStyle />
     <Provider store={store}>
-      <div>Github - Explore</div>
+      <Router />
     </Provider>
   </>
 );
