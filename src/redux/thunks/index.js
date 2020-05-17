@@ -42,11 +42,7 @@ export const getRepositories = (keyword) => async (dispatch) => {
       };
       dispatch(fetchRepositoriesSuccess(parsedData));
     })
-    .catch((error) => {
-      if (error.code || error.message) {
-        dispatch(fetchRepositoriesError(error));
-      } else {
-        throw error;
-      }
-    });
+    .catch((error) =>
+      dispatch(fetchRepositoriesError(error.code || error.message ? error : { message: 'An error occurred.' }))
+    );
 };

@@ -89,5 +89,13 @@ describe('thunks', () => {
       await getRepositories()(dispatcherMock);
       expect(fetchErrorMock).toBeCalledWith(data);
     });
+
+    test('should should dispatch fetchRepositoriesError in a generic error', async () => {
+      getReposMock.mockRejectedValue('error');
+      const fetchErrorMock = jest.spyOn(actionCreators, 'fetchRepositoriesError');
+
+      await getRepositories()(dispatcherMock);
+      expect(fetchErrorMock).toBeCalledWith({ message: 'An error occurred.' });
+    });
   });
 });
