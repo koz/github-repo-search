@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import SearchForm from '../../components/SearchForm';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
+import { getRepositories } from '../../redux/thunks';
+import debounce from 'lodash.debounce';
+import useSearchForm from '../../hooks/useSearchForm';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -19,10 +23,14 @@ const StyledSearchForm = styled(SearchForm)`
   }
 `;
 
-const Home = () => (
-  <StyledContainer>
-    <StyledSearchForm />
-  </StyledContainer>
-);
+const Home = () => {
+  const { handleChange } = useSearchForm();
+
+  return (
+    <StyledContainer>
+      <StyledSearchForm onChange={handleChange} />
+    </StyledContainer>
+  );
+};
 
 export default Home;
