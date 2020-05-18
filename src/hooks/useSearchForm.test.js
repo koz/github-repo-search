@@ -21,7 +21,6 @@ jest.mock('lodash.debounce', () => (a, b) => {
   /* lodash's debounce doesn't work with jest fake timers, in order to test the debounce behavior this simple debounce mock function is needed */
   let timer = null;
   return function wrappedFunction(...args) {
-    console.log('wrapped');
     clearTimeout(timer);
     timer = setTimeout(() => a(...args), b);
   };
