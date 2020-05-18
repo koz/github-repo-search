@@ -4,17 +4,17 @@ import styled from 'styled-components';
 import { sizes, textStyles } from '../../styles/text';
 
 export default styled.p`
-  ${({ size }) => {
-    switch (size) {
+  ${(props) => {
+    switch (props.size) {
       case sizes.medium:
-        return textStyles.medium;
+        return textStyles[sizes.medium];
       case sizes.large:
-        return textStyles.large;
+        return textStyles[sizes.large];
       case sizes.xlarge:
-        return textStyles.xlarge;
+        return textStyles[sizes.xlarge];
       case sizes.small:
       default:
-        return textStyles.small;
+        return textStyles[sizes.small];
     }
   }}
 `;
