@@ -1,6 +1,6 @@
 import { FETCH_REPOSITORIES_START, FETCH_REPOSITORIES_ERROR, FETCH_REPOSITORIES_SUCCESS } from '../actions/actions';
 
-export default (state, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case FETCH_REPOSITORIES_START:
       return {
