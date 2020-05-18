@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Input from '../Input';
-import Button from '../Button';
 
 const StyledForm = styled.form`
   display: flex;
-`;
-
-const StyledButton = styled(Button)`
-  margin-left: 1rem;
+  padding-bottom: 2rem;
+  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.3);
+  width: 100%;
 `;
 
 const propTypes = {
@@ -26,8 +24,7 @@ const SearchForm = ({ className, onChange = () => {}, onSubmit = () => {} }) => 
 
   return (
     <StyledForm onSubmit={handleSubmit} className={className} data-testid="search-form">
-      <Input onChange={onChange} placeholder="Find a repository..." data-testid="search-input" />
-      <StyledButton>Search</StyledButton>
+      <Input onChange={onChange} placeholder="Search" data-testid="search-input" />
     </StyledForm>
   );
 };

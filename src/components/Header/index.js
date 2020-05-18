@@ -2,9 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/icons/logo.svg';
+import { breakpoints, mediaQueries } from '../../styles/mediaQueries';
 
 const StyledContainer = styled.div`
-  padding: 3.2rem;
+  margin: 3.2rem;
+
+  ${mediaQueries[breakpoints.large]} {
+    margin: 5.4rem 18rem 0;
+  }
 `;
 
 const Header = () => (

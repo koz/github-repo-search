@@ -23,11 +23,4 @@ describe('<SearchForm />', () => {
     fireEvent.submit(getByTestId('search-form'));
     expect(onSubmitMock).toHaveBeenCalledTimes(1);
   });
-
-  test('should call onSubmit on button click event', () => {
-    const onSubmitMock = jest.fn();
-    const { getByRole } = render(<SearchForm onSubmit={onSubmitMock} />);
-    fireEvent.click(getByRole('button'));
-    expect(onSubmitMock).toHaveBeenCalledTimes(1);
-  });
 });
