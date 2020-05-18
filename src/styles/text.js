@@ -7,7 +7,7 @@ export const sizes = {
 
 export const textStyles = {
   [sizes.small]: `
-    font-size: 1.5rem
+    font-size: 1.5rem;
     line-height: 1.47;
   `,
   [sizes.medium]: `
