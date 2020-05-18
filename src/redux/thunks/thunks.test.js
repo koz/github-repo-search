@@ -49,6 +49,7 @@ describe('thunks', () => {
               name: 'MIT License',
               url: 'https://api.github.com/licenses/mit',
             },
+            full_name: 'full/name',
           },
         ],
       };
@@ -75,6 +76,7 @@ describe('thunks', () => {
               name: 'MIT License',
               url: 'https://api.github.com/licenses/mit',
             },
+            fullName: 'full/name',
           },
         ],
       });
@@ -95,6 +97,7 @@ describe('thunks', () => {
             language: 'Javascript',
             forks_count: 4,
             open_issues_count: 5,
+            full_name: 'full/name',
           },
         ],
       };
@@ -118,6 +121,7 @@ describe('thunks', () => {
             forks: 4,
             issues: 5,
             license: null,
+            fullName: 'full/name',
           },
         ],
       });

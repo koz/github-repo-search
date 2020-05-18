@@ -20,6 +20,7 @@ export const getRepositories = (keyword) => async (dispatch) => {
             open_issues_count: issues,
             stargazers_count: stars,
             watchers_count: watchers,
+            full_name: fullName,
           }) => ({
             id,
             createdAt,
@@ -37,6 +38,7 @@ export const getRepositories = (keyword) => async (dispatch) => {
             issues,
             stars,
             watchers,
+            fullName,
           })
         ),
       };
