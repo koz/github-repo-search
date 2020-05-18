@@ -33,7 +33,7 @@ body {
 	font-size: 1.6rem; /* resets default font-size to 16px (and scales what user defines in browser settings) */
 }
 input, body {
-  font-family: Helvetica, sans-serif;
+  font-family: 'Heebo', sans-serif;
 }
 ol, ul {
 	list-style: none;
