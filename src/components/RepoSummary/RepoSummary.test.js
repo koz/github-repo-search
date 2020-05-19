@@ -26,7 +26,7 @@ describe('<RepoSummary />', () => {
         language={language}
         lastUpdated={lastUpdated}
         license={license}
-        description={describe}
+        description={description}
         fullName={fullName}
         stars={stars}
       />
