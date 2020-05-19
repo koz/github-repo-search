@@ -6,7 +6,9 @@ import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import useSearchForm from '../../hooks/useSearchForm';
 import { sizes } from '../../styles/text';
 import { useSelector } from 'react-redux';
-import { useTotalCount } from '../../redux/selectors';
+import { useTotalCount, useRepositories } from '../../redux/selectors';
+import RepoSummary from '../../components/RepoSummary';
+import { Link } from 'react-router-dom';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -31,9 +33,22 @@ const StyledResultsCount = styled(Text)`
   }
 `;
 
+const StyledResultsList = styled.ul`
+  list-style: none;
+  margin-top: 8rem;
+  width: 100%;
+`;
+
+const StyledListItem = styled.li`
+  :not(:first-child) {
+    margin-top: 5rem;
+  }
+`;
+
 const Home = () => {
   const { handleChange } = useSearchForm();
   const results = useTotalCount();
+  const repositories = useRepositories();
   const formattedResults = useMemo(() => {
     const intl = new Intl.NumberFormat();
     return intl.format(results);
@@ -46,6 +61,25 @@ const Home = () => {
         <StyledResultsCount size={sizes.small}>
           {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
         </StyledResultsCount>
+      ) : null}
+      {repositories && repositories.length ? (
+        <StyledResultsList data-testid="repositories-list">
+          {repositories.map(({ id, name, description, language, updatedAt, license, fullName, stars }) => (
+            <StyledListItem data-testid="repositories-list-item" key={id}>
+              <Link to={`/${fullName}`}>
+                <RepoSummary
+                  title={name}
+                  fullName={fullName}
+                  description={description}
+                  language={language}
+                  lastUpdated={updatedAt}
+                  license={license?.name}
+                  stars={stars}
+                />
+              </Link>
+            </StyledListItem>
+          ))}
+        </StyledResultsList>
       ) : null}
     </StyledContainer>
   );
