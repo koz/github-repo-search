@@ -8,3 +8,12 @@ export const getRepos = (keyword) =>
       throw { code: r.status, message: r.statusText };
     }
   });
+
+export const getRepo = (owner, repo) =>
+  fetch(`${API_URL}/repos/${owner}/${repo}`).then((r) => {
+    if (r.ok) {
+      return r.json();
+    } else {
+      throw { code: r.status, message: r.statusText };
+    }
+  });
