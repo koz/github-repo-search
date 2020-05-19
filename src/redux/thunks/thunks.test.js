@@ -1,22 +1,22 @@
 import * as api from '../../api';
-import { getRepositories } from './index';
+import { getRepositories, getRepository } from './index';
 import * as actionCreators from '../actions/actionCreators';
 
 describe('thunks', () => {
+  const dispatcherMock = jest.fn();
+
+  afterEach(() => {
+    dispatcherMock.mockClear();
+  });
+
   describe('getRepositories', () => {
-    const dispatcherMock = jest.fn();
-
-    afterEach(() => {
-      dispatcherMock.mockClear();
-    });
-
     test('should return a function', () => {
       expect(typeof getRepositories()).toBe('function');
     });
 
     test('should dispatch fetchRepositoriesStart', async () => {
       const fetchStartMock = jest.spyOn(actionCreators, 'fetchRepositoriesStart');
-      const getReposMock = jest.spyOn(api, 'getRepos').mockResolvedValue();
+      jest.spyOn(api, 'getRepos').mockResolvedValue();
 
       await getRepositories()(dispatcherMock);
       expect(fetchStartMock).toBeCalledTimes(1);
@@ -53,7 +53,7 @@ describe('thunks', () => {
           },
         ],
       };
-      const getReposMock = jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
+      jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
 
       const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositoriesSuccess');
 
@@ -85,69 +85,87 @@ describe('thunks', () => {
       });
     });
 
-    test('should dispatch fetchRepositoriesSuccess with the right data on getRepos resolve without license data', async () => {
-      const mockData = {
-        total_count: 1,
-        items: [
-          {
-            id: 1,
-            name: 'Test',
-            description: 'Description',
-            created_at: '2020-05-17',
-            updated_at: '2020-05-17',
-            stargazers_count: 2,
-            watchers_count: 3,
-            language: 'Javascript',
-            forks_count: 4,
-            open_issues_count: 5,
-            full_name: 'full/name',
-          },
-        ],
-      };
-      const getReposMock = jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
-
-      const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositoriesSuccess');
-
-      await getRepositories()(dispatcherMock);
-      expect(fetchSuccessMock).toBeCalledWith({
-        totalCount: mockData.total_count,
-        items: new Map([
-          [
-            1,
-            {
-              id: 1,
-              name: 'Test',
-              description: 'Description',
-              createdAt: '2020-05-17',
-              updatedAt: '2020-05-17',
-              stars: 2,
-              watchers: 3,
-              language: 'Javascript',
-              forks: 4,
-              issues: 5,
-              license: null,
-              fullName: 'full/name',
-            },
-          ],
-        ]),
-      });
-    });
-
     test('should dispatch fetchRepositoriesError on getRepos reject', async () => {
       const data = { code: '123', message: 'test' };
-      const getReposMock = jest.spyOn(api, 'getRepos').mockRejectedValue(data);
+      jest.spyOn(api, 'getRepos').mockRejectedValue(data);
       const fetchErrorMock = jest.spyOn(actionCreators, 'fetchRepositoriesError');
 
       await getRepositories()(dispatcherMock);
       expect(fetchErrorMock).toBeCalledWith(data);
     });
+  });
 
-    test('should should dispatch fetchRepositoriesError in a generic error', async () => {
-      const getReposMock = jest.spyOn(api, 'getRepos').mockRejectedValue('error');
-      const fetchErrorMock = jest.spyOn(actionCreators, 'fetchRepositoriesError');
+  describe('getRepository', () => {
+    test('should return a function', () => {
+      expect(typeof getRepository()).toBe('function');
+    });
 
-      await getRepositories()(dispatcherMock);
-      expect(fetchErrorMock).toBeCalledWith({ message: 'An error occurred.' });
+    test('should dispatch fetchRepositoryStart', async () => {
+      const fetchStartMock = jest.spyOn(actionCreators, 'fetchRepositoryStart');
+      jest.spyOn(api, 'getRepo').mockResolvedValue();
+
+      await getRepository()(dispatcherMock);
+      expect(fetchStartMock).toBeCalledTimes(1);
+    });
+
+    test('should call getRepo with owner and repo param', async () => {
+      const owner = 'testOwner';
+      const repo = 'testRepo';
+      const getRepoMock = jest.spyOn(api, 'getRepo').mockResolvedValue();
+
+      await getRepository(owner, repo)(dispatcherMock);
+      expect(getRepoMock).toBeCalledWith(owner, repo);
+    });
+
+    test('should dispatch fetchRepositorySuccess on getRepo resolve', async () => {
+      const mockData = {
+        id: 1,
+        name: 'Test',
+        description: 'Description',
+        created_at: '2020-05-17',
+        updated_at: '2020-05-17',
+        stargazers_count: 2,
+        watchers_count: 3,
+        language: 'Javascript',
+        forks_count: 4,
+        open_issues_count: 5,
+        license: {
+          name: 'MIT License',
+          url: 'https://api.github.com/licenses/mit',
+        },
+        full_name: 'full/name',
+      };
+      jest.spyOn(api, 'getRepo').mockResolvedValue(mockData);
+
+      const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositorySuccess');
+
+      await getRepository()(dispatcherMock);
+      expect(fetchSuccessMock).toBeCalledWith({
+        id: 1,
+        name: 'Test',
+        description: 'Description',
+        createdAt: '2020-05-17',
+        updatedAt: '2020-05-17',
+        stars: 2,
+        watchers: 3,
+        language: 'Javascript',
+        forks: 4,
+        issues: 5,
+        license: {
+          name: 'MIT License',
+          url: 'https://api.github.com/licenses/mit',
+        },
+        fullName: 'full/name',
+      });
+    });
+
+    test('should dispatch fetchRepositoryError on getRepo reject', async () => {
+      const data = { code: '123', message: 'test' };
+      jest.spyOn(api, 'getRepo').mockRejectedValue(data);
+      const fetchErrorMock = jest.spyOn(actionCreators, 'fetchRepositoryError');
+
+      await getRepository()(dispatcherMock);
+      expect(fetchErrorMock).toBeCalledWith(data);
     });
   });
 });

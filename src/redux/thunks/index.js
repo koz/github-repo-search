@@ -1,54 +1,36 @@
-import { fetchRepositoriesStart, fetchRepositoriesSuccess, fetchRepositoriesError } from '../actions/actionCreators';
-import { getRepos } from '../../api';
+import {
+  fetchRepositoriesStart,
+  fetchRepositoriesSuccess,
+  fetchRepositoriesError,
+  fetchRepositoryStart,
+  fetchRepositoryError,
+  fetchRepositorySuccess,
+} from '../actions/actionCreators';
+import { getRepos, getRepo } from '../../api';
+import { repoDataMapper, errorDataMapper } from '../utils';
 
 export const getRepositories = (keyword) => async (dispatch) => {
   await dispatch(fetchRepositoriesStart());
   return getRepos(keyword)
     .then((data) => {
       const repositoriesMap = new Map();
-      data.items.forEach(
-        ({
-          id,
-          created_at: createdAt,
-          updated_at: updatedAt,
-          description,
-          forks_count: forks,
-          language,
-          license,
-          name,
-          open_issues_count: issues,
-          stargazers_count: stars,
-          watchers_count: watchers,
-          full_name: fullName,
-        }) => {
-          repositoriesMap.set(id, {
-            id,
-            createdAt,
-            updatedAt,
-            description,
-            forks,
-            language,
-            license: license
-              ? {
-                  name: license.name,
-                  url: license.url,
-                }
-              : null,
-            name,
-            issues,
-            stars,
-            watchers,
-            fullName,
-          });
-        }
-      );
+      data.items.forEach((data) => {
+        repositoriesMap.set(data.id, repoDataMapper(data));
+      });
       const parsedData = {
         totalCount: data.total_count,
         items: repositoriesMap,
       };
       dispatch(fetchRepositoriesSuccess(parsedData));
     })
-    .catch((error) =>
-      dispatch(fetchRepositoriesError(error.code || error.message ? error : { message: 'An error occurred.' }))
-    );
+    .catch((error) => dispatch(fetchRepositoriesError(errorDataMapper(error))));
+};
+
+export const getRepository = (owner, repo) => async (dispatch) => {
+  await dispatch(fetchRepositoryStart());
+  return getRepo(owner, repo)
+    .then((data) => {
+      dispatch(fetchRepositorySuccess(repoDataMapper(data)));
+    })
+    .catch((error) => dispatch(fetchRepositoryError(errorDataMapper(error))));
 };
