@@ -5,23 +5,23 @@ export const getRepositories = (keyword) => async (dispatch) => {
   await dispatch(fetchRepositoriesStart());
   return getRepos(keyword)
     .then((data) => {
-      const parsedData = {
-        totalCount: data.total_count,
-        items: data.items.map(
-          ({
-            id,
-            created_at: createdAt,
-            updated_at: updatedAt,
-            description,
-            forks_count: forks,
-            language,
-            license,
-            name,
-            open_issues_count: issues,
-            stargazers_count: stars,
-            watchers_count: watchers,
-            full_name: fullName,
-          }) => ({
+      const repositoriesMap = new Map();
+      data.items.forEach(
+        ({
+          id,
+          created_at: createdAt,
+          updated_at: updatedAt,
+          description,
+          forks_count: forks,
+          language,
+          license,
+          name,
+          open_issues_count: issues,
+          stargazers_count: stars,
+          watchers_count: watchers,
+          full_name: fullName,
+        }) => {
+          repositoriesMap.set(id, {
             id,
             createdAt,
             updatedAt,
@@ -39,8 +39,12 @@ export const getRepositories = (keyword) => async (dispatch) => {
             stars,
             watchers,
             fullName,
-          })
-        ),
+          });
+        }
+      );
+      const parsedData = {
+        totalCount: data.total_count,
+        items: repositoriesMap,
       };
       dispatch(fetchRepositoriesSuccess(parsedData));
     })

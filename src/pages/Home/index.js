@@ -54,6 +54,29 @@ const Home = () => {
     const intl = new Intl.NumberFormat();
     return intl.format(results);
   }, [results]);
+  const repositoriesElements = useMemo(() => {
+    if (!repositories || !repositories.size) {
+      return null;
+    } else {
+      return Array.from(repositories).map(
+        ([id, { name, description, language, updatedAt, license, fullName, stars }]) => (
+          <StyledListItem data-testid="repositories-list-item" key={id}>
+            <Link to={`/${fullName}`}>
+              <RepoSummary
+                title={name}
+                fullName={fullName}
+                description={description}
+                language={language}
+                lastUpdated={updatedAt}
+                license={license?.name}
+                stars={stars}
+              />
+            </Link>
+          </StyledListItem>
+        )
+      );
+    }
+  }, [repositories]);
 
   return (
     <>
@@ -65,24 +88,8 @@ const Home = () => {
             {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
           </StyledResultsCount>
         ) : null}
-        {repositories && repositories.length ? (
-          <StyledResultsList data-testid="repositories-list">
-            {repositories.map(({ id, name, description, language, updatedAt, license, fullName, stars }) => (
-              <StyledListItem data-testid="repositories-list-item" key={id}>
-                <Link to={`/${fullName}`}>
-                  <RepoSummary
-                    title={name}
-                    fullName={fullName}
-                    description={description}
-                    language={language}
-                    lastUpdated={updatedAt}
-                    license={license?.name}
-                    stars={stars}
-                  />
-                </Link>
-              </StyledListItem>
-            ))}
-          </StyledResultsList>
+        {repositoriesElements ? (
+          <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
         ) : null}
       </StyledContainer>
     </>

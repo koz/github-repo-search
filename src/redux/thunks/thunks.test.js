@@ -37,7 +37,7 @@ describe('thunks', () => {
           {
             id: 1,
             name: 'Test',
-            description: 'Descrription',
+            description: 'Description',
             created_at: '2020-05-17',
             updated_at: '2020-05-17',
             stargazers_count: 2,
@@ -60,25 +60,28 @@ describe('thunks', () => {
       await getRepositories()(dispatcherMock);
       expect(fetchSuccessMock).toBeCalledWith({
         totalCount: mockData.total_count,
-        items: [
-          {
-            id: 1,
-            name: 'Test',
-            description: 'Descrription',
-            createdAt: '2020-05-17',
-            updatedAt: '2020-05-17',
-            stars: 2,
-            watchers: 3,
-            language: 'Javascript',
-            forks: 4,
-            issues: 5,
-            license: {
-              name: 'MIT License',
-              url: 'https://api.github.com/licenses/mit',
+        items: new Map([
+          [
+            1,
+            {
+              id: 1,
+              name: 'Test',
+              description: 'Description',
+              createdAt: '2020-05-17',
+              updatedAt: '2020-05-17',
+              stars: 2,
+              watchers: 3,
+              language: 'Javascript',
+              forks: 4,
+              issues: 5,
+              license: {
+                name: 'MIT License',
+                url: 'https://api.github.com/licenses/mit',
+              },
+              fullName: 'full/name',
             },
-            fullName: 'full/name',
-          },
-        ],
+          ],
+        ]),
       });
     });
 
@@ -89,7 +92,7 @@ describe('thunks', () => {
           {
             id: 1,
             name: 'Test',
-            description: 'Descrription',
+            description: 'Description',
             created_at: '2020-05-17',
             updated_at: '2020-05-17',
             stargazers_count: 2,
@@ -108,22 +111,25 @@ describe('thunks', () => {
       await getRepositories()(dispatcherMock);
       expect(fetchSuccessMock).toBeCalledWith({
         totalCount: mockData.total_count,
-        items: [
-          {
-            id: 1,
-            name: 'Test',
-            description: 'Descrription',
-            createdAt: '2020-05-17',
-            updatedAt: '2020-05-17',
-            stars: 2,
-            watchers: 3,
-            language: 'Javascript',
-            forks: 4,
-            issues: 5,
-            license: null,
-            fullName: 'full/name',
-          },
-        ],
+        items: new Map([
+          [
+            1,
+            {
+              id: 1,
+              name: 'Test',
+              description: 'Description',
+              createdAt: '2020-05-17',
+              updatedAt: '2020-05-17',
+              stars: 2,
+              watchers: 3,
+              language: 'Javascript',
+              forks: 4,
+              issues: 5,
+              license: null,
+              fullName: 'full/name',
+            },
+          ],
+        ]),
       });
     });
 
