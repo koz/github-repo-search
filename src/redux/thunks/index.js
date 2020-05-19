@@ -15,7 +15,7 @@ export const getRepositories = (keyword) => async (dispatch) => {
     .then((data) => {
       const repositoriesMap = new Map();
       data.items.forEach((data) => {
-        repositoriesMap.set(data.id, repoDataMapper(data));
+        repositoriesMap.set(data.full_name, repoDataMapper(data));
       });
       const parsedData = {
         totalCount: data.total_count,

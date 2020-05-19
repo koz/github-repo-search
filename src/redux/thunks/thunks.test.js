@@ -62,7 +62,7 @@ describe('thunks', () => {
         totalCount: mockData.total_count,
         items: new Map([
           [
-            1,
+            'full/name',
             {
               id: 1,
               name: 'Test',
