@@ -11,9 +11,9 @@ describe('<Routes />', () => {
   test('should show different content after navigating to details route', () => {
     const history = createMemoryHistory();
     const { container } = renderWithContext(<Routes />, { history });
-    const homeText = container.textContent;
-    history.push('/123');
-    const detailsText = container.textContent;
-    expect(homeText).not.toEqual(detailsText);
+    const homeChild = { ...container.childNodes };
+    history.push('/123/123');
+    const detailsChild = { ...container.childNodes };
+    expect(homeChild).not.toStrictEqual(detailsChild);
   });
 });

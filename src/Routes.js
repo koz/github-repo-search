@@ -1,10 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Details from './pages/Details';
 
 const Router = () => (
   <Switch>
-    <Route path="/:repo">Details</Route>
+    <Route path="/:owner/:repo">
+      <Details />
+    </Route>
     <Route path="/">
       <Home />
     </Route>
