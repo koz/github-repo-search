@@ -1,11 +1,11 @@
 import React from 'react';
 import { renderWithProvider } from '../../../spec/utils/renderWithContext';
-import { useTotalCount, useRepositories } from '.';
+import { useTotalCount, useRepositories, useRepository } from '.';
 
-const setup = (selector, state) => {
+const setup = (selector, state, ...args) => {
   let val = {};
   const TestComponent = () => {
-    val = selector();
+    val = selector(...args);
     return null;
   };
   renderWithProvider(<TestComponent />, { state });
@@ -21,5 +21,15 @@ describe('selectors', () => {
   test('useRepositories', () => {
     const value = setup(useRepositories, { repositories: { items: [1, 2, 3] } });
     expect(value).toStrictEqual([1, 2, 3]);
+  });
+
+  test('useRepository', () => {
+    const value = setup(
+      useRepository,
+      { repositories: { items: new Map([['full/name', { id: 1 }]]) } },
+      'full',
+      'name'
+    );
+    expect(value).toMatchObject({ id: 1 });
   });
 });
