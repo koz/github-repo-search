@@ -63,4 +63,9 @@ describe('<Home />', () => {
     const listItemElement = queryByTestId('repositories-list-item');
     expect(listItemElement.firstChild).toHaveAttribute('href', `/${mockData.fullName}`);
   });
+
+  test('should render Header', () => {
+    const { queryByTestId } = renderWithContext(<Home />);
+    expect(queryByTestId('header')).toBeDefined();
+  });
 });

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useTotalCount, useRepositories } from '../../redux/selectors';
 import RepoSummary from '../../components/RepoSummary';
 import { Link } from 'react-router-dom';
+import Header from '../../components/Header';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -55,33 +56,36 @@ const Home = () => {
   }, [results]);
 
   return (
-    <StyledContainer>
-      <StyledSearchForm data-testid="search-form" onChange={handleChange} />
-      {results ? (
-        <StyledResultsCount size={sizes.small}>
-          {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
-        </StyledResultsCount>
-      ) : null}
-      {repositories && repositories.length ? (
-        <StyledResultsList data-testid="repositories-list">
-          {repositories.map(({ id, name, description, language, updatedAt, license, fullName, stars }) => (
-            <StyledListItem data-testid="repositories-list-item" key={id}>
-              <Link to={`/${fullName}`}>
-                <RepoSummary
-                  title={name}
-                  fullName={fullName}
-                  description={description}
-                  language={language}
-                  lastUpdated={updatedAt}
-                  license={license?.name}
-                  stars={stars}
-                />
-              </Link>
-            </StyledListItem>
-          ))}
-        </StyledResultsList>
-      ) : null}
-    </StyledContainer>
+    <>
+      <Header data-testid="header" />
+      <StyledContainer>
+        <StyledSearchForm data-testid="search-form" onChange={handleChange} />
+        {results ? (
+          <StyledResultsCount size={sizes.small}>
+            {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
+          </StyledResultsCount>
+        ) : null}
+        {repositories && repositories.length ? (
+          <StyledResultsList data-testid="repositories-list">
+            {repositories.map(({ id, name, description, language, updatedAt, license, fullName, stars }) => (
+              <StyledListItem data-testid="repositories-list-item" key={id}>
+                <Link to={`/${fullName}`}>
+                  <RepoSummary
+                    title={name}
+                    fullName={fullName}
+                    description={description}
+                    language={language}
+                    lastUpdated={updatedAt}
+                    license={license?.name}
+                    stars={stars}
+                  />
+                </Link>
+              </StyledListItem>
+            ))}
+          </StyledResultsList>
+        ) : null}
+      </StyledContainer>
+    </>
   );
 };
 
