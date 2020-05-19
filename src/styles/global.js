@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { black, white } from './colors';
 
 export const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -29,11 +30,13 @@ html {
   font-size: 62.5%; /* 1 rem = 10px; 10px/16px = 62.5% */
 }
 body {
+	background-color: ${black};
+	color: ${white};
 	line-height: 1;
 	font-size: 1.6rem; /* resets default font-size to 16px (and scales what user defines in browser settings) */
 }
 input, body {
-  font-family: Helvetica, sans-serif;
+  font-family: 'Heebo', sans-serif;
 }
 ol, ul {
 	list-style: none;
