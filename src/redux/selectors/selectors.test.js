@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderWithProvider } from '../../../spec/utils/renderWithContext';
-import { useTotalCount, useRepositories, useRepository } from '.';
+import { useTotalCount, useRepositories, useRepository, useRepositoryLoading, useRepositoryError } from '.';
 
 const setup = (selector, state, ...args) => {
   let val = {};
@@ -31,5 +31,17 @@ describe('selectors', () => {
       'name'
     );
     expect(value).toMatchObject({ id: 1 });
+  });
+
+  test('useRepositoryLoading', () => {
+    const value = setup(useRepositoryLoading, { isLoadingRepository: true });
+
+    expect(value).toBe(true);
+  });
+
+  test('useRepositoryError', () => {
+    const value = setup(useRepositoryError, { repositoryError: { message: 'error' } });
+
+    expect(value).toMatchObject({ message: 'error' });
   });
 });
