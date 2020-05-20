@@ -10,7 +10,7 @@ export const repoDataMapper = (data = {}) => {
     name,
     open_issues_count: issues,
     stargazers_count: stars,
-    watchers_count: watchers,
+    subscribers_count: watchers,
     full_name: fullName,
   } = data;
 

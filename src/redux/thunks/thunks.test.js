@@ -1,6 +1,7 @@
 import * as api from '../../api';
 import { getRepositories, getRepository } from './index';
 import * as actionCreators from '../actions/actionCreators';
+import * as utils from '../utils/';
 
 describe('thunks', () => {
   const dispatcherMock = jest.fn();
@@ -31,58 +32,17 @@ describe('thunks', () => {
     });
 
     test('should dispatch fetchRepositoriesSuccess on getRepos resolve', async () => {
-      const mockData = {
-        total_count: 1,
-        items: [
-          {
-            id: 1,
-            name: 'Test',
-            description: 'Description',
-            created_at: '2020-05-17',
-            updated_at: '2020-05-17',
-            stargazers_count: 2,
-            watchers_count: 3,
-            language: 'Javascript',
-            forks_count: 4,
-            open_issues_count: 5,
-            license: {
-              name: 'MIT License',
-              url: 'https://api.github.com/licenses/mit',
-            },
-            full_name: 'full/name',
-          },
-        ],
-      };
-      jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
+      const mockData = { total_count: 1, items: [{ full_name: 'full/name' }] };
+      const parsedItem = { fullName: 'full/name' };
+      const parsedData = { totalCount: 1, items: new Map([[parsedItem.fullName, parsedItem]]) };
 
+      const mockDataMapper = jest.spyOn(utils, 'repoDataMapper').mockReturnValue(parsedItem);
+      jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
       const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositoriesSuccess');
 
       await getRepositories()(dispatcherMock);
-      expect(fetchSuccessMock).toBeCalledWith({
-        totalCount: mockData.total_count,
-        items: new Map([
-          [
-            'full/name',
-            {
-              id: 1,
-              name: 'Test',
-              description: 'Description',
-              createdAt: '2020-05-17',
-              updatedAt: '2020-05-17',
-              stars: 2,
-              watchers: 3,
-              language: 'Javascript',
-              forks: 4,
-              issues: 5,
-              license: {
-                name: 'MIT License',
-                url: 'https://api.github.com/licenses/mit',
-              },
-              fullName: 'full/name',
-            },
-          ],
-        ]),
-      });
+      expect(mockDataMapper).toBeCalledWith(mockData.items[0]);
+      expect(fetchSuccessMock).toBeCalledWith(parsedData);
     });
 
     test('should dispatch fetchRepositoriesError on getRepos reject', async () => {
@@ -118,45 +78,16 @@ describe('thunks', () => {
     });
 
     test('should dispatch fetchRepositorySuccess on getRepo resolve', async () => {
-      const mockData = {
-        id: 1,
-        name: 'Test',
-        description: 'Description',
-        created_at: '2020-05-17',
-        updated_at: '2020-05-17',
-        stargazers_count: 2,
-        watchers_count: 3,
-        language: 'Javascript',
-        forks_count: 4,
-        open_issues_count: 5,
-        license: {
-          name: 'MIT License',
-          url: 'https://api.github.com/licenses/mit',
-        },
-        full_name: 'full/name',
-      };
-      jest.spyOn(api, 'getRepo').mockResolvedValue(mockData);
+      const mockData = { full_name: 'full/name' };
+      const parsedItem = { fullName: 'full/name' };
 
+      const mockDataMapper = jest.spyOn(utils, 'repoDataMapper').mockReturnValue(parsedItem);
+      jest.spyOn(api, 'getRepo').mockResolvedValue(mockData);
       const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositorySuccess');
 
       await getRepository()(dispatcherMock);
-      expect(fetchSuccessMock).toBeCalledWith({
-        id: 1,
-        name: 'Test',
-        description: 'Description',
-        createdAt: '2020-05-17',
-        updatedAt: '2020-05-17',
-        stars: 2,
-        watchers: 3,
-        language: 'Javascript',
-        forks: 4,
-        issues: 5,
-        license: {
-          name: 'MIT License',
-          url: 'https://api.github.com/licenses/mit',
-        },
-        fullName: 'full/name',
-      });
+      expect(mockDataMapper).toBeCalledWith(mockData);
+      expect(fetchSuccessMock).toBeCalledWith(parsedItem);
     });
 
     test('should dispatch fetchRepositoryError on getRepo reject', async () => {
