@@ -41,9 +41,9 @@ export const fetchRepositoryError = (error) => ({
 });
 
 /* Owner */
-export const fetchOwnerStart = (id) => ({
+export const fetchOwnerStart = (owner) => ({
   type: FETCH_OWNER_START,
-  payload: id,
+  payload: owner,
 });
 
 export const fetchOwnerSuccess = (data) => ({
@@ -51,7 +51,7 @@ export const fetchOwnerSuccess = (data) => ({
   payload: data,
 });
 
-export const fetchOwnerError = (id, error) => ({
+export const fetchOwnerError = (owner, error) => ({
   type: FETCH_OWNER_ERROR,
-  payload: { id, error },
+  payload: { owner, error },
 });

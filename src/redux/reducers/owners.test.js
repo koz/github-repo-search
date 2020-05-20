@@ -14,22 +14,22 @@ describe('reducers/owners', () => {
 
   test('should return error and loading state on FETCH_OWNER_ERROR', () => {
     const error = { code: 111 };
-    expect(reducer(new Map(), { type: FETCH_OWNER_ERROR, payload: { id: 1, error } })).toMatchObject(
+    expect(reducer(new Map(), { type: FETCH_OWNER_ERROR, payload: { owner: 1, error } })).toMatchObject(
       new Map([[1, { isLoading: false, error }]])
     );
-    expect(reducer(new Map([[1, { test: 1 }]]), { type: FETCH_OWNER_ERROR, payload: { id: 1, error } })).toMatchObject(
-      new Map([[1, { isLoading: false, error, test: 1 }]])
-    );
+    expect(
+      reducer(new Map([[1, { test: 1 }]]), { type: FETCH_OWNER_ERROR, payload: { owner: 1, error } })
+    ).toMatchObject(new Map([[1, { isLoading: false, error, test: 1 }]]));
   });
 
   test('should return state update with payload data on FETCH_OWNER_SUCCESS', () => {
-    const payload = { id: 111, test: 'a' };
+    const payload = { owner: 111, test: 'a' };
     expect(reducer(new Map(), { type: FETCH_OWNER_SUCCESS, payload })).toMatchObject(
-      new Map([[payload.id, { isLoading: false, hasLoaded: true, ...payload }]])
+      new Map([[payload.owner, { isLoading: false, hasLoaded: true, ...payload }]])
     );
-    expect(reducer(new Map([[payload.id, { existing: 'a' }]]), { type: FETCH_OWNER_SUCCESS, payload })).toMatchObject(
-      new Map([[payload.id, { isLoading: false, hasLoaded: true, existing: 'a', ...payload }]])
-    );
+    expect(
+      reducer(new Map([[payload.owner, { existing: 'a' }]]), { type: FETCH_OWNER_SUCCESS, payload })
+    ).toMatchObject(new Map([[payload.owner, { isLoading: false, hasLoaded: true, existing: 'a', ...payload }]]));
   });
 
   test('should return state on generic action', () => {

@@ -104,7 +104,10 @@ describe('actionCreators', () => {
     test('should return the param as payload', () => {
       const testId = 1;
       const error = { code: 111 };
-      expect(fetchOwnerError(testId, error)).toMatchObject({ type: FETCH_OWNER_ERROR, payload: { id: testId, error } });
+      expect(fetchOwnerError(testId, error)).toMatchObject({
+        type: FETCH_OWNER_ERROR,
+        payload: { owner: testId, error },
+      });
     });
   });
 });

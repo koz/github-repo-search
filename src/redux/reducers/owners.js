@@ -10,16 +10,16 @@ export default (state = new Map(), { payload, type }) => {
       });
       return newState;
     case FETCH_OWNER_ERROR:
-      const { id, error } = payload;
-      newState.set(id, {
-        ...(state.get(id) || {}),
+      const { owner, error } = payload;
+      newState.set(owner, {
+        ...(state.get(owner) || {}),
         isLoading: false,
         error: error,
       });
       return newState;
     case FETCH_OWNER_SUCCESS:
-      newState.set(payload.id, {
-        ...(state.get(payload.id) || {}),
+      newState.set(payload.owner, {
+        ...(state.get(payload.owner) || {}),
         ...payload,
         isLoading: false,
         hasLoaded: true,
