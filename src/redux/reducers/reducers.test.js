@@ -11,16 +11,16 @@ import {
 describe('reducers', () => {
   test('should return de current state in default action types', () => {
     const state = {};
-    expect(reducer(state, { type: '' })).toMatchObject(state);
+    expect(reducer(state, { type: '' })).toStrictEqual(state);
   });
 
   test('should return load state true in FETCH_REPOSITORIES_START action type', () => {
-    expect(reducer({}, { type: FETCH_REPOSITORIES_START })).toMatchObject({ isLoading: true });
+    expect(reducer({}, { type: FETCH_REPOSITORIES_START })).toStrictEqual({ isLoading: true });
   });
 
   test('should return load state false and payload as repositories in FETCH_REPOSITORIES_SUCCESS action type', () => {
-    const payload = [1, 2, 3];
-    expect(reducer({}, { type: FETCH_REPOSITORIES_SUCCESS, payload })).toMatchObject({
+    const payload = { items: [1, 2, 3] };
+    expect(reducer({}, { type: FETCH_REPOSITORIES_SUCCESS, payload })).toStrictEqual({
       isLoading: false,
       repositories: payload,
     });
@@ -28,34 +28,39 @@ describe('reducers', () => {
 
   test('should return load state false and payload as error in FETCH_REPOSITORIES_ERROR action type', () => {
     const payload = { code: 1, message: 'test' };
-    expect(reducer({}, { type: FETCH_REPOSITORIES_ERROR, payload })).toMatchObject({
+    expect(reducer({}, { type: FETCH_REPOSITORIES_ERROR, payload })).toStrictEqual({
       isLoading: false,
       error: payload,
     });
   });
 
   test('should return load state true in FETCH_REPOSITORY_START action type', () => {
-    expect(reducer({}, { type: FETCH_REPOSITORY_START })).toMatchObject({ isLoadingRepository: true });
+    expect(reducer({}, { type: FETCH_REPOSITORY_START })).toStrictEqual({ isLoadingRepository: true });
   });
 
   test('should return load state false and payload as a repositories item in FETCH_REPOSITORY_SUCCESS action type', () => {
-    const payload = { id: 1 };
+    const payload = { fullName: 'payload' };
+    const initialData = { fullName: 'full/name' };
     expect(
-      reducer({ repositories: { items: new Map([[2, { id: 2 }]]) } }, { type: FETCH_REPOSITORY_SUCCESS, payload })
-    ).toMatchObject({
+      reducer(
+        { repositories: { items: new Map([[initialData.fullName, initialData]]) } },
+        { type: FETCH_REPOSITORY_SUCCESS, payload }
+      )
+    ).toStrictEqual({
       isLoadingRepository: false,
-      repositories: new Map([
-        [2, { id: 2 }],
-        [1, payload],
-      ]),
+      repositories: {
+        items: new Map([
+          [initialData.fullName, initialData],
+          [payload.fullName, payload],
+        ]),
+      },
     });
 
-    expect(reducer({}, { type: FETCH_REPOSITORY_SUCCESS, payload })).toMatchObject({
+    expect(reducer({}, { type: FETCH_REPOSITORY_SUCCESS, payload })).toStrictEqual({
       isLoadingRepository: false,
-      repositories: new Map([
-        [2, { id: 2 }],
-        [1, payload],
-      ]),
+      repositories: {
+        items: new Map([[payload.fullName, payload]]),
+      },
     });
   });
 

@@ -40,9 +40,9 @@ export default (state = {}, action) => {
     case FETCH_REPOSITORY_SUCCESS:
       const repositories = state.repositories || {};
       if (!repositories.items) {
-        repositories.items = new Map([[action.payload.id, action.payload]]);
+        repositories.items = new Map([[action.payload.fullName, action.payload]]);
       } else {
-        repositories.items.set(action.payload.id, action.payload);
+        repositories.items.set(action.payload.fullName, action.payload);
       }
       return {
         ...state,
