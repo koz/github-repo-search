@@ -1,5 +1,6 @@
-import { getRepos, getRepo } from './index';
+import { getRepos, getRepo, getOwner } from './index';
 import querystring from 'querystring';
+import * as utils from './utils';
 
 describe('api', () => {
   beforeAll(() => {
@@ -30,31 +31,13 @@ describe('api', () => {
       );
     });
 
-    test('should call json method on reponse with ok true', async () => {
-      const jsonMockMethod = jest.fn();
-      global.fetch.mockResolvedValue({ ok: true, json: jsonMockMethod });
-
-      await getRepos();
-      expect(jsonMockMethod).toHaveBeenCalledTimes(1);
-    });
-
-    test('should throw error on response with ok false', async () => {
-      const data = {
-        ok: false,
-        status: '400',
-        statusText: 'Error',
-      };
-      const errorMockFn = jest.fn();
+    test('should call requestHandler with the result of request', async () => {
+      const data = { ok: true, json: jest.fn() };
+      const mock = jest.spyOn(utils, 'requestHandler');
       global.fetch.mockResolvedValue(data);
 
-      try {
-        await getRepos().catch(errorMockFn);
-      } catch {
-        expect(errorMockFn).toHaveBeenCalledWith({
-          message: data.statusText,
-          code: data.status,
-        });
-      }
+      await getRepos();
+      expect(mock).toHaveBeenCalledWith(data);
     });
   });
 
@@ -72,31 +55,36 @@ describe('api', () => {
       expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/repos/${owner}/${repo}`);
     });
 
-    test('should call json method on reponse with ok true', async () => {
-      const jsonMockMethod = jest.fn();
-      global.fetch.mockResolvedValue({ ok: true, json: jsonMockMethod });
-
-      await getRepo();
-      expect(jsonMockMethod).toHaveBeenCalledTimes(1);
-    });
-
-    test('should throw error on response with ok false', async () => {
-      const data = {
-        ok: false,
-        status: '400',
-        statusText: 'Error',
-      };
-      const errorMockFn = jest.fn();
+    test('should call requestHandler with the result of request', async () => {
+      const data = { ok: true, json: jest.fn() };
+      const mock = jest.spyOn(utils, 'requestHandler');
       global.fetch.mockResolvedValue(data);
 
-      try {
-        await getRepo().catch(errorMockFn);
-      } catch {
-        expect(errorMockFn).toHaveBeenCalledWith({
-          message: data.statusText,
-          code: data.status,
-        });
-      }
+      await getRepo();
+      expect(mock).toHaveBeenCalledWith(data);
+    });
+  });
+
+  describe('getOwner', () => {
+    test('should call fetch', async () => {
+      await getOwner();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test('should call fetch with the owner params', async () => {
+      const owner = 'ownerRepo';
+
+      await getOwner(owner);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/users/${owner}`);
+    });
+
+    test('should call requestHandler with the result of request', async () => {
+      const data = { ok: true, json: jest.fn() };
+      const mock = jest.spyOn(utils, 'requestHandler');
+      global.fetch.mockResolvedValue(data);
+
+      await getOwner();
+      expect(mock).toHaveBeenCalledWith(data);
     });
   });
 });
