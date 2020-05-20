@@ -1,4 +1,4 @@
-import { repoDataMapper, errorDataMapper } from '.';
+import { repoDataMapper, errorDataMapper, ownerMapper } from '.';
 
 describe('redux/utils', () => {
   describe('repoDataMapper', () => {
@@ -86,6 +86,29 @@ describe('redux/utils', () => {
 
     test('should return a generic error', () => {
       expect(errorDataMapper({})).toMatchObject({ message: 'An error occurred.' });
+    });
+  });
+
+  describe('ownerMapper', () => {
+    test('should return the correct parsed data', () => {
+      const mockData = {
+        avatar_url: 'avatar',
+        bio: 'a',
+        blog: 'b',
+        company: 'c',
+        location: 'd',
+        name: 'e',
+        login: 'f',
+      };
+      expect(ownerMapper(mockData)).toMatchObject({
+        avatar: 'avatar',
+        bio: 'a',
+        blog: 'b',
+        company: 'c',
+        location: 'd',
+        name: 'e',
+        login: 'f',
+      });
     });
   });
 });
