@@ -35,4 +35,5 @@ export const repoDataMapper = (data = {}) => {
   };
 };
 
-export const errorDataMapper = (error) => (error.code || error.message ? error : { message: 'An error occurred.' });
+export const errorDataMapper = (error) =>
+  error.code || error.message ? { code: error.code, message: error.message } : { message: 'An error occurred.' };
