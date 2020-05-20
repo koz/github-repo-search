@@ -1,4 +1,4 @@
-import reducer from './index';
+import reducer from './repositories';
 import {
   FETCH_REPOSITORIES_START,
   FETCH_REPOSITORIES_SUCCESS,
@@ -19,10 +19,11 @@ describe('reducers', () => {
   });
 
   test('should return load state false and payload as repositories in FETCH_REPOSITORIES_SUCCESS action type', () => {
-    const payload = { items: [1, 2, 3] };
+    const payload = { totalCount: 3, items: [1, 2, 3] };
     expect(reducer({}, { type: FETCH_REPOSITORIES_SUCCESS, payload })).toStrictEqual({
       isLoading: false,
-      repositories: payload,
+      items: payload.items,
+      totalCount: payload.totalCount,
     });
   });
 
@@ -42,25 +43,18 @@ describe('reducers', () => {
     const payload = { fullName: 'payload' };
     const initialData = { fullName: 'full/name' };
     expect(
-      reducer(
-        { repositories: { items: new Map([[initialData.fullName, initialData]]) } },
-        { type: FETCH_REPOSITORY_SUCCESS, payload }
-      )
+      reducer({ items: new Map([[initialData.fullName, initialData]]) }, { type: FETCH_REPOSITORY_SUCCESS, payload })
     ).toStrictEqual({
       isLoadingRepository: false,
-      repositories: {
-        items: new Map([
-          [initialData.fullName, initialData],
-          [payload.fullName, payload],
-        ]),
-      },
+      items: new Map([
+        [initialData.fullName, initialData],
+        [payload.fullName, payload],
+      ]),
     });
 
     expect(reducer({}, { type: FETCH_REPOSITORY_SUCCESS, payload })).toStrictEqual({
       isLoadingRepository: false,
-      repositories: {
-        items: new Map([[payload.fullName, payload]]),
-      },
+      items: new Map([[payload.fullName, payload]]),
     });
   });
 

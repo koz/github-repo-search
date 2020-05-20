@@ -34,13 +34,13 @@ describe('selectors', () => {
   });
 
   test('useRepositoryLoading', () => {
-    const value = setup(useRepositoryLoading, { isLoadingRepository: true });
+    const value = setup(useRepositoryLoading, { repositories: { isLoadingRepository: true } });
 
     expect(value).toBe(true);
   });
 
   test('useRepositoryError', () => {
-    const value = setup(useRepositoryError, { repositoryError: { message: 'error' } });
+    const value = setup(useRepositoryError, { repositories: { repositoryError: { message: 'error' } } });
 
     expect(value).toMatchObject({ message: 'error' });
   });

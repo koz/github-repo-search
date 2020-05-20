@@ -5,8 +5,12 @@ import {
   FETCH_REPOSITORY_START,
   FETCH_REPOSITORY_SUCCESS,
   FETCH_REPOSITORY_ERROR,
+  FETCH_OWNER_START,
+  FETCH_OWNER_SUCCESS,
+  FETCH_OWNER_ERROR,
 } from './actions';
 
+/* Repositories */
 export const fetchRepositoriesStart = () => ({
   type: FETCH_REPOSITORIES_START,
 });
@@ -21,6 +25,7 @@ export const fetchRepositoriesError = (error) => ({
   payload: error,
 });
 
+/* Repository */
 export const fetchRepositoryStart = () => ({
   type: FETCH_REPOSITORY_START,
 });
@@ -33,4 +38,20 @@ export const fetchRepositorySuccess = (data) => ({
 export const fetchRepositoryError = (error) => ({
   type: FETCH_REPOSITORY_ERROR,
   payload: error,
+});
+
+/* Owner */
+export const fetchOwnerStart = (id) => ({
+  type: FETCH_OWNER_START,
+  payload: id,
+});
+
+export const fetchOwnerSuccess = (data) => ({
+  type: FETCH_OWNER_SUCCESS,
+  payload: data,
+});
+
+export const fetchOwnerError = (id, error) => ({
+  type: FETCH_OWNER_ERROR,
+  payload: { id, error },
 });

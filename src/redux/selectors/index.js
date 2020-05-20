@@ -4,5 +4,5 @@ export const useTotalCount = () => useSelector((state) => state?.repositories?.t
 export const useRepositories = () => useSelector((state) => state?.repositories?.items);
 export const useRepository = (owner, repo) =>
   useSelector((state) => state?.repositories?.items?.get(`${owner}/${repo}`) || null);
-export const useRepositoryLoading = () => useSelector((state) => state?.isLoadingRepository);
-export const useRepositoryError = () => useSelector((state) => state?.repositoryError);
+export const useRepositoryLoading = () => useSelector((state) => state?.repositories?.isLoadingRepository);
+export const useRepositoryError = () => useSelector((state) => state?.repositories?.repositoryError);
