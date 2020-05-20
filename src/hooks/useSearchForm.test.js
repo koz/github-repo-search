@@ -1,18 +1,8 @@
 import React from 'react';
 import useSearchForm from './useSearchForm';
-import { renderWithProvider } from '../../spec/utils/renderWithContext';
 import debounce from 'lodash.debounce';
 import * as thunks from '../redux/thunks';
-
-const setup = () => {
-  let val = {};
-  const TestComponent = () => {
-    val = useSearchForm();
-    return null;
-  };
-  renderWithProvider(<TestComponent />);
-  return val;
-};
+import render from '../../spec/utils/renderHook';
 
 jest.useFakeTimers();
 const mockDebounce = jest.fn();
@@ -35,19 +25,19 @@ describe('useSearchForm', () => {
   });
 
   test('should return a handleChange function', () => {
-    const { handleChange } = setup();
+    const { handleChange } = render(useSearchForm);
     expect(handleChange).toBeDefined();
     expect(typeof handleChange).toBe('function');
   });
 
   test('should call debounce on every handleChange call', () => {
-    const { handleChange } = setup();
+    const { handleChange } = render(useSearchForm);
     handleChange({ target: { value: 'test' } });
     expect(mockDebounce).toBeCalledTimes(1);
   });
 
   test('should debounce dispatch get repositories by 300 seconds', () => {
-    const { handleChange } = setup();
+    const { handleChange } = render(useSearchForm);
     handleChange({ target: { value: 1 } });
     handleChange({ target: { value: 2 } });
     handleChange({ target: { value: 3 } });
@@ -57,7 +47,7 @@ describe('useSearchForm', () => {
   });
 
   test("should not dispatch if there's no value", () => {
-    const { handleChange } = setup();
+    const { handleChange } = render(useSearchForm);
     handleChange({ target: { value: null } });
     jest.advanceTimersByTime(300);
 
