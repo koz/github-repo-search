@@ -16,7 +16,7 @@ describe('useRepositoryData', () => {
     });
     const owner = 'ownerTest';
     const repo = 'repoTest';
-    const data = renderHook(useRepositoryData, owner, repo);
+    const data = renderHook({ hook: useRepositoryData }, owner, repo);
     expect(mockUseRepository).toBeCalledWith(owner, repo);
     expect(data).toStrictEqual({ test: 1 });
   });
@@ -27,7 +27,7 @@ describe('useRepositoryData', () => {
     const mockGetRepository = jest.spyOn(thunks, 'getRepository').mockReturnValue({ type: 'test' });
     const owner = 'ownerTest';
     const repo = 'repoTest';
-    const data = renderHook(useRepositoryData, owner, repo);
+    const data = renderHook({ hook: useRepositoryData }, owner, repo);
     expect(mockGetRepository).toBeCalledWith(owner, repo);
     expect(mockDispatch).toBeCalledWith({ type: 'test' });
   });

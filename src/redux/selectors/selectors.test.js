@@ -1,32 +1,21 @@
 import React from 'react';
-import { renderWithProvider } from '../../../spec/utils/renderWithContext';
-import { useTotalCount, useRepositories, useRepository, useRepositoryLoading, useRepositoryError } from '.';
-
-const setup = (selector, state, ...args) => {
-  let val = {};
-  const TestComponent = () => {
-    val = selector(...args);
-    return null;
-  };
-  renderWithProvider(<TestComponent />, { state });
-  return val;
-};
+import { useTotalCount, useRepositories, useRepository, useRepositoryLoading, useRepositoryError, useOwner } from '.';
+import renderHook from '../../../spec/utils/renderHook';
 
 describe('selectors', () => {
   test('useTotalCount', () => {
-    const value = setup(useTotalCount, { repositories: { totalCount: 10000 } });
+    const value = renderHook({ hook: useTotalCount, initialState: { repositories: { totalCount: 10000 } } });
     expect(value).toBe(10000);
   });
 
   test('useRepositories', () => {
-    const value = setup(useRepositories, { repositories: { items: [1, 2, 3] } });
+    const value = renderHook({ hook: useRepositories, initialState: { repositories: { items: [1, 2, 3] } } });
     expect(value).toStrictEqual([1, 2, 3]);
   });
 
   test('useRepository', () => {
-    const value = setup(
-      useRepository,
-      { repositories: { items: new Map([['full/name', { id: 1 }]]) } },
+    const value = renderHook(
+      { hook: useRepository, initialState: { repositories: { items: new Map([['full/name', { id: 1 }]]) } } },
       'full',
       'name'
     );
@@ -34,14 +23,26 @@ describe('selectors', () => {
   });
 
   test('useRepositoryLoading', () => {
-    const value = setup(useRepositoryLoading, { repositories: { isLoadingRepository: true } });
+    const value = renderHook({
+      hook: useRepositoryLoading,
+      initialState: { repositories: { isLoadingRepository: true } },
+    });
 
     expect(value).toBe(true);
   });
 
   test('useRepositoryError', () => {
-    const value = setup(useRepositoryError, { repositories: { repositoryError: { message: 'error' } } });
+    const value = renderHook({
+      hook: useRepositoryError,
+      initialState: { repositories: { repositoryError: { message: 'error' } } },
+    });
 
     expect(value).toMatchObject({ message: 'error' });
+  });
+
+  test('useOwner', () => {
+    const value = renderHook({ hook: useOwner, initialState: { owners: new Map([[1, { id: 1, test: 'a' }]]) } }, 1);
+
+    expect(value).toMatchObject({ id: 1, test: 'a' });
   });
 });

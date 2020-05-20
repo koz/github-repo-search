@@ -25,19 +25,19 @@ describe('useSearchForm', () => {
   });
 
   test('should return a handleChange function', () => {
-    const { handleChange } = render(useSearchForm);
+    const { handleChange } = render({ hook: useSearchForm });
     expect(handleChange).toBeDefined();
     expect(typeof handleChange).toBe('function');
   });
 
   test('should call debounce on every handleChange call', () => {
-    const { handleChange } = render(useSearchForm);
+    const { handleChange } = render({ hook: useSearchForm });
     handleChange({ target: { value: 'test' } });
     expect(mockDebounce).toBeCalledTimes(1);
   });
 
   test('should debounce dispatch get repositories by 300 seconds', () => {
-    const { handleChange } = render(useSearchForm);
+    const { handleChange } = render({ hook: useSearchForm });
     handleChange({ target: { value: 1 } });
     handleChange({ target: { value: 2 } });
     handleChange({ target: { value: 3 } });
@@ -47,7 +47,7 @@ describe('useSearchForm', () => {
   });
 
   test("should not dispatch if there's no value", () => {
-    const { handleChange } = render(useSearchForm);
+    const { handleChange } = render({ hook: useSearchForm });
     handleChange({ target: { value: null } });
     jest.advanceTimersByTime(300);
 

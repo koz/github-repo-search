@@ -6,3 +6,4 @@ export const useRepository = (owner, repo) =>
   useSelector((state) => state?.repositories?.items?.get(`${owner}/${repo}`) || null);
 export const useRepositoryLoading = () => useSelector((state) => state?.repositories?.isLoadingRepository);
 export const useRepositoryError = () => useSelector((state) => state?.repositories?.repositoryError);
+export const useOwner = (owner) => useSelector((state) => state?.owners?.get(owner));
