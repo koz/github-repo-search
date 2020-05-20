@@ -24,6 +24,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+  padding: 0;
 
   > span {
     margin-left: 1.2rem;
