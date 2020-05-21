@@ -1,4 +1,4 @@
-import { repoDataMapper, errorDataMapper, ownerMapper, orgsMapper } from '.';
+import { repoDataMapper, errorDataMapper, ownerMapper, orgsMapper, readmeContentsFilter } from '.';
 
 describe('redux/utils', () => {
   describe('repoDataMapper', () => {
@@ -135,6 +135,19 @@ describe('redux/utils', () => {
         avatar: 'avatar',
         name: 'login',
       });
+    });
+  });
+
+  describe('readmeContentsFilter', () => {
+    test('should return object with name "readme.md"', () => {
+      expect(readmeContentsFilter([{ name: 'readme.md' }])).toMatchObject({ name: 'readme.md' });
+      expect(readmeContentsFilter([{ name: 'Readme.md' }])).toMatchObject({ name: 'Readme.md' });
+      expect(readmeContentsFilter([{ name: 'README.md' }])).toMatchObject({ name: 'README.md' });
+    });
+
+    test('should return undefined if it doesnt find a readme file', () => {
+      expect(readmeContentsFilter([{ name: 'teste' }])).toEqual(undefined);
+      expect(readmeContentsFilter()).toEqual(undefined);
     });
   });
 });

@@ -59,3 +59,5 @@ export const orgsMapper = (data) => {
     avatar,
   };
 };
+
+export const readmeContentsFilter = (data = []) => data.find((item) => item?.name?.match(/^readme.md$/gi));

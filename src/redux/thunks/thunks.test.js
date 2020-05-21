@@ -1,5 +1,5 @@
 import * as api from '../../api';
-import { getRepositories, getRepository, getOwner } from './index';
+import { getRepositories, getRepository, getOwner, getReadme } from './index';
 import {
   FETCH_REPOSITORIES_SUCCESS,
   FETCH_REPOSITORIES_ERROR,
@@ -10,6 +10,9 @@ import {
   FETCH_OWNER_START,
   FETCH_OWNER_SUCCESS,
   FETCH_OWNER_ERROR,
+  FETCH_README_START,
+  FETCH_README_ERROR,
+  FETCH_README_SUCCESS,
 } from '../actions/actions';
 
 describe('thunks', () => {
@@ -269,6 +272,90 @@ describe('thunks', () => {
       expect(dispatcherMock).toHaveBeenLastCalledWith({
         type: FETCH_OWNER_ERROR,
         payload: { owner: 'owner', error: mockData },
+      });
+    });
+  });
+
+  describe('getReadme', () => {
+    test('should return a function', () => {
+      expect(typeof getReadme()).toBe('function');
+    });
+
+    test('should dispatch FETCH_README_START', async () => {
+      const owner = 'owner';
+      const repo = 'repo';
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue();
+      jest.spyOn(api, 'getFileTextContent').mockResolvedValue();
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(dispatcherMock).toBeCalledWith({ type: FETCH_README_START, payload: { owner, repo } });
+    });
+
+    test('should call getRepoContents from api with owner param', async () => {
+      const owner = 'test';
+      const repo = 'repo';
+      const getRepoContents = jest.spyOn(api, 'getRepoContents').mockResolvedValue();
+      jest.spyOn(api, 'getFileTextContent').mockResolvedValue();
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(getRepoContents).toBeCalledWith(owner, repo);
+    });
+
+    test('should dispatch FETCH_README_ERROR in case of getRepoContents reject', async () => {
+      const owner = 'test';
+      const repo = 'repo';
+      const error = { code: 100, message: 'error' };
+      jest.spyOn(api, 'getRepoContents').mockRejectedValue(error);
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({ type: FETCH_README_ERROR, payload: { owner, repo, error } });
+    });
+
+    test('should dispatch FETCH_README_ERROR in case of no readme url', async () => {
+      const owner = 'test';
+      const repo = 'repo';
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue();
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_README_ERROR,
+        payload: { owner, repo, error: { code: 404, message: 'Not found' } },
+      });
+    });
+
+    test('should call getFileTextContent with the readme file url', async () => {
+      const owner = 'test';
+      const repo = 'repo';
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue([{ name: 'readme.md', download_url: 'url/to/download' }]);
+      const mockGetFile = jest.spyOn(api, 'getFileTextContent').mockResolvedValue();
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(mockGetFile).toHaveBeenLastCalledWith('url/to/download');
+    });
+
+    test('should dispatch FETCH_README_SUCCESS in getFileTextContent resolve', async () => {
+      const owner = 'test';
+      const repo = 'repo';
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue([{ name: 'readme.md', download_url: 'url' }]);
+      jest.spyOn(api, 'getFileTextContent').mockResolvedValue('content');
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_README_SUCCESS,
+        payload: { owner, repo, data: 'content' },
+      });
+    });
+
+    test('should dispatch FETCH_README_ERROR in getFileTextContent reject', async () => {
+      const owner = 'test';
+      const repo = 'repo';
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue([{ name: 'readme.md', download_url: 'url' }]);
+      jest.spyOn(api, 'getFileTextContent').mockRejectedValue({ code: 100, message: 'Error' });
+
+      await getReadme(owner, repo)(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_README_ERROR,
+        payload: { owner, repo, error: { code: 100, message: 'Error' } },
       });
     });
   });
