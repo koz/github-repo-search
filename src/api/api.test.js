@@ -1,4 +1,4 @@
-import { getRepos, getRepo, getOwner, getOwnerOrgs } from './index';
+import { getRepos, getRepo, getOwner, getOwnerOrgs, getRepoContents } from './index';
 import querystring from 'querystring';
 import * as utils from './utils';
 
@@ -107,6 +107,30 @@ describe('api', () => {
       global.fetch.mockResolvedValue(data);
 
       await getOwnerOrgs();
+      expect(mock).toHaveBeenCalledWith(data);
+    });
+  });
+
+  describe('getRepoContents', () => {
+    test('should call fetch', async () => {
+      await getRepoContents();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test('should call fetch with the owner and repo params', async () => {
+      const owner = 'ownerRepo';
+      const repo = 'repoTest';
+
+      await getRepoContents(owner, repo);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/repos/${owner}/${repo}/contents`);
+    });
+
+    test('should call requestHandler with the result of request', async () => {
+      const data = { ok: true, json: jest.fn() };
+      const mock = jest.spyOn(utils, 'requestHandler');
+      global.fetch.mockResolvedValue(data);
+
+      await getRepoContents();
       expect(mock).toHaveBeenCalledWith(data);
     });
   });
