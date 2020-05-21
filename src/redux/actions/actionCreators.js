@@ -8,6 +8,9 @@ import {
   FETCH_OWNER_START,
   FETCH_OWNER_SUCCESS,
   FETCH_OWNER_ERROR,
+  FETCH_README_START,
+  FETCH_README_ERROR,
+  FETCH_README_SUCCESS,
 } from './actions';
 
 /* Repositories */
@@ -54,4 +57,20 @@ export const fetchOwnerSuccess = (data) => ({
 export const fetchOwnerError = (owner, error) => ({
   type: FETCH_OWNER_ERROR,
   payload: { owner, error },
+});
+
+/* README.md */
+export const fetchReadmeStart = (owner, repo) => ({
+  type: FETCH_README_START,
+  payload: { owner, repo },
+});
+
+export const fetchReadmeError = (owner, repo, error) => ({
+  type: FETCH_README_ERROR,
+  payload: { owner, repo, error },
+});
+
+export const fetchReadmeSuccess = (owner, repo, data) => ({
+  type: FETCH_README_SUCCESS,
+  payload: { owner, repo, data },
 });
