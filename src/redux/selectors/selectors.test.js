@@ -1,5 +1,13 @@
 import React from 'react';
-import { useTotalCount, useRepositories, useRepository, useRepositoryLoading, useRepositoryError, useOwner } from '.';
+import {
+  useTotalCount,
+  useRepositories,
+  useRepository,
+  useRepositoryLoading,
+  useRepositoryError,
+  useOwner,
+  useReadme,
+} from '.';
 import renderHook from '../../../spec/utils/renderHook';
 
 describe('selectors', () => {
@@ -44,5 +52,15 @@ describe('selectors', () => {
     const value = renderHook({ hook: useOwner, initialState: { owners: new Map([[1, { id: 1, test: 'a' }]]) } }, 1);
 
     expect(value).toMatchObject({ id: 1, test: 'a' });
+  });
+
+  test('useReadme', () => {
+    const value = renderHook(
+      { hook: useReadme, initialState: { readmeFiles: new Map([['owner/repo', 'content']]) } },
+      'owner',
+      'repo'
+    );
+
+    expect(value).toEqual('content');
   });
 });

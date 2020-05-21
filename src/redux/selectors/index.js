@@ -7,3 +7,4 @@ export const useRepository = (owner, repo) =>
 export const useRepositoryLoading = () => useSelector((state) => state?.repositories?.isLoadingRepository);
 export const useRepositoryError = () => useSelector((state) => state?.repositories?.repositoryError);
 export const useOwner = (owner) => useSelector((state) => state?.owners?.get(owner));
+export const useReadme = (owner, repo) => useSelector((state) => state?.readmeFiles?.get(`${owner}/${repo}`));
