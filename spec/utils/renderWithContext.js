@@ -6,15 +6,25 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import reducer from '../../src/redux/reducers';
 
-export default (content, { history, state } = {}) =>
-  render(
-    <Provider store={createStore(state)}>
-      <Router history={history || createMemoryHistory()}>{content}</Router>
-    </Provider>
-  );
+export default (content, { history, state } = {}) => {
+  const store = createStore(state);
+  return {
+    ...render(
+      <Provider store={createStore(state)}>
+        <Router history={history || createMemoryHistory()}>{content}</Router>
+      </Provider>
+    ),
+    store,
+  };
+};
 
-export const renderWithProvider = (content, { state } = {}) =>
-  render(<Provider store={createStore(state)}>{content}</Provider>);
+export const renderWithProvider = (content, { state } = {}) => {
+  const store = createStore(state);
+  return {
+    ...render(<Provider store={createStore(state)}>{content}</Provider>),
+    store,
+  };
+};
 
 export const renderWithRouter = (content, { history } = {}) =>
   render(<Router history={history || createMemoryHistory()}>{content}</Router>);

@@ -1,12 +1,18 @@
 import * as api from '../../api';
 import { getRepositories, getRepository } from './index';
-import * as actionCreators from '../actions/actionCreators';
-import * as utils from '../utils/';
+import {
+  FETCH_REPOSITORIES_SUCCESS,
+  FETCH_REPOSITORIES_ERROR,
+  FETCH_REPOSITORIES_START,
+  FETCH_REPOSITORY_START,
+  FETCH_REPOSITORY_SUCCESS,
+  FETCH_REPOSITORY_ERROR,
+} from '../actions/actions';
 
 describe('thunks', () => {
   const dispatcherMock = jest.fn();
 
-  afterEach(() => {
+  beforeEach(() => {
     dispatcherMock.mockClear();
   });
 
@@ -15,12 +21,11 @@ describe('thunks', () => {
       expect(typeof getRepositories()).toBe('function');
     });
 
-    test('should dispatch fetchRepositoriesStart', async () => {
-      const fetchStartMock = jest.spyOn(actionCreators, 'fetchRepositoriesStart');
+    test('should dispatch FETCH_REPOSITORIES_START', async () => {
       jest.spyOn(api, 'getRepos').mockResolvedValue();
 
       await getRepositories()(dispatcherMock);
-      expect(fetchStartMock).toBeCalledTimes(1);
+      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORIES_START });
     });
 
     test('should call getRepos with keyword param', async () => {
@@ -31,27 +36,63 @@ describe('thunks', () => {
       expect(getReposMock).toBeCalledWith(keyword);
     });
 
-    test('should dispatch fetchRepositoriesSuccess on getRepos resolve', async () => {
-      const mockData = { total_count: 1, items: [{ full_name: 'full/name' }] };
+    test('should dispatch FETCH_REPOSITORIES_SUCCESS on getRepos resolve', async () => {
+      const mockData = {
+        total_count: 1,
+        items: [
+          {
+            full_name: 'full/name',
+            created_at: '0',
+            description: 'description',
+            forks_count: 0,
+            id: 0,
+            open_issues_count: 0,
+            language: 'javascript',
+            name: 'name',
+            stargazers_count: 0,
+            updated_at: '0',
+            subscribers_count: 0,
+          },
+        ],
+      };
       const parsedItem = { fullName: 'full/name' };
-      const parsedData = { totalCount: 1, items: new Map([[parsedItem.fullName, parsedItem]]) };
 
-      const mockDataMapper = jest.spyOn(utils, 'repoDataMapper').mockReturnValue(parsedItem);
       jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
-      const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositoriesSuccess');
 
       await getRepositories()(dispatcherMock);
-      expect(mockDataMapper).toBeCalledWith(mockData.items[0]);
-      expect(fetchSuccessMock).toBeCalledWith(parsedData);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_REPOSITORIES_SUCCESS,
+        payload: {
+          totalCount: 1,
+          items: new Map([
+            [
+              'full/name',
+              {
+                fullName: 'full/name',
+                createdAt: '0',
+                description: 'description',
+                forks: 0,
+                id: 0,
+                issues: 0,
+                language: 'javascript',
+                name: 'name',
+                stars: 0,
+                updatedAt: '0',
+                license: null,
+                watchers: 0,
+              },
+            ],
+          ]),
+        },
+      });
     });
 
-    test('should dispatch fetchRepositoriesError on getRepos reject', async () => {
+    test('should dispatch FETCH_REPOSITORIES_ERROR on getRepos reject', async () => {
       const data = { code: '123', message: 'test' };
       jest.spyOn(api, 'getRepos').mockRejectedValue(data);
-      const fetchErrorMock = jest.spyOn(actionCreators, 'fetchRepositoriesError');
 
       await getRepositories()(dispatcherMock);
-      expect(fetchErrorMock).toBeCalledWith(data);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({ type: FETCH_REPOSITORIES_ERROR, payload: data });
     });
   });
 
@@ -60,12 +101,11 @@ describe('thunks', () => {
       expect(typeof getRepository()).toBe('function');
     });
 
-    test('should dispatch fetchRepositoryStart', async () => {
-      const fetchStartMock = jest.spyOn(actionCreators, 'fetchRepositoryStart');
+    test('should dispatch FETCH_REPOSITORY_START', async () => {
       jest.spyOn(api, 'getRepo').mockResolvedValue();
 
       await getRepository()(dispatcherMock);
-      expect(fetchStartMock).toBeCalledTimes(1);
+      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORY_START });
     });
 
     test('should call getRepo with owner and repo param', async () => {
@@ -77,26 +117,49 @@ describe('thunks', () => {
       expect(getRepoMock).toBeCalledWith(owner, repo);
     });
 
-    test('should dispatch fetchRepositorySuccess on getRepo resolve', async () => {
-      const mockData = { full_name: 'full/name' };
-      const parsedItem = { fullName: 'full/name' };
+    test('should dispatch FETCH_REPOSITORY_SUCCESS on getRepo resolve', async () => {
+      const mockData = {
+        full_name: 'full/name',
+        created_at: '0',
+        description: 'description',
+        forks_count: 0,
+        id: 0,
+        open_issues_count: 0,
+        language: 'javascript',
+        name: 'name',
+        stargazers_count: 0,
+        updated_at: '0',
+        subscribers_count: 0,
+      };
 
-      const mockDataMapper = jest.spyOn(utils, 'repoDataMapper').mockReturnValue(parsedItem);
       jest.spyOn(api, 'getRepo').mockResolvedValue(mockData);
-      const fetchSuccessMock = jest.spyOn(actionCreators, 'fetchRepositorySuccess');
 
       await getRepository()(dispatcherMock);
-      expect(mockDataMapper).toBeCalledWith(mockData);
-      expect(fetchSuccessMock).toBeCalledWith(parsedItem);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_REPOSITORY_SUCCESS,
+        payload: {
+          fullName: 'full/name',
+          createdAt: '0',
+          description: 'description',
+          forks: 0,
+          id: 0,
+          issues: 0,
+          language: 'javascript',
+          name: 'name',
+          stars: 0,
+          updatedAt: '0',
+          license: null,
+          watchers: 0,
+        },
+      });
     });
 
-    test('should dispatch fetchRepositoryError on getRepo reject', async () => {
+    test('should dispatch FETCH_REPOSITORY_ERROR on getRepo reject', async () => {
       const data = { code: '123', message: 'test' };
       jest.spyOn(api, 'getRepo').mockRejectedValue(data);
-      const fetchErrorMock = jest.spyOn(actionCreators, 'fetchRepositoryError');
 
       await getRepository()(dispatcherMock);
-      expect(fetchErrorMock).toBeCalledWith(data);
+      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORY_ERROR, payload: data });
     });
   });
 });
