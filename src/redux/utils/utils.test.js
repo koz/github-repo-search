@@ -1,4 +1,4 @@
-import { repoDataMapper, errorDataMapper, ownerMapper } from '.';
+import { repoDataMapper, errorDataMapper, ownerMapper, orgsMapper } from '.';
 
 describe('redux/utils', () => {
   describe('repoDataMapper', () => {
@@ -100,7 +100,13 @@ describe('redux/utils', () => {
         name: 'e',
         login: 'f',
       };
-      expect(ownerMapper(mockData)).toMatchObject({
+      const mockOrgsData = [
+        {
+          avatar_url: 'avatar',
+          login: 'login',
+        },
+      ];
+      expect(ownerMapper(mockData, mockOrgsData)).toMatchObject({
         avatar: 'avatar',
         bio: 'a',
         blog: 'b',
@@ -108,6 +114,26 @@ describe('redux/utils', () => {
         location: 'd',
         name: 'e',
         login: 'f',
+        orgs: [
+          {
+            avatar: 'avatar',
+            name: 'login',
+          },
+        ],
+      });
+    });
+  });
+
+  describe('orgsMapper', () => {
+    test('should return the correct parsed data', () => {
+      const mockData = {
+        avatar_url: 'avatar',
+        login: 'login',
+      };
+
+      expect(orgsMapper(mockData)).toMatchObject({
+        avatar: 'avatar',
+        name: 'login',
       });
     });
   });

@@ -173,17 +173,20 @@ describe('thunks', () => {
 
     test('should dispatch FETCH_OWNER_START', async () => {
       jest.spyOn(api, 'getOwner').mockResolvedValue();
+      jest.spyOn(api, 'getOwnerOrgs').mockResolvedValue();
 
       await getOwner('owner')(dispatcherMock);
       expect(dispatcherMock).toBeCalledWith({ type: FETCH_OWNER_START, payload: 'owner' });
     });
 
-    test('should call getOwner from api with owner param', async () => {
+    test('should call getOwner and getOwnerOrgs from api with owner param', async () => {
       const owner = 'test';
       const getOwnerMock = jest.spyOn(api, 'getOwner').mockResolvedValue();
+      const getOwnerOrgsMock = jest.spyOn(api, 'getOwnerOrgs').mockResolvedValue();
 
       await getOwner(owner)(dispatcherMock);
       expect(getOwnerMock).toBeCalledWith(owner);
+      expect(getOwnerOrgsMock).toBeCalledWith(owner);
     });
 
     test('should dispatch FETCH_OWNER_SUCCESS on getOwner resolve', async () => {
@@ -197,7 +200,15 @@ describe('thunks', () => {
         login: 'login',
       };
 
+      const mockOrgsData = [
+        {
+          avatar_url: 'avatar',
+          login: 'login',
+        },
+      ];
+
       jest.spyOn(api, 'getOwner').mockResolvedValue(mockData);
+      jest.spyOn(api, 'getOwnerOrgs').mockResolvedValue(mockOrgsData);
 
       await getOwner()(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
@@ -210,6 +221,41 @@ describe('thunks', () => {
           location: 'location',
           name: 'name',
           login: 'login',
+          orgs: [
+            {
+              avatar: 'avatar',
+              name: 'login',
+            },
+          ],
+        },
+      });
+    });
+
+    test('should resolve even if getOwnerRepos reject', async () => {
+      const mockData = {
+        avatar_url: 'avatar',
+        bio: 'bio',
+        blog: 'blog',
+        company: 'company',
+        location: 'location',
+        name: 'name',
+        login: 'login',
+      };
+      jest.spyOn(api, 'getOwner').mockResolvedValue(mockData);
+      jest.spyOn(api, 'getOwnerOrgs').mockRejectedValue({ message: 'Error' });
+
+      await getOwner('owner')(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_OWNER_SUCCESS,
+        payload: {
+          avatar: 'avatar',
+          bio: 'bio',
+          blog: 'blog',
+          company: 'company',
+          location: 'location',
+          name: 'name',
+          login: 'login',
+          orgs: [],
         },
       });
     });

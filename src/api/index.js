@@ -7,4 +7,6 @@ export const getRepos = (keyword) =>
 
 export const getRepo = (owner, repo) => fetch(`${API_URL}/repos/${owner}/${repo}`).then(requestHandler);
 
-export const getOwner = (owner, repo) => fetch(`${API_URL}/users/${owner}`).then(requestHandler);
+export const getOwner = (owner) => fetch(`${API_URL}/users/${owner}`).then(requestHandler);
+
+export const getOwnerOrgs = (owner) => fetch(`${API_URL}/users/${owner}/orgs`).then(requestHandler);

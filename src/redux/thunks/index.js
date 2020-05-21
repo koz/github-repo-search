@@ -9,7 +9,7 @@ import {
   fetchOwnerSuccess,
   fetchOwnerError,
 } from '../actions/actionCreators';
-import { getRepos, getRepo, getOwner as getOwnerAPI } from '../../api';
+import { getRepos, getRepo, getOwner as getOwnerAPI, getOwnerOrgs } from '../../api';
 import { repoDataMapper, errorDataMapper, ownerMapper } from '../utils';
 
 export const getRepositories = (keyword) => async (dispatch) => {
@@ -40,9 +40,17 @@ export const getRepository = (owner, repo) => async (dispatch) => {
 
 export const getOwner = (owner) => async (dispatch) => {
   await dispatch(fetchOwnerStart(owner));
-  return getOwnerAPI(owner)
-    .then((data) => {
-      dispatch(fetchOwnerSuccess(ownerMapper(data)));
+  return Promise.all([
+    getOwnerAPI(owner),
+    getOwnerOrgs(owner).catch(() => {
+      /*
+      Preventing getOwner to reject if the orgs fetch fail.
+      */
+      return [];
+    }),
+  ])
+    .then(([ownerData, orgsData]) => {
+      dispatch(fetchOwnerSuccess(ownerMapper(ownerData, orgsData)));
     })
     .catch((error) => dispatch(fetchOwnerError(owner, errorDataMapper(error))));
 };

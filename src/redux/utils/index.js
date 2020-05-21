@@ -38,7 +38,7 @@ export const repoDataMapper = (data = {}) => {
 export const errorDataMapper = (error) =>
   error.code || error.message ? { code: error.code, message: error.message } : { message: 'An error occurred.' };
 
-export const ownerMapper = (data = {}) => {
+export const ownerMapper = (data = {}, orgsData = []) => {
   const { avatar_url: avatar, bio, blog, company, location, name, login } = data;
   return {
     avatar,
@@ -48,5 +48,14 @@ export const ownerMapper = (data = {}) => {
     location,
     name,
     login,
+    orgs: orgsData.map(orgsMapper),
+  };
+};
+
+export const orgsMapper = (data) => {
+  const { login: name, avatar_url: avatar } = data;
+  return {
+    name,
+    avatar,
   };
 };
