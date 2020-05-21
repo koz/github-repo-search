@@ -7,7 +7,7 @@ import {
   FETCH_REPOSITORY_SUCCESS,
 } from '../actions/actions';
 
-export default (state = {}, { type, payload }) => {
+export default (state = { items: new Map() }, { type, payload }) => {
   switch (type) {
     case FETCH_REPOSITORIES_START:
       return {
@@ -39,13 +39,8 @@ export default (state = {}, { type, payload }) => {
         repositoryError: payload,
       };
     case FETCH_REPOSITORY_SUCCESS:
-      let items;
-      if (!state.items) {
-        items = new Map([[payload.fullName, payload]]);
-      } else {
-        items = new Map(state.items);
-        items.set(payload.fullName, payload);
-      }
+      const items = new Map(state.items);
+      items.set(payload.fullName, payload);
       return {
         ...state,
         isLoadingRepository: false,

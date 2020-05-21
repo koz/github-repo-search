@@ -60,7 +60,7 @@ describe('reducers', () => {
 
   test('should return load state false and payload as error in FETCH_REPOSITORY_ERROR action type', () => {
     const payload = { code: 1, message: 'test' };
-    expect(reducer({}, { type: FETCH_REPOSITORY_ERROR, payload })).toMatchObject({
+    expect(reducer({}, { type: FETCH_REPOSITORY_ERROR, payload })).toStrictEqual({
       isLoadingRepository: false,
       repositoryError: payload,
     });
