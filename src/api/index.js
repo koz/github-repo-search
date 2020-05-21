@@ -1,4 +1,4 @@
-import { requestHandler } from './utils';
+import { requestHandler, fileRequestHandler } from './utils';
 
 const API_URL = 'https://api.github.com';
 
@@ -13,3 +13,5 @@ export const getOwnerOrgs = (owner) => fetch(`${API_URL}/users/${owner}/orgs`).t
 
 export const getRepoContents = (owner, repo) =>
   fetch(`${API_URL}/repos/${owner}/${repo}/contents`).then(requestHandler);
+
+export const getFileTextContent = (url) => fetch(url).then(fileRequestHandler);

@@ -1,4 +1,4 @@
-import { getRepos, getRepo, getOwner, getOwnerOrgs, getRepoContents } from './index';
+import { getRepos, getRepo, getOwner, getOwnerOrgs, getRepoContents, getFileTextContent } from './index';
 import querystring from 'querystring';
 import * as utils from './utils';
 
@@ -8,7 +8,7 @@ describe('api', () => {
   });
 
   beforeEach(() => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ ok: true, json: jest.fn() }));
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ ok: true, json: jest.fn(), text: jest.fn() }));
     global.fetch.mockClear();
   });
 
@@ -131,6 +131,29 @@ describe('api', () => {
       global.fetch.mockResolvedValue(data);
 
       await getRepoContents();
+      expect(mock).toHaveBeenCalledWith(data);
+    });
+  });
+
+  describe('getFileTextContent', () => {
+    test('should call fetch', async () => {
+      await getFileTextContent();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test('should call fetch with the url param', async () => {
+      const url = 'url/path/to/file';
+
+      await getFileTextContent(url);
+      expect(global.fetch).toHaveBeenCalledWith(url);
+    });
+
+    test('should call requestHandler with the result of request', async () => {
+      const data = { ok: true, text: jest.fn() };
+      const mock = jest.spyOn(utils, 'fileRequestHandler');
+      global.fetch.mockResolvedValue(data);
+
+      await getFileTextContent();
       expect(mock).toHaveBeenCalledWith(data);
     });
   });
