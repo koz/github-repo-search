@@ -23,13 +23,13 @@ describe('reducers/owners', () => {
   });
 
   test('should return state update with payload data on FETCH_OWNER_SUCCESS', () => {
-    const payload = { owner: 111, test: 'a' };
+    const payload = { login: 111, test: 'a' };
     expect(reducer(new Map(), { type: FETCH_OWNER_SUCCESS, payload })).toMatchObject(
-      new Map([[payload.owner, { isLoading: false, hasLoaded: true, ...payload }]])
+      new Map([[payload.login, { isLoading: false, hasLoaded: true, ...payload }]])
     );
     expect(
-      reducer(new Map([[payload.owner, { existing: 'a' }]]), { type: FETCH_OWNER_SUCCESS, payload })
-    ).toMatchObject(new Map([[payload.owner, { isLoading: false, hasLoaded: true, existing: 'a', ...payload }]]));
+      reducer(new Map([[payload.login, { existing: 'a' }]]), { type: FETCH_OWNER_SUCCESS, payload })
+    ).toMatchObject(new Map([[payload.login, { isLoading: false, hasLoaded: true, existing: 'a', ...payload }]]));
   });
 
   test('should return state on generic action', () => {

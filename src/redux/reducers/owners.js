@@ -18,8 +18,8 @@ export default (state = new Map(), { payload, type }) => {
       });
       return newState;
     case FETCH_OWNER_SUCCESS:
-      newState.set(payload.owner, {
-        ...(state.get(payload.owner) || {}),
+      newState.set(payload.login, {
+        ...(state.get(payload.login) || {}),
         ...payload,
         isLoading: false,
         hasLoaded: true,
