@@ -1,5 +1,5 @@
 import * as api from '../../api';
-import { getRepositories, getRepository } from './index';
+import { getRepositories, getRepository, getOwner } from './index';
 import {
   FETCH_REPOSITORIES_SUCCESS,
   FETCH_REPOSITORIES_ERROR,
@@ -7,6 +7,9 @@ import {
   FETCH_REPOSITORY_START,
   FETCH_REPOSITORY_SUCCESS,
   FETCH_REPOSITORY_ERROR,
+  FETCH_OWNER_START,
+  FETCH_OWNER_SUCCESS,
+  FETCH_OWNER_ERROR,
 } from '../actions/actions';
 
 describe('thunks', () => {
@@ -160,6 +163,67 @@ describe('thunks', () => {
 
       await getRepository()(dispatcherMock);
       expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORY_ERROR, payload: data });
+    });
+  });
+
+  describe('getOwner', () => {
+    test('should return a function', () => {
+      expect(typeof getOwner()).toBe('function');
+    });
+
+    test('should dispatch FETCH_OWNER_START', async () => {
+      jest.spyOn(api, 'getOwner').mockResolvedValue();
+
+      await getOwner('owner')(dispatcherMock);
+      expect(dispatcherMock).toBeCalledWith({ type: FETCH_OWNER_START, payload: 'owner' });
+    });
+
+    test('should call getOwner from api with owner param', async () => {
+      const owner = 'test';
+      const getOwnerMock = jest.spyOn(api, 'getOwner').mockResolvedValue();
+
+      await getOwner(owner)(dispatcherMock);
+      expect(getOwnerMock).toBeCalledWith(owner);
+    });
+
+    test('should dispatch FETCH_OWNER_SUCCESS on getOwner resolve', async () => {
+      const mockData = {
+        avatar_url: 'avatar',
+        bio: 'bio',
+        blog: 'blog',
+        company: 'company',
+        location: 'location',
+        name: 'name',
+        login: 'login',
+      };
+
+      jest.spyOn(api, 'getOwner').mockResolvedValue(mockData);
+
+      await getOwner()(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_OWNER_SUCCESS,
+        payload: {
+          avatar: 'avatar',
+          bio: 'bio',
+          blog: 'blog',
+          company: 'company',
+          location: 'location',
+          name: 'name',
+          login: 'login',
+        },
+      });
+    });
+
+    test('should dispatch FETCH_OWNER_ERROR on getOwner reject', async () => {
+      const mockData = { message: 'Error' };
+
+      jest.spyOn(api, 'getOwner').mockRejectedValue(mockData);
+
+      await getOwner('owner')(dispatcherMock);
+      expect(dispatcherMock).toHaveBeenLastCalledWith({
+        type: FETCH_OWNER_ERROR,
+        payload: { owner: 'owner', error: mockData },
+      });
     });
   });
 });

@@ -5,9 +5,12 @@ import {
   fetchRepositoryStart,
   fetchRepositoryError,
   fetchRepositorySuccess,
+  fetchOwnerStart,
+  fetchOwnerSuccess,
+  fetchOwnerError,
 } from '../actions/actionCreators';
-import { getRepos, getRepo } from '../../api';
-import { repoDataMapper, errorDataMapper } from '../utils';
+import { getRepos, getRepo, getOwner as getOwnerAPI } from '../../api';
+import { repoDataMapper, errorDataMapper, ownerMapper } from '../utils';
 
 export const getRepositories = (keyword) => async (dispatch) => {
   await dispatch(fetchRepositoriesStart());
@@ -33,4 +36,13 @@ export const getRepository = (owner, repo) => async (dispatch) => {
       dispatch(fetchRepositorySuccess(repoDataMapper(data)));
     })
     .catch((error) => dispatch(fetchRepositoryError(errorDataMapper(error))));
+};
+
+export const getOwner = (owner) => async (dispatch) => {
+  await dispatch(fetchOwnerStart(owner));
+  return getOwnerAPI(owner)
+    .then((data) => {
+      dispatch(fetchOwnerSuccess(ownerMapper(data)));
+    })
+    .catch((error) => dispatch(fetchOwnerError(owner, errorDataMapper(error))));
 };
