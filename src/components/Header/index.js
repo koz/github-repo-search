@@ -33,7 +33,7 @@ const StyledButton = styled.button`
 
 const Header = ({ showBack }) => {
   const history = useHistory();
-  const handleClick = () => history.back();
+  const handleClick = () => history.goBack();
   return (
     <StyledContainer>
       {showBack ? (
