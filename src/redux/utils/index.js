@@ -61,3 +61,12 @@ export const orgsMapper = (data) => {
 };
 
 export const readmeContentsFilter = (data = []) => data.find((item) => item?.name?.match(/^readme.md$/gi));
+
+export const linkHeaderParser = (header) =>
+  header.split(',').reduce((obj, i) => {
+    const key = i.match(/rel=\"(.*)\"/)[1];
+    if (key) {
+      obj[key] = i.match(/\<(.*)\>/)[1];
+    }
+    return obj;
+  }, {});

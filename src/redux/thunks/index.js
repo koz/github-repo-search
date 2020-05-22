@@ -20,13 +20,14 @@ import {
   getRepoContents,
   getFileTextContent,
 } from '../../api';
-import { repoDataMapper, errorDataMapper, ownerMapper, readmeContentsFilter } from '../utils';
+import { repoDataMapper, errorDataMapper, ownerMapper, readmeContentsFilter, linkHeaderParser } from '../utils';
 import { FETCH_README_ERROR } from '../actions/actions';
 
 export const getRepositories = (keyword) => async (dispatch) => {
   await dispatch(fetchRepositoriesStart());
   return getRepos(keyword)
-    .then((data) => {
+    .then(({ data, headers }) => {
+      const linkHeader = headers.get('link');
       const repositoriesMap = new Map();
       data.items.forEach((data) => {
         repositoriesMap.set(data.full_name, repoDataMapper(data));
@@ -34,6 +35,7 @@ export const getRepositories = (keyword) => async (dispatch) => {
       const parsedData = {
         totalCount: data.total_count,
         items: repositoriesMap,
+        pagination: linkHeader ? linkHeaderParser(linkHeader) : null,
       };
       dispatch(fetchRepositoriesSuccess(parsedData));
     })

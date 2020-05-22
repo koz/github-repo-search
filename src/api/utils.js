@@ -1,6 +1,9 @@
-export const requestHandler = (r) => {
+export const requestHandler = async (r) => {
   if (r.ok) {
-    return r.json();
+    return {
+      data: await r.json(),
+      headers: r.headers,
+    };
   } else {
     throw { code: r.status, message: r.statusText };
   }

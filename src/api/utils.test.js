@@ -9,6 +9,16 @@ describe('api/utils', () => {
       expect(jsonMockMethod).toHaveBeenCalledTimes(1);
     });
 
+    test('should return data and headers', async () => {
+      const data = { test: 'data' };
+      const headers = [{ testHeader: 'test' }];
+
+      expect(await requestHandler({ ok: true, json: jest.fn().mockResolvedValue(data), headers })).toStrictEqual({
+        data,
+        headers,
+      });
+    });
+
     test('should throw error on response with ok false', () => {
       const data = {
         ok: false,

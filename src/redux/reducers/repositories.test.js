@@ -19,11 +19,12 @@ describe('reducers', () => {
   });
 
   test('should return load state false and payload as repositories in FETCH_REPOSITORIES_SUCCESS action type', () => {
-    const payload = { totalCount: 3, items: [1, 2, 3] };
+    const payload = { totalCount: 3, items: [1, 2, 3], pagination: { next: 'path/to/next' } };
     expect(reducer({}, { type: FETCH_REPOSITORIES_SUCCESS, payload })).toStrictEqual({
       isLoading: false,
       items: payload.items,
       totalCount: payload.totalCount,
+      pagination: payload.pagination,
     });
   });
 

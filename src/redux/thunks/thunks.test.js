@@ -61,9 +61,10 @@ describe('thunks', () => {
           },
         ],
       };
+      const mockLink = '<http://www.test.com>; rel="next"';
       const parsedItem = { fullName: 'full/name' };
 
-      jest.spyOn(api, 'getRepos').mockResolvedValue(mockData);
+      jest.spyOn(api, 'getRepos').mockResolvedValue({ data: mockData, headers: new Map([['link', mockLink]]) });
 
       await getRepositories()(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
@@ -89,6 +90,9 @@ describe('thunks', () => {
               },
             ],
           ]),
+          pagination: {
+            next: 'http://www.test.com',
+          },
         },
       });
     });
