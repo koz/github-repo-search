@@ -8,23 +8,27 @@ import { getRepository } from '../../redux/thunks/index';
 import useRepositoryData from '../../hooks/useRepositoryData';
 import DetailsProperties from '../../components/DetailsProperties';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
+import Markdown from '../../components/Markdown';
+import OwnerInfo from '../../components/OwnerInfo';
 
 const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(auto, 71rem) auto;
+  grid-column-gap: 13rem;
 
   ${mediaQueries[breakpoints.large]} {
     padding: 10rem 18rem 0;
   }
 `;
 
+const StyledMarkdown = styled(Markdown)`
+  margin-top: 8rem;
+`;
+
 const Details = () => {
   const { owner, repo } = useParams();
-  const data = useRepositoryData(owner, repo);
-
-  if (!data) {
+  const { repository, readme, owner: ownerData } = useRepositoryData(owner, repo);
+  if (!repository) {
     return null;
   }
 
@@ -32,7 +36,29 @@ const Details = () => {
     <>
       <Header showBack />
       <StyledContainer>
-        <DetailsProperties watchers={data.watchers} stars={data.stars} forks={data.forks} issues={data.issues} />
+        <div>
+          <DetailsProperties
+            watchers={repository.watchers}
+            stars={repository.stars}
+            forks={repository.forks}
+            issues={repository.issues}
+          />
+          {readme && readme.content ? <StyledMarkdown content={readme.content} /> : null}
+        </div>
+        <div>
+          {ownerData && (
+            <OwnerInfo
+              avatar={ownerData.avatar}
+              user={ownerData.login}
+              name={ownerData.name}
+              bio={ownerData.bio}
+              company={ownerData.company}
+              location={ownerData.location}
+              orgs={ownerData.orgs}
+              site={ownerData.blog}
+            />
+          )}
+        </div>
       </StyledContainer>
     </>
   );

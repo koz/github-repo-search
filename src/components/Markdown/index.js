@@ -39,10 +39,12 @@ const StyledImage = styled.img`
 
 const propTypes = {
   content: PropTypes.string,
+  className: PropTypes.string,
 };
 
-const Markdown = ({ content }) => (
+const Markdown = ({ className, content }) => (
   <MarkdownRender
+    className={className}
     children={content}
     options={{
       overrides: {
