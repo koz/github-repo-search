@@ -17,7 +17,7 @@ const propTypes = {
   value: PropTypes.string,
 };
 
-const SearchForm = ({ value, className, onChange = () => {}, onSubmit = () => {} }) => {
+const SearchForm = ({ value = '', className, onChange = () => {}, onSubmit = () => {} }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(e);
