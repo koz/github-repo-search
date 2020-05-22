@@ -82,7 +82,7 @@ const Home = () => {
     <>
       <Header data-testid="header" />
       <StyledContainer>
-        <StyledSearchForm data-testid="search-form" value={value} onChange={handleChange} />
+        <StyledSearchForm data-testid="search-form" value={value || ''} onChange={handleChange} />
         {results ? (
           <StyledResultsCount size={sizes.small}>
             {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
