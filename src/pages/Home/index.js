@@ -47,7 +47,7 @@ const StyledListItem = styled.li`
 `;
 
 const Home = () => {
-  const { handleChange } = useSearchForm();
+  const { handleChange, value } = useSearchForm();
   const results = useTotalCount();
   const repositories = useRepositories();
   const formattedResults = useMemo(() => {
@@ -82,7 +82,7 @@ const Home = () => {
     <>
       <Header data-testid="header" />
       <StyledContainer>
-        <StyledSearchForm data-testid="search-form" onChange={handleChange} />
+        <StyledSearchForm data-testid="search-form" value={value} onChange={handleChange} />
         {results ? (
           <StyledResultsCount size={sizes.small}>
             {formattedResults} {results === 1 ? 'repository' : 'repositories'} found

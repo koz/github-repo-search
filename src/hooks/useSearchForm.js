@@ -1,14 +1,28 @@
 import { useDispatch } from 'react-redux';
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 import { getRepositories } from '../redux/thunks';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export default () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const queries = new URLSearchParams(useLocation().search);
+  const query = queries.get('q');
+
+  useEffect(() => {
+    if (query) {
+      dispatch(getRepositories(query));
+    }
+  }, [query]);
+
   const debouncedDispatch = useRef(
     debounce((value) => {
       if (value) {
-        dispatch(getRepositories(value));
+        history.push({
+          pathname: '/',
+          search: new URLSearchParams({ q: value }).toString(),
+        });
       }
     }, 300)
   ).current;
@@ -21,5 +35,6 @@ export default () => {
       },
       [dispatch, debouncedDispatch]
     ),
+    value: query,
   };
 };
