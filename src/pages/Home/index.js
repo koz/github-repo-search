@@ -10,6 +10,7 @@ import { useTotalCount, useRepositories } from '../../redux/selectors';
 import RepoSummary from '../../components/RepoSummary';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
+import Pagination from '../../components/Pagination';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -46,8 +47,12 @@ const StyledListItem = styled.li`
   }
 `;
 
+const StyledPagination = styled(Pagination)`
+  margin-top: 5rem;
+`;
+
 const Home = () => {
-  const { handleChange, value } = useSearchForm();
+  const { handleChange, value, pagination, page } = useSearchForm();
   const [inputValue, setInputValue] = useState(value || '');
   const results = useTotalCount();
   const repositories = useRepositories();
@@ -97,6 +102,7 @@ const Home = () => {
         {repositoriesElements ? (
           <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
         ) : null}
+        {results ? <StyledPagination pagination={pagination} currentPage={page}></StyledPagination> : null}
       </StyledContainer>
     </>
   );

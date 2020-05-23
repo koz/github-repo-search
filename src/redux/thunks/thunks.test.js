@@ -69,7 +69,7 @@ describe('thunks', () => {
           },
         ],
       };
-      const mockLink = '<http://www.test.com>; rel="next"';
+      const mockLink = '<http://www.test.com?page=3>; rel="next"';
       const parsedItem = { fullName: 'full/name' };
 
       jest.spyOn(api, 'getRepos').mockResolvedValue({ data: mockData, headers: new Map([['link', mockLink]]) });
@@ -99,7 +99,7 @@ describe('thunks', () => {
             ],
           ]),
           pagination: {
-            next: 'http://www.test.com',
+            next: '3',
           },
         },
       });

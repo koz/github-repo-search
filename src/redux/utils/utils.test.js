@@ -1,4 +1,4 @@
-import { repoDataMapper, errorDataMapper, ownerMapper, orgsMapper, readmeContentsFilter } from '.';
+import { repoDataMapper, errorDataMapper, ownerMapper, orgsMapper, readmeContentsFilter, linkHeaderParser } from '.';
 
 describe('redux/utils', () => {
   describe('repoDataMapper', () => {
@@ -148,6 +148,20 @@ describe('redux/utils', () => {
     test('should return undefined if it doesnt find a readme file', () => {
       expect(readmeContentsFilter([{ name: 'teste' }])).toEqual(undefined);
       expect(readmeContentsFilter()).toEqual(undefined);
+    });
+  });
+
+  describe('linkHeaderParser', () => {
+    test('should return parsed pagination', () => {
+      expect(
+        linkHeaderParser('<https://api.github.com/search/repositories?q=framer&page=1>; rel="prev"')
+      ).toStrictEqual({ prev: '1' });
+
+      expect(
+        linkHeaderParser(
+          '<https://api.github.com/search/repositories?q=framer&page=1>; rel="prev", <https://api.github.com/search/repositories?q=framer&page=3>; rel="next"'
+        )
+      ).toStrictEqual({ prev: '1', next: '3' });
     });
   });
 });

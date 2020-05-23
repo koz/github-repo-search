@@ -59,6 +59,12 @@ describe('useSearchForm', () => {
     expect(pagination).toStrictEqual(mockData);
   });
 
+  test('should return a page', () => {
+    router.useLocation.mockReturnValueOnce({ search: 'page=2' });
+    const { page } = render({ hook: useSearchForm });
+    expect(page).toBe('2');
+  });
+
   test('should return a handleChange function', () => {
     router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
     const { handleChange, value } = render({ hook: useSearchForm });
@@ -111,5 +117,13 @@ describe('useSearchForm', () => {
 
     expect(thunkMock).toBeCalledWith('keyword test', '2');
     expect(mockDispatch).toBeCalledWith({ type: 'test' });
+  });
+
+  test('should scroll top if query changes', () => {
+    global.scrollTo = jest.fn();
+    router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test&page=2' });
+    render({ hook: useSearchForm });
+
+    expect(global.scrollTo).toBeCalledWith({ top: 0, behavior: 'smooth' });
   });
 });

@@ -66,7 +66,7 @@ export const linkHeaderParser = (header) =>
   header.split(',').reduce((obj, i) => {
     const key = i.match(/rel=\"(.*)\"/)[1];
     if (key) {
-      obj[key] = i.match(/\<(.*)\>/)[1];
+      obj[key] = i.match(/\<.*page=(\d+)\>/)[1];
     }
     return obj;
   }, {});

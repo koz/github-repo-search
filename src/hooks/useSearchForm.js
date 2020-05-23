@@ -10,14 +10,15 @@ export default () => {
   const history = useHistory();
   const queries = new URLSearchParams(useLocation().search);
   const query = queries.get('q');
-  const page = queries.get('page');
+  const page = queries.get('page') || '1';
   const pagination = usePaginationLinks();
 
   useEffect(() => {
     if (query) {
       dispatch(getRepositories(query, page));
+      scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [query]);
+  }, [query, page]);
 
   const debouncedDispatch = useRef(
     debounce((value) => {
@@ -40,5 +41,6 @@ export default () => {
     ),
     value: query,
     pagination,
+    page,
   };
 };
