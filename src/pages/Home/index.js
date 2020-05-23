@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import SearchForm from '../../components/SearchForm';
 import Text from '../../components/Text';
@@ -48,12 +48,18 @@ const StyledListItem = styled.li`
 
 const Home = () => {
   const { handleChange, value } = useSearchForm();
+  const [inputValue, setInputValue] = useState(value || '');
   const results = useTotalCount();
   const repositories = useRepositories();
   const formattedResults = useMemo(() => {
     const intl = new Intl.NumberFormat();
     return intl.format(results);
   }, [results]);
+  const handleChangeFn = (e) => {
+    setInputValue(e.target.value);
+    handleChange(e);
+  };
+
   const repositoriesElements = useMemo(() => {
     if (!repositories || !repositories.size) {
       return null;
@@ -82,7 +88,7 @@ const Home = () => {
     <>
       <Header data-testid="header" />
       <StyledContainer>
-        <StyledSearchForm data-testid="search-form" value={value || ''} onChange={handleChange} />
+        <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
         {results ? (
           <StyledResultsCount size={sizes.small}>
             {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
