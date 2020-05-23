@@ -5,6 +5,7 @@ import * as thunks from '../redux/thunks';
 import render from '../../spec/utils/renderHook';
 import * as router from 'react-router-dom';
 import * as redux from 'react-redux';
+import * as selectors from '../redux/selectors';
 
 jest.useFakeTimers();
 const mockDebounce = jest.fn();
@@ -36,7 +37,29 @@ describe('useSearchForm', () => {
     jest.clearAllTimers();
   });
 
-  test('should return a handleChange function and a value', () => {
+  test('should return a handleChange function', () => {
+    router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
+    const { handleChange } = render({ hook: useSearchForm });
+    expect(typeof handleChange).toBe('function');
+  });
+
+  test('should return a value', () => {
+    router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
+    const { value } = render({ hook: useSearchForm });
+    expect(value).toBe('keyword test');
+  });
+
+  test('should return pagination links', () => {
+    const mockData = {
+      next: 'path/to/next',
+      prev: 'path/to/prev',
+    };
+    jest.spyOn(selectors, 'usePaginationLinks').mockReturnValue(mockData);
+    const { pagination } = render({ hook: useSearchForm });
+    expect(pagination).toStrictEqual(mockData);
+  });
+
+  test('should return a handleChange function', () => {
     router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
     const { handleChange, value } = render({ hook: useSearchForm });
     expect(typeof handleChange).toBe('function');
@@ -83,10 +106,10 @@ describe('useSearchForm', () => {
   test('should dispatch get repositories if query changes', () => {
     const mockDispatch = jest.fn();
     jest.spyOn(redux, 'useDispatch').mockReturnValue(mockDispatch);
-    router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
+    router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test&page=2' });
     const { handleChange } = render({ hook: useSearchForm });
 
-    expect(thunkMock).toBeCalledWith('keyword test');
+    expect(thunkMock).toBeCalledWith('keyword test', '2');
     expect(mockDispatch).toBeCalledWith({ type: 'test' });
   });
 });

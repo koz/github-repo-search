@@ -1,9 +1,16 @@
-import { requestHandler, fileRequestHandler } from './utils';
+import { requestHandler, fileRequestHandler, getQueryString } from './utils';
 
 const API_URL = 'https://api.github.com';
 
-export const getRepos = (keyword) =>
-  fetch(`${API_URL}/search/repositories?q=${encodeURIComponent(keyword)}`).then(requestHandler);
+export const getRepos = (keyword, page) => {
+  const queries = {
+    q: encodeURIComponent(keyword),
+    page,
+  };
+  const qs = getQueryString(queries);
+  const endpoint = `${API_URL}/search/repositories`;
+  return fetch([endpoint, qs].filter(Boolean).join('?')).then(requestHandler);
+};
 
 export const getRepo = (owner, repo) => fetch(`${API_URL}/repos/${owner}/${repo}`).then(requestHandler);
 

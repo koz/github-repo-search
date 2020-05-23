@@ -1,4 +1,4 @@
-import { requestHandler, fileRequestHandler } from './utils';
+import { requestHandler, fileRequestHandler, getQueryString } from './utils';
 
 describe('api/utils', () => {
   describe('requestHandler', () => {
@@ -62,6 +62,28 @@ describe('api/utils', () => {
           code: data.status,
         });
       }
+    });
+  });
+
+  describe('getQueryString', () => {
+    test('should return query as string', () => {
+      expect(
+        getQueryString({
+          q: 'test',
+          page: '2',
+        })
+      ).toEqual('q=test&page=2');
+
+      expect(
+        getQueryString({
+          p: 'test2',
+        })
+      ).toEqual('p=test2');
+    });
+
+    test("should return empty string if there's no query", () => {
+      expect(getQueryString()).toEqual('');
+      expect(getQueryString({})).toEqual('');
     });
   });
 });

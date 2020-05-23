@@ -8,3 +8,4 @@ export const useRepositoryLoading = () => useSelector((state) => state?.reposito
 export const useRepositoryError = () => useSelector((state) => state?.repositories?.repositoryError);
 export const useOwner = (owner) => useSelector((state) => state?.owners?.get(owner));
 export const useReadme = (owner, repo) => useSelector((state) => state?.readmeFiles?.get(`${owner}/${repo}`));
+export const usePaginationLinks = () => useSelector((state) => state?.repositories?.pagination);

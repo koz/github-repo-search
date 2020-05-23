@@ -39,7 +39,15 @@ describe('thunks', () => {
       const getReposMock = jest.spyOn(api, 'getRepos').mockResolvedValue();
 
       await getRepositories(keyword)(dispatcherMock);
-      expect(getReposMock).toBeCalledWith(keyword);
+      expect(getReposMock).toBeCalledWith(keyword, undefined);
+    });
+
+    test('should call getRepos with page param', async () => {
+      const page = '2';
+      const getReposMock = jest.spyOn(api, 'getRepos').mockResolvedValue();
+
+      await getRepositories(undefined, page)(dispatcherMock);
+      expect(getReposMock).toBeCalledWith(undefined, page);
     });
 
     test('should dispatch FETCH_REPOSITORIES_SUCCESS on getRepos resolve', async () => {

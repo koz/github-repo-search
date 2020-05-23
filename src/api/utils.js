@@ -16,3 +16,14 @@ export const fileRequestHandler = (r) => {
     throw { code: r.status, message: r.statusText };
   }
 };
+
+export const getQueryString = (queries = {}) =>
+  Object.keys(queries).reduce((str, key) => {
+    const value = queries[key];
+    if (!value) {
+      return str;
+    }
+    const query = `${key}=${value}`;
+
+    return !str.length ? query : str.concat(`&${query}`);
+  }, '');

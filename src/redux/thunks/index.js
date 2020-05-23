@@ -23,9 +23,9 @@ import {
 import { repoDataMapper, errorDataMapper, ownerMapper, readmeContentsFilter, linkHeaderParser } from '../utils';
 import { FETCH_README_ERROR } from '../actions/actions';
 
-export const getRepositories = (keyword) => async (dispatch) => {
+export const getRepositories = (keyword, page) => async (dispatch) => {
   await dispatch(fetchRepositoriesStart());
-  return getRepos(keyword)
+  return getRepos(keyword, page)
     .then(({ data, headers }) => {
       const linkHeader = headers.get('link');
       const repositoriesMap = new Map();

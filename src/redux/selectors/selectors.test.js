@@ -7,6 +7,7 @@ import {
   useRepositoryError,
   useOwner,
   useReadme,
+  usePaginationLinks,
 } from '.';
 import renderHook from '../../../spec/utils/renderHook';
 
@@ -62,5 +63,23 @@ describe('selectors', () => {
     );
 
     expect(value).toEqual('content');
+  });
+
+  test('usePaginationLinks', () => {
+    const mockData = {
+      next: 'page/to/next',
+      prev: 'page/to/prev',
+    };
+
+    const value = renderHook({
+      hook: usePaginationLinks,
+      initialState: {
+        repositories: {
+          pagination: mockData,
+        },
+      },
+    });
+
+    expect(value).toStrictEqual(mockData);
   });
 });
