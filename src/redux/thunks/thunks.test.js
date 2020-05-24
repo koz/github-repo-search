@@ -50,7 +50,7 @@ describe('thunks', () => {
       expect(getReposMock).toBeCalledWith(undefined, page);
     });
 
-    test('should dispatch FETCH_REPOSITORIES_SUCCESS on getRepos resolve', async () => {
+    test.only('should dispatch FETCH_REPOSITORIES_SUCCESS on getRepos resolve', async () => {
       const mockData = {
         total_count: 1,
         items: [
@@ -71,7 +71,12 @@ describe('thunks', () => {
       };
       const mockLink = '<http://www.test.com?page=3>; rel="next"';
       const parsedItem = { fullName: 'full/name' };
-
+      const mockDate = new Date('2020-05-23T12:00:00.000Z');
+      const mockDate2 = new Date('2020-05-23T12:00:01.000Z');
+      jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate)
+        .mockImplementationOnce(() => mockDate2);
       jest.spyOn(api, 'getRepos').mockResolvedValue({ data: mockData, headers: new Map([['link', mockLink]]) });
 
       await getRepositories()(dispatcherMock);
@@ -101,6 +106,7 @@ describe('thunks', () => {
           pagination: {
             next: '3',
           },
+          responseTime: 1000,
         },
       });
     });

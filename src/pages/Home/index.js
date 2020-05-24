@@ -6,7 +6,7 @@ import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import useSearchForm from '../../hooks/useSearchForm';
 import { sizes } from '../../styles/text';
 import { useSelector } from 'react-redux';
-import { useTotalCount, useRepositories } from '../../redux/selectors';
+import { useTotalCount, useRepositories, useSearchResponseTime } from '../../redux/selectors';
 import RepoSummary from '../../components/RepoSummary';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
@@ -56,6 +56,7 @@ const Home = () => {
   const [inputValue, setInputValue] = useState(value || '');
   const results = useTotalCount();
   const repositories = useRepositories();
+  const responseTime = useSearchResponseTime();
   const formattedResults = useMemo(() => {
     const intl = new Intl.NumberFormat();
     return intl.format(results);
@@ -96,7 +97,8 @@ const Home = () => {
         <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
         {results ? (
           <StyledResultsCount size={sizes.small}>
-            {formattedResults} {results === 1 ? 'repository' : 'repositories'} found
+            Showing {repositories.size * (page - 1) + 1} to {repositories.size * page} of {formattedResults}{' '}
+            {results === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
           </StyledResultsCount>
         ) : null}
         {repositoriesElements ? (

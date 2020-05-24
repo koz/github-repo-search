@@ -23,10 +23,12 @@ import {
 import { repoDataMapper, errorDataMapper, ownerMapper, readmeContentsFilter, linkHeaderParser } from '../utils';
 import { FETCH_README_ERROR } from '../actions/actions';
 
-export const getRepositories = (keyword, page) => async (dispatch) => {
+export const getRepositories = (keyword, page) => async (dispatch, getState) => {
+  const requestInitTime = new Date().getTime();
   await dispatch(fetchRepositoriesStart());
   return getRepos(keyword, page)
     .then(({ data, headers }) => {
+      const responseDate = new Date().getTime();
       const linkHeader = headers.get('link');
       const repositoriesMap = new Map();
       data.items.forEach((data) => {
@@ -36,6 +38,7 @@ export const getRepositories = (keyword, page) => async (dispatch) => {
         totalCount: data.total_count,
         items: repositoriesMap,
         pagination: linkHeader ? linkHeaderParser(linkHeader) : null,
+        responseTime: responseDate - requestInitTime,
       };
       dispatch(fetchRepositoriesSuccess(parsedData));
     })

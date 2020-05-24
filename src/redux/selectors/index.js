@@ -9,3 +9,4 @@ export const useRepositoryError = () => useSelector((state) => state?.repositori
 export const useOwner = (owner) => useSelector((state) => state?.owners?.get(owner));
 export const useReadme = (owner, repo) => useSelector((state) => state?.readmeFiles?.get(`${owner}/${repo}`));
 export const usePaginationLinks = () => useSelector((state) => state?.repositories?.pagination);
+export const useSearchResponseTime = () => useSelector((state) => state?.repositories?.responseTime);

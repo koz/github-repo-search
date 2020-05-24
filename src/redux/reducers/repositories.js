@@ -27,6 +27,7 @@ export default (state = { items: new Map() }, { type, payload }) => {
         items: payload.items,
         totalCount: payload.totalCount,
         pagination: payload.pagination,
+        responseTime: payload.responseTime,
       };
     case FETCH_REPOSITORY_START:
       return {
