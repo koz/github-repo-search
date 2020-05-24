@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -28,6 +28,7 @@ const StyledMarkdown = styled(Markdown)`
 const Details = () => {
   const { owner, repo } = useParams();
   const { repository, readme, owner: ownerData } = useRepositoryData(owner, repo);
+  const repoUrl = useMemo(() => `https://www.github.com/${owner}/${repo}`, [owner, repo]);
   if (!repository) {
     return null;
   }
@@ -43,7 +44,7 @@ const Details = () => {
             forks={repository.forks}
             issues={repository.issues}
           />
-          {readme && readme.content ? <StyledMarkdown content={readme.content} /> : null}
+          {readme && readme.content ? <StyledMarkdown url={repoUrl} content={readme.content} /> : null}
         </div>
         <div>
           {ownerData && (
