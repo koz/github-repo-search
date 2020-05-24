@@ -6,7 +6,7 @@ import arrow from '../../assets/icons/arrow.svg';
 import { breakpoints, mediaQueries } from '../../styles/mediaQueries';
 import { white } from '../../styles/colors';
 import { textStyles, sizes } from '../../styles/text';
-import { useHistory } from 'react-router-dom';
+import useBackButton from '../../hooks/useBackButton';
 
 const StyledContainer = styled.div`
   margin: 3.2rem;
@@ -31,9 +31,8 @@ const StyledButton = styled.button`
   }
 `;
 
-const Header = ({ showBack }) => {
-  const history = useHistory();
-  const handleClick = () => history.goBack();
+const Header = () => {
+  const { state: showBack, handleClick } = useBackButton();
   return (
     <StyledContainer>
       {showBack ? (

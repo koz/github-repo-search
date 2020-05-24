@@ -4,14 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import Header from './index';
 import { createMemoryHistory } from 'history/cjs/history.min';
 import renderWithContext, { renderWithRouter } from '../../../spec/utils/renderWithContext';
-
-const mockBack = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    goBack: mockBack,
-  }),
-}));
+import * as hook from '../../hooks/useBackButton';
 
 describe('<Header />', () => {
   test('should render correctly', () => {
@@ -29,14 +22,17 @@ describe('<Header />', () => {
     expect(queryByTestId('logo')).toBeInTheDocument();
   });
 
-  test('should show back button when prop is set', () => {
-    const { queryByTestId } = renderWithContext(<Header showBack />);
+  test('should show back button when useBackButton state is true', () => {
+    jest.spyOn(hook, 'default').mockReturnValue({ state: true });
+    const { queryByTestId } = renderWithContext(<Header />);
     expect(queryByTestId('back-button')).toBeInTheDocument();
   });
 
-  test('should call history back in button click', () => {
-    const { queryByTestId } = renderWithContext(<Header showBack />);
+  test('should call useBackButton callback in button click', () => {
+    const callback = jest.fn();
+    jest.spyOn(hook, 'default').mockReturnValue({ state: true, handleClick: callback });
+    const { queryByTestId } = renderWithContext(<Header />);
     fireEvent.click(queryByTestId('back-button'));
-    expect(mockBack).toBeCalledTimes(1);
+    expect(callback).toBeCalledTimes(1);
   });
 });

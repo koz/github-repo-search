@@ -91,22 +91,19 @@ const Home = () => {
   }, [repositories]);
 
   return (
-    <>
-      <Header data-testid="header" />
-      <StyledContainer>
-        <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
-        {results ? (
-          <StyledResultsCount size={sizes.small}>
-            Showing {repositories.size * (page - 1) + 1} to {repositories.size * page} of {formattedResults}{' '}
-            {results === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
-          </StyledResultsCount>
-        ) : null}
-        {repositoriesElements ? (
-          <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
-        ) : null}
-        {results ? <StyledPagination pagination={pagination} currentPage={page}></StyledPagination> : null}
-      </StyledContainer>
-    </>
+    <StyledContainer>
+      <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
+      {results ? (
+        <StyledResultsCount size={sizes.small}>
+          Showing {repositories.size * (page - 1) + 1} to {repositories.size * page} of {formattedResults}{' '}
+          {results === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
+        </StyledResultsCount>
+      ) : null}
+      {repositoriesElements ? (
+        <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
+      ) : null}
+      {results ? <StyledPagination pagination={pagination} currentPage={page}></StyledPagination> : null}
+    </StyledContainer>
   );
 };
 

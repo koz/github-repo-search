@@ -35,7 +35,6 @@ const Details = () => {
 
   return (
     <>
-      <Header showBack />
       <StyledContainer>
         <div>
           <DetailsProperties

@@ -1,12 +1,15 @@
 import React from 'react';
-import { renderWithProvider } from './renderWithContext';
+import renderWithContext from './renderWithContext';
 
-export default ({ hook, initialState }, ...args) => {
+export default ({ hook, initialState, history, rerender }, ...args) => {
   let val = {};
   const TestComponent = () => {
     val = hook(...args);
     return null;
   };
-  renderWithProvider(<TestComponent />, initialState ? { state: initialState } : {});
+  renderWithContext(
+    <TestComponent />,
+    initialState ? { state: initialState, history, rerender } : { history, rerender }
+  );
   return val;
 };
