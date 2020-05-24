@@ -19,7 +19,7 @@ const StyledContainer = styled.div`
   justify-content: center;
 
   ${mediaQueries[breakpoints.large]} {
-    padding: 0 18rem;
+    padding: 0 18rem 3rem;
   }
 `;
 
