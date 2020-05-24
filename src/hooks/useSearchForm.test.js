@@ -30,11 +30,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('useSearchForm', () => {
-  const thunkMock = jest.spyOn(thunks, 'getRepositories').mockImplementation(() => ({ type: 'test' }));
-
   beforeEach(() => {
     jest.clearAllMocks();
     jest.clearAllTimers();
+    jest.spyOn(thunks, 'getRepositories').mockReturnValue({ type: 'test' });
   });
 
   test('should return a handleChange function', () => {
@@ -111,6 +110,7 @@ describe('useSearchForm', () => {
 
   test('should dispatch get repositories if query changes', () => {
     const mockDispatch = jest.fn();
+    const thunkMock = jest.spyOn(thunks, 'getRepositories').mockReturnValue({ type: 'test' });
     jest.spyOn(redux, 'useDispatch').mockReturnValue(mockDispatch);
     router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test&page=2' });
     const { handleChange } = render({ hook: useSearchForm });

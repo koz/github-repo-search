@@ -18,8 +18,11 @@ describe('selectors', () => {
   });
 
   test('useRepositories', () => {
-    const value = renderHook({ hook: useRepositories, initialState: { repositories: { items: [1, 2, 3] } } });
-    expect(value).toStrictEqual([1, 2, 3]);
+    const value = renderHook({
+      hook: useRepositories,
+      initialState: { repositories: { items: new Map([['full/name', { id: 1 }]]) } },
+    });
+    expect(value).toStrictEqual(new Map([['full/name', { id: 1 }]]));
   });
 
   test('useRepository', () => {

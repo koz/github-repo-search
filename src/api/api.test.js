@@ -2,10 +2,6 @@ import { getRepos, getRepo, getOwner, getOwnerOrgs, getRepoContents, getFileText
 import * as utils from './utils';
 
 describe('api', () => {
-  beforeAll(() => {
-    jest.spyOn(window, 'encodeURIComponent').mockImplementation((str = '') => str.replace(/\s/, '+'));
-  });
-
   beforeEach(() => {
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ ok: true, json: jest.fn(), text: jest.fn() }));
     global.fetch.mockClear();
@@ -25,7 +21,7 @@ describe('api', () => {
       const keyword = '123 abc';
 
       await getRepos(keyword);
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/search/repositories?q=123+abc`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/search/repositories?q=123%20abc`);
     });
 
     test('should call fetch with page', async () => {

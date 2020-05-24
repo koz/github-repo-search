@@ -19,7 +19,8 @@ describe('thunks', () => {
   const dispatcherMock = jest.fn();
 
   beforeEach(() => {
-    dispatcherMock.mockClear();
+    jest.spyOn(global, 'Date').mockRestore();
+    jest.clearAllMocks();
   });
 
   describe('getRepositories', () => {
@@ -50,7 +51,7 @@ describe('thunks', () => {
       expect(getReposMock).toBeCalledWith(undefined, page);
     });
 
-    test.only('should dispatch FETCH_REPOSITORIES_SUCCESS on getRepos resolve', async () => {
+    test('should dispatch FETCH_REPOSITORIES_SUCCESS on getRepos resolve', async () => {
       const mockData = {
         total_count: 1,
         items: [
@@ -69,14 +70,14 @@ describe('thunks', () => {
           },
         ],
       };
-      const mockLink = '<http://www.test.com?page=3>; rel="next"';
-      const parsedItem = { fullName: 'full/name' };
       const mockDate = new Date('2020-05-23T12:00:00.000Z');
       const mockDate2 = new Date('2020-05-23T12:00:01.000Z');
       jest
         .spyOn(global, 'Date')
         .mockImplementationOnce(() => mockDate)
         .mockImplementationOnce(() => mockDate2);
+      const mockLink = '<http://www.test.com?page=3>; rel="next"';
+      const parsedItem = { fullName: 'full/name' };
       jest.spyOn(api, 'getRepos').mockResolvedValue({ data: mockData, headers: new Map([['link', mockLink]]) });
 
       await getRepositories()(dispatcherMock);
@@ -156,7 +157,7 @@ describe('thunks', () => {
         subscribers_count: 0,
       };
 
-      jest.spyOn(api, 'getRepo').mockResolvedValue(mockData);
+      jest.spyOn(api, 'getRepo').mockResolvedValue({ data: mockData });
 
       await getRepository()(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
@@ -228,8 +229,8 @@ describe('thunks', () => {
         },
       ];
 
-      jest.spyOn(api, 'getOwner').mockResolvedValue(mockData);
-      jest.spyOn(api, 'getOwnerOrgs').mockResolvedValue(mockOrgsData);
+      jest.spyOn(api, 'getOwner').mockResolvedValue({ data: mockData });
+      jest.spyOn(api, 'getOwnerOrgs').mockResolvedValue({ data: mockOrgsData });
 
       await getOwner()(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
@@ -262,7 +263,7 @@ describe('thunks', () => {
         name: 'name',
         login: 'login',
       };
-      jest.spyOn(api, 'getOwner').mockResolvedValue(mockData);
+      jest.spyOn(api, 'getOwner').mockResolvedValue({ data: mockData });
       jest.spyOn(api, 'getOwnerOrgs').mockRejectedValue({ message: 'Error' });
 
       await getOwner('owner')(dispatcherMock);
@@ -285,6 +286,7 @@ describe('thunks', () => {
       const mockData = { message: 'Error' };
 
       jest.spyOn(api, 'getOwner').mockRejectedValue(mockData);
+      jest.spyOn(api, 'getOwnerOrgs').mockResolvedValue();
 
       await getOwner('owner')(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
@@ -332,7 +334,7 @@ describe('thunks', () => {
     test('should dispatch FETCH_README_ERROR in case of no readme url', async () => {
       const owner = 'test';
       const repo = 'repo';
-      jest.spyOn(api, 'getRepoContents').mockResolvedValue();
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue({});
 
       await getReadme(owner, repo)(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
@@ -344,7 +346,9 @@ describe('thunks', () => {
     test('should call getFileTextContent with the readme file url', async () => {
       const owner = 'test';
       const repo = 'repo';
-      jest.spyOn(api, 'getRepoContents').mockResolvedValue([{ name: 'readme.md', download_url: 'url/to/download' }]);
+      jest
+        .spyOn(api, 'getRepoContents')
+        .mockResolvedValue({ data: [{ name: 'readme.md', download_url: 'url/to/download' }] });
       const mockGetFile = jest.spyOn(api, 'getFileTextContent').mockResolvedValue();
 
       await getReadme(owner, repo)(dispatcherMock);
@@ -354,7 +358,7 @@ describe('thunks', () => {
     test('should dispatch FETCH_README_SUCCESS in getFileTextContent resolve', async () => {
       const owner = 'test';
       const repo = 'repo';
-      jest.spyOn(api, 'getRepoContents').mockResolvedValue([{ name: 'readme.md', download_url: 'url' }]);
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue({ data: [{ name: 'readme.md', download_url: 'url' }] });
       jest.spyOn(api, 'getFileTextContent').mockResolvedValue('content');
 
       await getReadme(owner, repo)(dispatcherMock);
@@ -367,7 +371,7 @@ describe('thunks', () => {
     test('should dispatch FETCH_README_ERROR in getFileTextContent reject', async () => {
       const owner = 'test';
       const repo = 'repo';
-      jest.spyOn(api, 'getRepoContents').mockResolvedValue([{ name: 'readme.md', download_url: 'url' }]);
+      jest.spyOn(api, 'getRepoContents').mockResolvedValue({ data: [{ name: 'readme.md', download_url: 'url' }] });
       jest.spyOn(api, 'getFileTextContent').mockRejectedValue({ code: 100, message: 'Error' });
 
       await getReadme(owner, repo)(dispatcherMock);
