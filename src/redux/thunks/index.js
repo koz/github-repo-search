@@ -48,7 +48,7 @@ export const getRepositories = (keyword, page) => async (dispatch, getState) => 
 export const getRepository = (owner, repo) => async (dispatch) => {
   await dispatch(fetchRepositoryStart());
   return getRepo(owner, repo)
-    .then((data) => {
+    .then(({ data }) => {
       dispatch(fetchRepositorySuccess(repoDataMapper(data)));
     })
     .catch((error) => dispatch(fetchRepositoryError(errorDataMapper(error))));
@@ -65,7 +65,7 @@ export const getOwner = (owner) => async (dispatch) => {
       return [];
     }),
   ])
-    .then(([ownerData, orgsData]) => {
+    .then(([{ data: ownerData }, { data: orgsData }]) => {
       dispatch(fetchOwnerSuccess(ownerMapper(ownerData, orgsData)));
     })
     .catch((error) => dispatch(fetchOwnerError(owner, errorDataMapper(error))));
@@ -74,7 +74,7 @@ export const getOwner = (owner) => async (dispatch) => {
 export const getReadme = (owner, repo) => async (dispatch) => {
   await dispatch(fetchReadmeStart(owner, repo));
   const response = await getRepoContents(owner, repo)
-    .then((data) => readmeContentsFilter(data)?.download_url)
+    .then(({ data }) => readmeContentsFilter(data)?.download_url)
     .catch((error) => errorDataMapper(error));
   if (!response || response.message) {
     return dispatch(fetchReadmeError(owner, repo, response || { code: 404, message: 'Not found' }));
