@@ -30,8 +30,9 @@ export const fetchRepositoriesError = (error) => ({
 });
 
 /* Repository */
-export const fetchRepositoryStart = () => ({
+export const fetchRepositoryStart = (owner, repo) => ({
   type: FETCH_REPOSITORY_START,
+  payload: { owner, repo },
 });
 
 export const fetchRepositorySuccess = (data) => ({
@@ -39,9 +40,13 @@ export const fetchRepositorySuccess = (data) => ({
   payload: data,
 });
 
-export const fetchRepositoryError = (error) => ({
+export const fetchRepositoryError = (owner, repo, error) => ({
   type: FETCH_REPOSITORY_ERROR,
-  payload: error,
+  payload: {
+    owner,
+    repo,
+    error,
+  },
 });
 
 /* Owner */

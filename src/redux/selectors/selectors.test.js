@@ -29,7 +29,7 @@ describe('selectors', () => {
 
   test('useRepository', () => {
     const value = renderHook(
-      { hook: useRepository, initialState: { repositories: { items: new Map([['full/name', { id: 1 }]]) } } },
+      { hook: useRepository, initialState: { repositories: new Map([['full/name', { id: 1 }]]) } },
       'full',
       'name'
     );
@@ -37,19 +37,27 @@ describe('selectors', () => {
   });
 
   test('useRepositoryLoading', () => {
-    const value = renderHook({
-      hook: useRepositoryLoading,
-      initialState: { repositories: { isLoadingRepository: true } },
-    });
+    const value = renderHook(
+      {
+        hook: useRepositoryLoading,
+        initialState: { repositories: new Map([['owner/repo', { isLoading: true }]]) },
+      },
+      'owner',
+      'repo'
+    );
 
     expect(value).toBe(true);
   });
 
   test('useRepositoryError', () => {
-    const value = renderHook({
-      hook: useRepositoryError,
-      initialState: { repositories: { repositoryError: { message: 'error' } } },
-    });
+    const value = renderHook(
+      {
+        hook: useRepositoryError,
+        initialState: { repositories: new Map([['owner/repo', { error: { message: 'error' } }]]) },
+      },
+      'owner',
+      'repo'
+    );
 
     expect(value).toMatchObject({ message: 'error' });
   });

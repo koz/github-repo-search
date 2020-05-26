@@ -14,9 +14,7 @@ describe('useRepositoryData', () => {
       {
         hook: useRepositoryData,
         initialState: {
-          repositories: {
-            items: new Map([['owner/repo', { test: 1 }]]),
-          },
+          repositories: new Map([['owner/repo', { test: 1 }]]),
           owners: new Map([['owner', { test: 2 }]]),
           readmeFiles: new Map([['owner/repo', 'content']]),
         },

@@ -61,7 +61,10 @@ describe('actionCreators', () => {
 
   describe('fetchRepository', () => {
     test('should return the correct type', () => {
-      expect(fetchRepositoryStart()).toStrictEqual({ type: FETCH_REPOSITORY_START });
+      expect(fetchRepositoryStart('owner', 'repo')).toStrictEqual({
+        type: FETCH_REPOSITORY_START,
+        payload: { owner: 'owner', repo: 'repo' },
+      });
     });
   });
 
@@ -83,7 +86,14 @@ describe('actionCreators', () => {
 
     test('should return the param as payload', () => {
       const error = { code: 111 };
-      expect(fetchRepositoryError(error)).toStrictEqual({ type: FETCH_REPOSITORY_ERROR, payload: error });
+      expect(fetchRepositoryError('owner', 'repo', error)).toStrictEqual({
+        type: FETCH_REPOSITORY_ERROR,
+        payload: {
+          owner: 'owner',
+          repo: 'repo',
+          error,
+        },
+      });
     });
   });
 

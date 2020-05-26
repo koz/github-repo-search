@@ -46,12 +46,12 @@ export const getRepositories = (keyword, page) => async (dispatch) => {
 };
 
 export const getRepository = (owner, repo) => async (dispatch) => {
-  await dispatch(fetchRepositoryStart());
+  await dispatch(fetchRepositoryStart(owner, repo));
   return getRepo(owner, repo)
     .then(({ data }) => {
       dispatch(fetchRepositorySuccess(repoDataMapper(data)));
     })
-    .catch((error) => dispatch(fetchRepositoryError(errorDataMapper(error))));
+    .catch((error) => dispatch(fetchRepositoryError(owner, repo, errorDataMapper(error))));
 };
 
 export const getOwner = (owner) => async (dispatch) => {

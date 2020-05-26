@@ -129,8 +129,14 @@ describe('thunks', () => {
     test('should dispatch FETCH_REPOSITORY_START', async () => {
       jest.spyOn(api, 'getRepo').mockResolvedValue();
 
-      await getRepository()(dispatcherMock);
-      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORY_START });
+      await getRepository('owner', 'repo')(dispatcherMock);
+      expect(dispatcherMock).toBeCalledWith({
+        type: FETCH_REPOSITORY_START,
+        payload: {
+          owner: 'owner',
+          repo: 'repo',
+        },
+      });
     });
 
     test('should call getRepo with owner and repo param', async () => {
@@ -183,8 +189,11 @@ describe('thunks', () => {
       const data = { code: '123', message: 'test' };
       jest.spyOn(api, 'getRepo').mockRejectedValue(data);
 
-      await getRepository()(dispatcherMock);
-      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORY_ERROR, payload: data });
+      await getRepository('owner', 'repo')(dispatcherMock);
+      expect(dispatcherMock).toBeCalledWith({
+        type: FETCH_REPOSITORY_ERROR,
+        payload: { owner: 'owner', repo: 'repo', error: data },
+      });
     });
   });
 
