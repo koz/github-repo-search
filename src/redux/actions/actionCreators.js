@@ -14,8 +14,9 @@ import {
 } from './actions';
 
 /* Repositories */
-export const fetchRepositoriesStart = () => ({
+export const fetchRepositoriesStart = (keyword) => ({
   type: FETCH_REPOSITORIES_START,
+  payload: { query: keyword },
 });
 
 export const fetchRepositoriesSuccess = (data) => ({

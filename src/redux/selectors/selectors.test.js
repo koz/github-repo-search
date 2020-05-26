@@ -12,15 +12,18 @@ import renderHook from '../../../spec/utils/renderHook';
 
 describe('selectors', () => {
   test('useTotalCount', () => {
-    const value = renderHook({ hook: useTotalCount, initialState: { repositories: { totalCount: 10000 } } });
+    const value = renderHook({ hook: useTotalCount, initialState: { search: { totalCount: 10000 } } });
     expect(value).toBe(10000);
   });
 
   test('useRepositories', () => {
-    const value = renderHook({
-      hook: useRepositories,
-      initialState: { repositories: { items: new Map([['full/name', { id: 1 }]]) } },
-    });
+    const value = renderHook(
+      {
+        hook: useRepositories,
+        initialState: { search: { items: new Map([[1, new Map([['full/name', { id: 1 }]])]]) } },
+      },
+      1
+    );
     expect(value).toStrictEqual(new Map([['full/name', { id: 1 }]]));
   });
 
@@ -76,7 +79,7 @@ describe('selectors', () => {
     const value = renderHook({
       hook: usePaginationLinks,
       initialState: {
-        repositories: {
+        search: {
           pagination: mockData,
         },
       },

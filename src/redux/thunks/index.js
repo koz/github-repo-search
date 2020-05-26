@@ -24,7 +24,7 @@ import { repoDataMapper, errorDataMapper, ownerMapper, readmeContentsFilter, lin
 
 export const getRepositories = (keyword, page) => async (dispatch) => {
   const requestInitTime = new Date().getTime();
-  await dispatch(fetchRepositoriesStart());
+  await dispatch(fetchRepositoriesStart(keyword));
   return getRepos(keyword, page)
     .then(({ data, headers }) => {
       const responseDate = new Date().getTime();
@@ -38,6 +38,7 @@ export const getRepositories = (keyword, page) => async (dispatch) => {
         items: repositoriesMap,
         pagination: linkHeader ? linkHeaderParser(linkHeader) : null,
         responseTime: responseDate - requestInitTime,
+        page,
       };
       dispatch(fetchRepositoriesSuccess(parsedData));
     })

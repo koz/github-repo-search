@@ -30,7 +30,10 @@ import {
 describe('actionCreators', () => {
   describe('fetchRepositories', () => {
     test('should return the correct type', () => {
-      expect(fetchRepositoriesStart()).toStrictEqual({ type: FETCH_REPOSITORIES_START });
+      expect(fetchRepositoriesStart('query')).toStrictEqual({
+        type: FETCH_REPOSITORIES_START,
+        payload: { query: 'query' },
+      });
     });
   });
 

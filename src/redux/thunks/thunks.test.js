@@ -31,8 +31,8 @@ describe('thunks', () => {
     test('should dispatch FETCH_REPOSITORIES_START', async () => {
       jest.spyOn(api, 'getRepos').mockResolvedValue();
 
-      await getRepositories()(dispatcherMock);
-      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORIES_START });
+      await getRepositories('query')(dispatcherMock);
+      expect(dispatcherMock).toBeCalledWith({ type: FETCH_REPOSITORIES_START, payload: { query: 'query' } });
     });
 
     test('should call getRepos with keyword param', async () => {
@@ -79,7 +79,7 @@ describe('thunks', () => {
       const mockLink = '<http://www.test.com?page=3>; rel="next"';
       jest.spyOn(api, 'getRepos').mockResolvedValue({ data: mockData, headers: new Map([['link', mockLink]]) });
 
-      await getRepositories()(dispatcherMock);
+      await getRepositories(undefined, 1)(dispatcherMock);
       expect(dispatcherMock).toHaveBeenLastCalledWith({
         type: FETCH_REPOSITORIES_SUCCESS,
         payload: {
@@ -106,6 +106,7 @@ describe('thunks', () => {
           pagination: {
             next: '3',
           },
+          page: 1,
           responseTime: 1000,
         },
       });

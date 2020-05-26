@@ -53,7 +53,7 @@ const Home = () => {
   const { handleChange, value, pagination, page } = useSearchForm();
   const [inputValue, setInputValue] = useState(value || '');
   const results = useTotalCount();
-  const repositories = useRepositories();
+  const repositories = useRepositories(page);
   const responseTime = useSearchResponseTime();
   const formattedResults = useMemo(() => {
     const intl = new Intl.NumberFormat();
@@ -90,7 +90,7 @@ const Home = () => {
   return (
     <StyledContainer>
       <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
-      {results ? (
+      {repositories && results ? (
         <StyledResultsCount size={sizes.small}>
           Showing {repositories.size * (page - 1) + 1} to {repositories.size * page} of {formattedResults}{' '}
           {results === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
