@@ -16,7 +16,7 @@ describe('reducers/readmeFiles', () => {
     expect(state).toStrictEqual(new Map([['owner/repo', { isLoading: false, content: 'content' }]]));
 
     const stateWithPreviousLoading = readmeFiles(new Map([['owner/repo', { isLoading: true }]]), action);
-    expect(state).toStrictEqual(new Map([['owner/repo', { isLoading: false, content: 'content' }]]));
+    expect(stateWithPreviousLoading).toStrictEqual(new Map([['owner/repo', { isLoading: false, content: 'content' }]]));
   });
 
   test('should return state with error for FETCH_README_ERROR', () => {
@@ -28,6 +28,8 @@ describe('reducers/readmeFiles', () => {
     expect(state).toStrictEqual(new Map([['owner/repo', { isLoading: false, error: { message: 'Error' } }]]));
 
     const stateWithPreviousLoading = readmeFiles(new Map([['owner/repo', { isLoading: true }]]), action);
-    expect(state).toStrictEqual(new Map([['owner/repo', { isLoading: false, error: { message: 'Error' } }]]));
+    expect(stateWithPreviousLoading).toStrictEqual(
+      new Map([['owner/repo', { isLoading: false, error: { message: 'Error' } }]])
+    );
   });
 });

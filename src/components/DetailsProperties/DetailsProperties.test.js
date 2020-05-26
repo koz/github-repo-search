@@ -10,7 +10,14 @@ describe('<DetailsProperties />', () => {
       issues: 10000,
       watchers: 100000,
     };
-    const { queryByTestId } = render(<DetailsProperties {...mockProps} />);
+    const { queryByTestId } = render(
+      <DetailsProperties
+        stars={mockProps.stars}
+        forks={mockProps.forks}
+        issues={mockProps.issues}
+        watchers={mockProps.watchers}
+      />
+    );
     expect(queryByTestId('stars')).toHaveTextContent(mockProps.stars);
     expect(queryByTestId('issues')).toHaveTextContent(mockProps.issues);
     expect(queryByTestId('forks')).toHaveTextContent(mockProps.forks);

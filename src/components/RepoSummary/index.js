@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Text from '../../components/Text';
+import Text from '../Text';
 import { sizes } from '../../styles/text';
 import { blue } from '../../styles/colors';
 import { parseData } from './utils';
@@ -57,6 +57,7 @@ const propTypes = {
   language: PropTypes.string,
   lastUpdated: PropTypes.string.isRequired,
   stars: PropTypes.number,
+  fullName: PropTypes.string,
 };
 
 const RepoSummary = ({ title, description, fullName, license, language, lastUpdated, stars = 0 }) => (

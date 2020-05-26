@@ -4,17 +4,15 @@ export const requestHandler = async (r) => {
       data: await r.json(),
       headers: r.headers,
     };
-  } else {
-    throw { code: r.status, message: r.statusText };
   }
+  throw new Error({ code: r.status, message: r.statusText });
 };
 
 export const fileRequestHandler = (r) => {
   if (r.ok) {
     return r.text();
-  } else {
-    throw { code: r.status, message: r.statusText };
   }
+  throw new Error({ code: r.status, message: r.statusText });
 };
 
 export const getQueryString = (queries = {}) =>

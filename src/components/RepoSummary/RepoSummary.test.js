@@ -1,7 +1,6 @@
 import React from 'react';
-import RepoSummary from './index';
 import { render } from '@testing-library/react';
-import * as utils from './utils';
+import RepoSummary from './index';
 
 describe('<RepoSummary />', () => {
   test('should render correctly', () => {

@@ -29,15 +29,11 @@ const StyledLabel = styled.span`
   margin: 0 0.5rem 0 0.7rem;
 `;
 
-const StyledIcon = styled.img`
-  padding-bottom: 0.2rem;
-`;
-
 const propTypes = {
   watchers: PropTypes.number,
-  stars: PropTypes.stars,
-  forks: PropTypes.forks,
-  issues: PropTypes.issues,
+  stars: PropTypes.number,
+  forks: PropTypes.number,
+  issues: PropTypes.number,
 };
 
 const DetailsProperties = ({ watchers = 0, stars = 0, forks = 0, issues = 0 }) => (
@@ -67,5 +63,7 @@ const DetailsProperties = ({ watchers = 0, stars = 0, forks = 0, issues = 0 }) =
     </StyledListItem>
   </StyledList>
 );
+
+DetailsProperties.propTypes = propTypes;
 
 export default DetailsProperties;

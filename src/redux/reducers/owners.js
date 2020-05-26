@@ -9,14 +9,15 @@ export default (state = new Map(), { payload, type }) => {
         isLoading: true,
       });
       return newState;
-    case FETCH_OWNER_ERROR:
+    case FETCH_OWNER_ERROR: {
       const { owner, error } = payload;
       newState.set(owner, {
         ...(state.get(owner) || {}),
         isLoading: false,
-        error: error,
+        error,
       });
       return newState;
+    }
     case FETCH_OWNER_SUCCESS:
       newState.set(payload.login, {
         ...(state.get(payload.login) || {}),

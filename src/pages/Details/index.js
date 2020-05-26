@@ -1,10 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import Header from '../../components/Header';
-import { useRepository } from '../../redux/selectors';
-import { getRepository } from '../../redux/thunks/index';
 import useRepositoryData from '../../hooks/useRepositoryData';
 import DetailsProperties from '../../components/DetailsProperties';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { useRepository, useOwner, useReadme } from '../redux/selectors';
 import { getRepository, getOwner, getReadme } from '../redux/thunks';
-import { useEffect } from 'react';
 
 export default (owner, repo) => {
   const data = useRepository(owner, repo);

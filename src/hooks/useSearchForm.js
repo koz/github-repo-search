@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useRef, useCallback, useEffect } from 'react';
 import debounce from 'lodash.debounce';
-import { getRepositories } from '../redux/thunks';
 import { useHistory, useLocation } from 'react-router-dom';
+import { getRepositories } from '../redux/thunks';
 import { usePaginationLinks } from '../redux/selectors';
 
 export default () => {
@@ -16,7 +16,7 @@ export default () => {
   useEffect(() => {
     if (query) {
       dispatch(getRepositories(query, page));
-      scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [query, page]);
 
@@ -34,7 +34,7 @@ export default () => {
   return {
     handleChange: useCallback(
       (e) => {
-        const value = e.target.value;
+        const { value } = e.target;
         debouncedDispatch(value);
       },
       [dispatch, debouncedDispatch]

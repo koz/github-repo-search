@@ -25,7 +25,6 @@ describe('api/utils', () => {
         status: '400',
         statusText: 'Error',
       };
-      const errorMockFn = jest.fn();
 
       try {
         requestHandler(data);
@@ -52,15 +51,16 @@ describe('api/utils', () => {
         status: '400',
         statusText: 'Error',
       };
-      const errorMockFn = jest.fn();
 
       try {
         fileRequestHandler(data);
       } catch (e) {
-        expect(e).toMatchObject({
-          message: data.statusText,
-          code: data.status,
-        });
+        expect(e).toStrictEqual(
+          new Error({
+            message: data.statusText,
+            code: data.status,
+          })
+        );
       }
     });
   });
