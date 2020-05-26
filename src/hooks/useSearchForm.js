@@ -51,7 +51,7 @@ export default () => {
       },
       [dispatch, debouncedDispatch]
     ),
-    value: query,
+    query,
     pagination,
     page,
     resultsCount,

@@ -51,7 +51,7 @@ const StyledPagination = styled(Pagination)`
 const Home = () => {
   const {
     handleChange,
-    value,
+    query,
     pagination,
     page,
     resultsCount,
@@ -60,7 +60,7 @@ const Home = () => {
     isLoading,
     error,
   } = useSearchForm();
-  const [inputValue, setInputValue] = useState(value || '');
+  const [inputValue, setInputValue] = useState(query || '');
   const formattedResults = useMemo(() => {
     const intl = new Intl.NumberFormat();
     return intl.format(resultsCount);
@@ -98,7 +98,7 @@ const Home = () => {
       <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
       {isLoading && <StyledText>Loading results...</StyledText>}
       {error && <StyledText>An error has occurred, try again later.</StyledText>}
-      {!isLoading && !error && value && (
+      {!isLoading && !error && inputValue && (
         <>
           {resultsCount > 0 && repositories ? (
             <StyledText size={sizes.small}>

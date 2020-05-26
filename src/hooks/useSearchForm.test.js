@@ -42,8 +42,8 @@ describe('useSearchForm', () => {
 
   test('should return a value', () => {
     router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
-    const { value } = render({ hook: useSearchForm });
-    expect(value).toBe('keyword test');
+    const { query } = render({ hook: useSearchForm });
+    expect(query).toBe('keyword test');
   });
 
   test('should return pagination links', () => {
@@ -63,10 +63,8 @@ describe('useSearchForm', () => {
   });
 
   test('should return a handleChange function', () => {
-    router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test' });
-    const { handleChange, value } = render({ hook: useSearchForm });
+    const { handleChange } = render({ hook: useSearchForm });
     expect(typeof handleChange).toBe('function');
-    expect(value).toBe('keyword test');
   });
 
   test('should call debounce on every handleChange call', () => {
