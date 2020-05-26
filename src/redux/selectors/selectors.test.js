@@ -1,13 +1,4 @@
-import {
-  useTotalCount,
-  useRepositories,
-  useRepository,
-  useRepositoryLoading,
-  useRepositoryError,
-  useOwner,
-  useReadme,
-  usePaginationLinks,
-} from '.';
+import { useTotalCount, useRepositories, useRepository, useOwner, useReadme, usePaginationLinks } from '.';
 import renderHook from '../../../spec/utils/renderHook';
 
 describe('selectors', () => {
@@ -36,32 +27,6 @@ describe('selectors', () => {
     expect(value).toMatchObject({ id: 1 });
   });
 
-  test('useRepositoryLoading', () => {
-    const value = renderHook(
-      {
-        hook: useRepositoryLoading,
-        initialState: { repositories: new Map([['owner/repo', { isLoading: true }]]) },
-      },
-      'owner',
-      'repo'
-    );
-
-    expect(value).toBe(true);
-  });
-
-  test('useRepositoryError', () => {
-    const value = renderHook(
-      {
-        hook: useRepositoryError,
-        initialState: { repositories: new Map([['owner/repo', { error: { message: 'error' } }]]) },
-      },
-      'owner',
-      'repo'
-    );
-
-    expect(value).toMatchObject({ message: 'error' });
-  });
-
   test('useOwner', () => {
     const value = renderHook({ hook: useOwner, initialState: { owners: new Map([[1, { id: 1, test: 'a' }]]) } }, 1);
 
@@ -80,8 +45,8 @@ describe('selectors', () => {
 
   test('usePaginationLinks', () => {
     const mockData = {
-      next: 'page/to/next',
-      prev: 'page/to/prev',
+      next: '1',
+      prev: '2',
     };
 
     const value = renderHook({
