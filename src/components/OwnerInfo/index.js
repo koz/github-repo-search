@@ -125,7 +125,7 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
         </StyledIconItem>
       )}
     </StyledProperties>
-    {orgs && orgs.length && (
+    {orgs && orgs.length ? (
       <>
         <StyledOrgsHeader data-testid="orgs-title">Organizations</StyledOrgsHeader>
         <StyledOrgsList>
@@ -136,7 +136,7 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
           ))}
         </StyledOrgsList>
       </>
-    )}
+    ) : null}
   </StyledContainer>
 );
 

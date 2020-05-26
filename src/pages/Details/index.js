@@ -6,6 +6,7 @@ import DetailsProperties from '../../components/DetailsProperties';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import Markdown from '../../components/Markdown';
 import OwnerInfo from '../../components/OwnerInfo';
+import Text from '../../components/Text';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -25,38 +26,43 @@ const Details = () => {
   const { owner, repo } = useParams();
   const { repository, readme, owner: ownerData } = useRepositoryData(owner, repo);
   const repoUrl = useMemo(() => `https://www.github.com/${owner}/${repo}`, [owner, repo]);
-  if (!repository) {
-    return null;
+
+  if (repository?.isLoading || ownerData?.isLoading || readme?.isLoading) {
+    return (
+      <StyledContainer>
+        <Text>Loading...</Text>
+      </StyledContainer>
+    );
   }
 
   return (
-    <>
-      <StyledContainer>
-        <div>
+    <StyledContainer>
+      <div>
+        {repository && (
           <DetailsProperties
             watchers={repository.watchers}
             stars={repository.stars}
             forks={repository.forks}
             issues={repository.issues}
           />
-          {readme && readme.content ? <StyledMarkdown url={repoUrl} content={readme.content} /> : null}
-        </div>
-        <div>
-          {ownerData && (
-            <OwnerInfo
-              avatar={ownerData.avatar}
-              user={ownerData.login}
-              name={ownerData.name}
-              bio={ownerData.bio}
-              company={ownerData.company}
-              location={ownerData.location}
-              orgs={ownerData.orgs}
-              site={ownerData.blog}
-            />
-          )}
-        </div>
-      </StyledContainer>
-    </>
+        )}
+        {readme && readme.content ? <StyledMarkdown url={repoUrl} content={readme.content} /> : null}
+      </div>
+      <div>
+        {ownerData && (
+          <OwnerInfo
+            avatar={ownerData.avatar}
+            user={ownerData.login}
+            name={ownerData.name}
+            bio={ownerData.bio}
+            company={ownerData.company}
+            location={ownerData.location}
+            orgs={ownerData.orgs}
+            site={ownerData.blog}
+          />
+        )}
+      </div>
+    </StyledContainer>
   );
 };
 
