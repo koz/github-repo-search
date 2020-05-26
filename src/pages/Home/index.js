@@ -6,13 +6,6 @@ import Text from '../../components/Text';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import useSearchForm from '../../hooks/useSearchForm';
 import { sizes } from '../../styles/text';
-import {
-  useTotalCount,
-  useRepositories,
-  useSearchResponseTime,
-  useSearchLoading,
-  useSearchError,
-} from '../../redux/selectors';
 import RepoSummary from '../../components/RepoSummary';
 import Pagination from '../../components/Pagination';
 
@@ -56,17 +49,22 @@ const StyledPagination = styled(Pagination)`
 `;
 
 const Home = () => {
-  const { handleChange, value, pagination, page } = useSearchForm();
+  const {
+    handleChange,
+    value,
+    pagination,
+    page,
+    resultsCount,
+    repositories,
+    responseTime,
+    isLoading,
+    error,
+  } = useSearchForm();
   const [inputValue, setInputValue] = useState(value || '');
-  const results = useTotalCount();
-  const repositories = useRepositories(page);
-  const responseTime = useSearchResponseTime();
-  const isLoading = useSearchLoading();
-  const error = useSearchError();
   const formattedResults = useMemo(() => {
     const intl = new Intl.NumberFormat();
-    return intl.format(results);
-  }, [results]);
+    return intl.format(resultsCount);
+  }, [resultsCount]);
   const handleChangeFn = (e) => {
     setInputValue(e.target.value);
     handleChange(e);
@@ -102,10 +100,10 @@ const Home = () => {
       {error && <StyledText>An error has occurred, try again later.</StyledText>}
       {!isLoading && !error && value && (
         <>
-          {results > 0 && repositories ? (
+          {resultsCount > 0 && repositories ? (
             <StyledText size={sizes.small}>
               Showing {repositories.size * (page - 1) + 1} to {repositories.size * page} of {formattedResults}{' '}
-              {results === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
+              {resultsCount === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
             </StyledText>
           ) : (
             <StyledText>No results found for this search :(</StyledText>
