@@ -8,3 +8,4 @@ export const useReadme = (owner, repo) => useSelector((state) => state?.readmeFi
 export const usePaginationLinks = () => useSelector((state) => state?.search?.pagination);
 export const useSearchResponseTime = () => useSelector((state) => state?.search?.responseTime);
 export const useSearchLoading = () => useSelector((state) => state?.search?.isLoading);
+export const useSearchError = () => useSelector((state) => state?.search?.error);
