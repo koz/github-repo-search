@@ -14,9 +14,10 @@ const propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  value: PropTypes.string,
 };
 
-const SearchForm = ({ className, onChange = () => {}, onSubmit = () => {} }) => {
+const SearchForm = ({ value = '', className, onChange = () => {}, onSubmit = () => {} }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(e);
@@ -24,7 +25,7 @@ const SearchForm = ({ className, onChange = () => {}, onSubmit = () => {} }) => 
 
   return (
     <StyledForm onSubmit={handleSubmit} className={className} data-testid="search-form">
-      <Input onChange={onChange} placeholder="Search" data-testid="search-input" />
+      <Input value={value} onChange={onChange} placeholder="Search" data-testid="search-input" />
     </StyledForm>
   );
 };

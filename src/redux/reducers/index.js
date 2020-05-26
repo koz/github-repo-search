@@ -1,25 +1,10 @@
-import { FETCH_REPOSITORIES_START, FETCH_REPOSITORIES_ERROR, FETCH_REPOSITORIES_SUCCESS } from '../actions/actions';
+import { combineReducers } from 'redux';
+import repositories from './repositories';
+import owners from './owners';
+import readmeFiles from './readmeFiles';
 
-export default (state = {}, action) => {
-  switch (action.type) {
-    case FETCH_REPOSITORIES_START:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case FETCH_REPOSITORIES_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload,
-      };
-    case FETCH_REPOSITORIES_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        repositories: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  repositories,
+  owners,
+  readmeFiles,
+});

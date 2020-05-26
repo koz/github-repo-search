@@ -23,4 +23,10 @@ describe('<SearchForm />', () => {
     fireEvent.submit(getByTestId('search-form'));
     expect(onSubmitMock).toHaveBeenCalledTimes(1);
   });
+
+  test('should render value on input element', () => {
+    const value = 'value';
+    const { getByTestId } = render(<SearchForm value={value} />);
+    expect(getByTestId('search-input').value).toEqual(value);
+  });
 });

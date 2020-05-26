@@ -15,6 +15,8 @@ const mockData = {
   stars: 0,
 };
 
+const mockMap = new Map([[1, mockData]]);
+
 describe('<Home />', () => {
   test('should render correctly', () => {
     const { container } = renderWithContext(<Home />);
@@ -51,16 +53,21 @@ describe('<Home />', () => {
   });
 
   test("should render list if there's repositories", () => {
-    jest.spyOn(selectors, 'useRepositories').mockReturnValue([mockData]);
+    jest.spyOn(selectors, 'useRepositories').mockReturnValue(mockMap);
     const { queryByTestId } = renderWithContext(<Home />);
     expect(queryByTestId('repositories-list')).toBeDefined();
     expect(queryByTestId('repositories-list-item')).toBeDefined();
   });
 
   test('should render list item with link to detail page', () => {
-    jest.spyOn(selectors, 'useRepositories').mockReturnValue([mockData]);
+    jest.spyOn(selectors, 'useRepositories').mockReturnValue(mockMap);
     const { queryByTestId } = renderWithContext(<Home />);
     const listItemElement = queryByTestId('repositories-list-item');
     expect(listItemElement.firstChild).toHaveAttribute('href', `/${mockData.fullName}`);
+  });
+
+  test('should render Header', () => {
+    const { queryByTestId } = renderWithContext(<Home />);
+    expect(queryByTestId('header')).toBeDefined();
   });
 });
