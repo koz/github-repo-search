@@ -28,6 +28,10 @@ const StyledBody = styled(Text)`
   opacity: 0.7;
 `;
 
+const StyledUser = styled(StyledBody)`
+  margin-top: 1rem;
+`;
+
 const StyledBio = styled(StyledBody)`
   margin-top: 2rem;
 `;
@@ -101,7 +105,7 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
         {name}
       </StyledTitle>
     )}
-    {user && <StyledBody data-testid="user">{user}</StyledBody>}
+    {user && <StyledUser data-testid="user">{user}</StyledUser>}
     {bio && <StyledBio data-testid="bio">{bio}</StyledBio>}
     <StyledProperties>
       {company && (

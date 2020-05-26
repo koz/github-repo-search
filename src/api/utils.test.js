@@ -1,4 +1,4 @@
-import { requestHandler, fileRequestHandler, getQueryString } from './utils';
+import { requestHandler, fileRequestHandler, getQueryString, RequestError } from './utils';
 
 describe('api/utils', () => {
   describe('requestHandler', () => {
@@ -29,7 +29,7 @@ describe('api/utils', () => {
       try {
         requestHandler(data);
       } catch (e) {
-        expect(e).toMatchObject({
+        expect(e).toStrictEqual({
           message: data.statusText,
           code: data.status,
         });
@@ -55,12 +55,7 @@ describe('api/utils', () => {
       try {
         fileRequestHandler(data);
       } catch (e) {
-        expect(e).toStrictEqual(
-          new Error({
-            message: data.statusText,
-            code: data.status,
-          })
-        );
+        expect(e).toStrictEqual(new RequestError(data.statusText, data.status));
       }
     });
   });

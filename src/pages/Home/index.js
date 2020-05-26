@@ -100,7 +100,7 @@ const Home = () => {
       <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
       {isLoading && <StyledText>Loading results...</StyledText>}
       {error && <StyledText>An error has occurred, try again later.</StyledText>}
-      {!isLoading && !error && (
+      {!isLoading && !error && value && (
         <>
           {results > 0 && repositories ? (
             <StyledText size={sizes.small}>
