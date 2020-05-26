@@ -21,9 +21,8 @@ import {
   getFileTextContent,
 } from '../../api';
 import { repoDataMapper, errorDataMapper, ownerMapper, readmeContentsFilter, linkHeaderParser } from '../utils';
-import { FETCH_README_ERROR } from '../actions/actions';
 
-export const getRepositories = (keyword, page) => async (dispatch, getState) => {
+export const getRepositories = (keyword, page) => async (dispatch) => {
   const requestInitTime = new Date().getTime();
   await dispatch(fetchRepositoriesStart());
   return getRepos(keyword, page)
@@ -31,8 +30,8 @@ export const getRepositories = (keyword, page) => async (dispatch, getState) => 
       const responseDate = new Date().getTime();
       const linkHeader = headers.get('link');
       const repositoriesMap = new Map();
-      data.items.forEach((data) => {
-        repositoriesMap.set(data.full_name, repoDataMapper(data));
+      data.items.forEach((item) => {
+        repositoriesMap.set(item.full_name, repoDataMapper(item));
       });
       const parsedData = {
         totalCount: data.total_count,
@@ -74,6 +73,8 @@ export const getOwner = (owner) => async (dispatch) => {
 export const getReadme = (owner, repo) => async (dispatch) => {
   await dispatch(fetchReadmeStart(owner, repo));
   const response = await getRepoContents(owner, repo)
+    /* Disable eslint rule for API property */
+    /* eslint-disable-next-line camelcase */
     .then(({ data }) => readmeContentsFilter(data)?.download_url)
     .catch((error) => errorDataMapper(error));
   if (!response || response.message) {

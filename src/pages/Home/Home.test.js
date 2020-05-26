@@ -1,6 +1,5 @@
 import React from 'react';
 import renderWithContext from '../../../spec/utils/renderWithContext';
-import redux from 'react-redux';
 import * as selectors from '../../redux/selectors';
 import Home from '.';
 

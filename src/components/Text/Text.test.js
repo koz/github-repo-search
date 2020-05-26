@@ -1,6 +1,6 @@
 import React from 'react';
-import Text from './index';
 import { render } from '@testing-library/react';
+import Text from './index';
 import { sizes } from '../../styles/text';
 
 describe('<Text />', () => {

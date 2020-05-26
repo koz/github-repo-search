@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 import Header from './index';
-import { createMemoryHistory } from 'history/cjs/history.min';
 import renderWithContext, { renderWithRouter } from '../../../spec/utils/renderWithContext';
 import * as hook from '../../hooks/useBackButton';
 

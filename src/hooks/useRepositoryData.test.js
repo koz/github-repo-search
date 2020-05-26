@@ -1,6 +1,5 @@
-import useRepositoryData from './useRepositoryData';
-import * as selectors from '../redux/selectors';
 import * as redux from 'react-redux';
+import useRepositoryData from './useRepositoryData';
 import * as thunks from '../redux/thunks';
 
 import renderHook from '../../spec/utils/renderHook';
@@ -36,7 +35,7 @@ describe('useRepositoryData', () => {
     const mockGetRepository = jest.spyOn(thunks, 'getRepository').mockReturnValue({ type: 'repo' });
     const owner = 'ownerTest';
     const repo = 'repoTest';
-    const data = renderHook({ hook: useRepositoryData }, owner, repo);
+    renderHook({ hook: useRepositoryData }, owner, repo);
     expect(mockGetRepository).toBeCalledWith(owner, repo);
     expect(mockDispatch).toBeCalledWith({ type: 'repo' });
   });
@@ -49,7 +48,7 @@ describe('useRepositoryData', () => {
     const mockGetOwner = jest.spyOn(thunks, 'getOwner').mockReturnValue({ type: 'owner' });
     const owner = 'ownerTest';
     const repo = 'repoTest';
-    const data = renderHook({ hook: useRepositoryData }, owner, repo);
+    renderHook({ hook: useRepositoryData }, owner, repo);
     expect(mockGetOwner).toBeCalledWith(owner);
     expect(mockDispatch).toBeCalledWith({ type: 'owner' });
   });
@@ -62,7 +61,7 @@ describe('useRepositoryData', () => {
     const mockGetReadme = jest.spyOn(thunks, 'getReadme').mockReturnValue({ type: 'readme' });
     const owner = 'ownerTest';
     const repo = 'repoTest';
-    const data = renderHook({ hook: useRepositoryData }, owner, repo);
+    renderHook({ hook: useRepositoryData }, owner, repo);
     expect(mockGetReadme).toBeCalledWith(owner, repo);
     expect(mockDispatch).toBeCalledWith({ type: 'readme' });
   });

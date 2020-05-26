@@ -37,12 +37,12 @@ const Header = () => {
     <StyledContainer>
       {showBack ? (
         <StyledButton data-testid="back-button" onClick={handleClick}>
-          <img src={arrow} />
+          <img src={arrow} alt="" />
           <span>Back</span>
         </StyledButton>
       ) : (
         <Link data-testid="home-link" to="/">
-          <img data-testid="logo" src={logo} />
+          <img data-testid="logo" src={logo} alt="Go to home page" />
         </Link>
       )}
     </StyledContainer>

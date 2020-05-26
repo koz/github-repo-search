@@ -1,10 +1,8 @@
-import React from 'react';
-import useSearchForm from './useSearchForm';
-import debounce from 'lodash.debounce';
-import * as thunks from '../redux/thunks';
-import render from '../../spec/utils/renderHook';
 import * as router from 'react-router-dom';
 import * as redux from 'react-redux';
+import useSearchForm from './useSearchForm';
+import * as thunks from '../redux/thunks';
+import render from '../../spec/utils/renderHook';
 import * as selectors from '../redux/selectors';
 
 jest.useFakeTimers();
@@ -20,7 +18,7 @@ jest.mock('lodash.debounce', () => (a, b) => {
 });
 
 const mockPush = jest.fn();
-const mockUseLocation = jest.fn().mockImplementation(() => {});
+jest.fn().mockImplementation(() => {});
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
@@ -113,7 +111,7 @@ describe('useSearchForm', () => {
     const thunkMock = jest.spyOn(thunks, 'getRepositories').mockReturnValue({ type: 'test' });
     jest.spyOn(redux, 'useDispatch').mockReturnValue(mockDispatch);
     router.useLocation.mockReturnValueOnce({ search: 'q=keyword+test&page=2' });
-    const { handleChange } = render({ hook: useSearchForm });
+    render({ hook: useSearchForm });
 
     expect(thunkMock).toBeCalledWith('keyword test', '2');
     expect(mockDispatch).toBeCalledWith({ type: 'test' });

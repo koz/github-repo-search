@@ -40,7 +40,7 @@ export default (state = { items: new Map() }, { type, payload }) => {
         isLoadingRepository: false,
         repositoryError: payload,
       };
-    case FETCH_REPOSITORY_SUCCESS:
+    case FETCH_REPOSITORY_SUCCESS: {
       const items = new Map(state.items);
       items.set(payload.fullName, payload);
       return {
@@ -48,6 +48,7 @@ export default (state = { items: new Map() }, { type, payload }) => {
         isLoadingRepository: false,
         items,
       };
+    }
     default:
       return state;
   }

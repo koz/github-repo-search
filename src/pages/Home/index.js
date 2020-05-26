@@ -1,15 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm';
 import Text from '../../components/Text';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import useSearchForm from '../../hooks/useSearchForm';
 import { sizes } from '../../styles/text';
-import { useSelector } from 'react-redux';
 import { useTotalCount, useRepositories, useSearchResponseTime } from '../../redux/selectors';
 import RepoSummary from '../../components/RepoSummary';
-import { Link } from 'react-router-dom';
-import Header from '../../components/Header';
 import Pagination from '../../components/Pagination';
 
 const StyledContainer = styled.div`
@@ -69,25 +67,24 @@ const Home = () => {
   const repositoriesElements = useMemo(() => {
     if (!repositories || !repositories.size) {
       return null;
-    } else {
-      return Array.from(repositories).map(
-        ([id, { name, description, language, updatedAt, license, fullName, stars }]) => (
-          <StyledListItem data-testid="repositories-list-item" key={id}>
-            <Link to={`/${fullName}`}>
-              <RepoSummary
-                title={name}
-                fullName={fullName}
-                description={description}
-                language={language}
-                lastUpdated={updatedAt}
-                license={license?.name}
-                stars={stars}
-              />
-            </Link>
-          </StyledListItem>
-        )
-      );
     }
+    return Array.from(repositories).map(
+      ([id, { name, description, language, updatedAt, license, fullName, stars }]) => (
+        <StyledListItem data-testid="repositories-list-item" key={id}>
+          <Link to={`/${fullName}`}>
+            <RepoSummary
+              title={name}
+              fullName={fullName}
+              description={description}
+              language={language}
+              lastUpdated={updatedAt}
+              license={license?.name}
+              stars={stars}
+            />
+          </Link>
+        </StyledListItem>
+      )
+    );
   }, [repositories]);
 
   return (
@@ -102,7 +99,7 @@ const Home = () => {
       {repositoriesElements ? (
         <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
       ) : null}
-      {results ? <StyledPagination pagination={pagination} currentPage={page}></StyledPagination> : null}
+      {results ? <StyledPagination pagination={pagination} currentPage={page} /> : null}
     </StyledContainer>
   );
 };

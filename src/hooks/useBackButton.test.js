@@ -1,12 +1,7 @@
+import { createMemoryHistory } from 'history';
+import { act } from '@testing-library/react';
 import renderHook from '../../spec/utils/renderHook';
 import useBackButton from './useBackButton';
-import { createMemoryHistory } from 'history';
-import { act, waitForDomChange } from '@testing-library/react';
-
-// const mockBack = jest.fn();
-// jest.mock('react-router-dom', () => ({
-//   ...jest.requireActual('react-router-dom'),
-// }));
 
 describe('useBackButton', () => {
   test('should return a handleClick function', () => {

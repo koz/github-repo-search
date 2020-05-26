@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import arrowIcon from '../../assets/icons/arrow.svg';
 import Text from '../Text';
-import { Link, useLocation } from 'react-router-dom';
 import { getPaginatedUrl } from './utils';
 
 const StyledContainer = styled.div`
@@ -25,6 +26,17 @@ const StyledRightArrow = styled.img`
   transform: rotate(180deg);
 `;
 
+const propTypes = {
+  className: PropTypes.string,
+  pagination: PropTypes.shape({
+    prev: PropTypes.string,
+    next: PropTypes.string,
+    first: PropTypes.string,
+    last: PropTypes.string,
+  }),
+  currentPage: PropTypes.number,
+};
+
 const Pagination = ({ className, pagination = {}, currentPage }) => {
   return (
     <StyledContainer className={className}>
@@ -46,5 +58,7 @@ const Pagination = ({ className, pagination = {}, currentPage }) => {
     </StyledContainer>
   );
 };
+
+Pagination.propTypes = propTypes;
 
 export default Pagination;

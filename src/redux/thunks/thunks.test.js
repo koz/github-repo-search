@@ -77,7 +77,6 @@ describe('thunks', () => {
         .mockImplementationOnce(() => mockDate)
         .mockImplementationOnce(() => mockDate2);
       const mockLink = '<http://www.test.com?page=3>; rel="next"';
-      const parsedItem = { fullName: 'full/name' };
       jest.spyOn(api, 'getRepos').mockResolvedValue({ data: mockData, headers: new Map([['link', mockLink]]) });
 
       await getRepositories()(dispatcherMock);

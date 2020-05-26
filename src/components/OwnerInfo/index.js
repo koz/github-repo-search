@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Text from '../Text';
 import { sizes } from '../../styles/text';
@@ -76,6 +77,22 @@ const StyledLink = styled(Text)`
   color: ${blue};
 `;
 
+const propTypes = {
+  avatar: PropTypes.string,
+  user: PropTypes.string,
+  name: PropTypes.string,
+  bio: PropTypes.string,
+  company: PropTypes.string,
+  location: PropTypes.string,
+  site: PropTypes.string,
+  orgs: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      avatar: PropTypes.string,
+    })
+  ),
+};
+
 const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) => (
   <StyledContainer>
     {avatar && <StyledAvatar data-testid="avatar" src={avatar} />}
@@ -88,20 +105,20 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
     {bio && <StyledBio data-testid="bio">{bio}</StyledBio>}
     <StyledProperties>
       {company && (
-        <StyledIconItem data-testid="company">
-          <img src={jobIcon} />
+        <StyledIconItem data-testid="company" alt="">
+          <img src={jobIcon} alt="" />
           <Text>{company}</Text>
         </StyledIconItem>
       )}
       {location && (
         <StyledIconItem data-testid="location">
-          <img src={locationIcon} />
+          <img src={locationIcon} alt="" />
           <Text>{location}</Text>
         </StyledIconItem>
       )}
       {site && (
         <StyledIconItem data-testid="site">
-          <img src={linkIcon} />
+          <img src={linkIcon} alt="" />
           <StyledLink data-testid="site-link" as="a" href={site.match(/^http(s?):\/\//) ? site : `//${site}`}>
             {site}
           </StyledLink>
@@ -112,9 +129,9 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
       <>
         <StyledOrgsHeader data-testid="orgs-title">Organizations</StyledOrgsHeader>
         <StyledOrgsList>
-          {orgs.map(({ name, avatar }) => (
-            <StyledOrgListItem key={name}>
-              <StyledOrgAvatar data-testid="orgs-avatar" alt={name} src={avatar} />
+          {orgs.map(({ name: orgName, avatar: orgAvatar }) => (
+            <StyledOrgListItem key={orgName}>
+              <StyledOrgAvatar data-testid="orgs-avatar" alt={orgName} src={orgAvatar} />
             </StyledOrgListItem>
           ))}
         </StyledOrgsList>
@@ -122,5 +139,7 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
     )}
   </StyledContainer>
 );
+
+OwnerInfo.propTypes = propTypes;
 
 export default OwnerInfo;
