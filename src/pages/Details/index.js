@@ -7,6 +7,7 @@ import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import Markdown from '../../components/Markdown';
 import OwnerInfo from '../../components/OwnerInfo';
 import Text from '../../components/Text';
+import { blue } from '../../styles/colors';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -18,50 +19,64 @@ const StyledContainer = styled.div`
   }
 `;
 
+const StyledContentContainer = styled.div`
+  margin-top: 8rem;
+`;
+
 const StyledMarkdown = styled(Markdown)`
   margin-top: 8rem;
+`;
+
+const StyledLink = styled(Text)`
+  margin-top: 2rem;
+  color: ${blue};
+  display: inline-block;
 `;
 
 const Details = () => {
   const { owner, repo } = useParams();
   const { repository, readme, owner: ownerData } = useRepositoryData(owner, repo);
   const repoUrl = useMemo(() => `https://www.github.com/${owner}/${repo}`, [owner, repo]);
-
-  if (repository?.isLoading || ownerData?.isLoading || readme?.isLoading) {
-    return (
-      <StyledContainer>
-        <Text>Loading...</Text>
-      </StyledContainer>
-    );
-  }
+  const isLoading = repository?.isLoading || ownerData?.isLoading || readme?.isLoading;
 
   return (
     <StyledContainer>
-      <div>
-        {repository && (
-          <DetailsProperties
-            watchers={repository.watchers}
-            stars={repository.stars}
-            forks={repository.forks}
-            issues={repository.issues}
-          />
-        )}
-        {readme && readme.content ? <StyledMarkdown url={repoUrl} content={readme.content} /> : null}
-      </div>
-      <div>
-        {ownerData && (
-          <OwnerInfo
-            avatar={ownerData.avatar}
-            user={ownerData.login}
-            name={ownerData.name}
-            bio={ownerData.bio}
-            company={ownerData.company}
-            location={ownerData.location}
-            orgs={ownerData.orgs}
-            site={ownerData.blog}
-          />
-        )}
-      </div>
+      {isLoading && <Text>Loading...</Text>}
+      {!isLoading && (
+        <>
+          <div>
+            {repository && (
+              <DetailsProperties
+                watchers={repository.watchers}
+                stars={repository.stars}
+                forks={repository.forks}
+                issues={repository.issues}
+              />
+            )}
+            <StyledContentContainer>
+              {readme?.error && <Text>{readme.error.code === 404 ? readme.error.message : 'An error occurred'}</Text>}
+              {readme && !readme?.error && readme?.content ? <StyledMarkdown content={readme.content} /> : null}
+              <StyledLink as="a" href={repoUrl}>
+                Open on GitHub
+              </StyledLink>
+            </StyledContentContainer>
+          </div>
+          <div>
+            {ownerData && (
+              <OwnerInfo
+                avatar={ownerData.avatar}
+                user={ownerData.login}
+                name={ownerData.name}
+                bio={ownerData.bio}
+                company={ownerData.company}
+                location={ownerData.location}
+                orgs={ownerData.orgs}
+                site={ownerData.blog}
+              />
+            )}
+          </div>
+        </>
+      )}
     </StyledContainer>
   );
 };

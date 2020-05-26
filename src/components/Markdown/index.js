@@ -52,64 +52,59 @@ const StyledImage = styled.img`
 const propTypes = {
   className: PropTypes.string,
   content: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
 };
 
-const Markdown = ({ className, content, url }) => (
-  <div className={className}>
-    <StyledContainer
-      options={{
-        overrides: {
-          h1: {
-            component: StyledH1,
-            props: {
-              size: sizes.large,
-              as: 'h1',
-            },
-          },
-          h2: {
-            component: StyledHeading,
-          },
-          h3: {
-            component: StyledHeading,
-          },
-          h4: {
-            component: StyledHeading,
-          },
-          h5: {
-            component: StyledHeading,
-          },
-          h6: {
-            component: StyledHeading,
-          },
-          p: {
-            component: StyledBody,
-          },
-          hr: {
-            component: StyledHR,
-          },
-          a: {
-            component: StyledLink,
-            props: {
-              as: 'a',
-            },
-          },
-          img: {
-            component: StyledImage,
-          },
-          li: {
-            component: StyledBody,
-            as: 'li',
+const Markdown = ({ className, content }) => (
+  <StyledContainer
+    className={className}
+    options={{
+      overrides: {
+        h1: {
+          component: StyledH1,
+          props: {
+            size: sizes.large,
+            as: 'h1',
           },
         },
-      }}
-    >
-      {content}
-    </StyledContainer>
-    <StyledLink as="a" href={url}>
-      Open on GitHub
-    </StyledLink>
-  </div>
+        h2: {
+          component: StyledHeading,
+        },
+        h3: {
+          component: StyledHeading,
+        },
+        h4: {
+          component: StyledHeading,
+        },
+        h5: {
+          component: StyledHeading,
+        },
+        h6: {
+          component: StyledHeading,
+        },
+        p: {
+          component: StyledBody,
+        },
+        hr: {
+          component: StyledHR,
+        },
+        a: {
+          component: StyledLink,
+          props: {
+            as: 'a',
+          },
+        },
+        img: {
+          component: StyledImage,
+        },
+        li: {
+          component: StyledBody,
+          as: 'li',
+        },
+      },
+    }}
+  >
+    {content}
+  </StyledContainer>
 );
 
 Markdown.propTypes = propTypes;

@@ -1,18 +1,29 @@
+/* Custom error class to keep stack trace from Error and also to have status code */
+export class RequestError extends Error {
+  constructor(message, code) {
+    super(message);
+    this.code = code;
+  }
+}
+
 export const requestHandler = async (r) => {
+  const data = await r.json();
   if (r.ok) {
     return {
-      data: await r.json(),
+      data,
       headers: r.headers,
     };
   }
-  throw new Error({ code: r.status, message: r.statusText });
+
+  const { message } = data;
+  throw new RequestError(message || r.statusText, r.status);
 };
 
 export const fileRequestHandler = (r) => {
   if (r.ok) {
     return r.text();
   }
-  throw new Error({ code: r.status, message: r.statusText });
+  throw new RequestError(r.statusText, r.status);
 };
 
 export const getQueryString = (queries = {}) =>
