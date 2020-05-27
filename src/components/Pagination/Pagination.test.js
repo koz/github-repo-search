@@ -16,7 +16,7 @@ describe('<Pagination />', () => {
 
   test("should render left arrow link if there's previous pagination", () => {
     const { queryByTestId, queryByAltText } = renderWithRouter(
-      <Pagination className="test" pagination={{ prev: 1 }} />
+      <Pagination className="test" pagination={{ prev: '1' }} />
     );
     const prevLink = queryByTestId('prev-link');
     expect(prevLink).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('<Pagination />', () => {
 
   test("should render right arrow link if there's next pagination", () => {
     const { queryByTestId, queryByAltText } = renderWithRouter(
-      <Pagination className="test" pagination={{ next: 2 }} />
+      <Pagination className="test" pagination={{ next: '2' }} />
     );
     const nextLink = queryByTestId('next-link');
     expect(nextLink).toBeInTheDocument();
