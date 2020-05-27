@@ -14,9 +14,14 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  margin: 0 3.2rem 3rem;
+
+  ${mediaQueries[breakpoints.medium]} {
+    margin: 0 5.4rem 3rem;
+  }
 
   ${mediaQueries[breakpoints.large]} {
-    padding: 0 18rem 3rem;
+    margin: 0 18rem 3rem;
   }
 `;
 
@@ -27,6 +32,8 @@ const StyledSearchForm = styled(SearchForm)`
 `;
 
 const StyledText = styled(Text)`
+  margin-top: 4.8rem;
+
   ${mediaQueries[breakpoints.large]} {
     margin-top: 10.4rem;
   }

@@ -11,6 +11,10 @@ import useBackButton from '../../hooks/useBackButton';
 const StyledContainer = styled.div`
   margin: 3.2rem;
 
+  ${mediaQueries[breakpoints.medium]} {
+    margin: 5.4rem;
+  }
+
   ${mediaQueries[breakpoints.large]} {
     margin: 5.4rem 18rem 0;
   }

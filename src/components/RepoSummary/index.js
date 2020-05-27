@@ -6,22 +6,30 @@ import { sizes } from '../../styles/text';
 import { blue } from '../../styles/colors';
 import { parseData } from './utils';
 import starIcon from '../../assets/icons/star.svg';
+import { breakpoints, mediaQueries } from '../../styles/mediaQueries';
 
 const StyledContainer = styled.div`
   width: 100%;
-  padding-bottom: 5rem;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 3rem;
+
+  ${mediaQueries[breakpoints.large]} {
+    padding-bottom: 5rem;
+  }
 `;
 
 const StyledBottomRow = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  grid-gap: 2rem;
   margin-top: 2rem;
+
+  ${mediaQueries[breakpoints.small]} {
+    grid-template-columns: repeat(3, max-content);
+  }
 `;
 
 const StyledProperty = styled(Text)`
-  :not(:first-child) {
-    margin-left: 2rem;
-  }
   opacity: 0.7;
 `;
 
@@ -50,6 +58,12 @@ const StyledStarLabel = styled(Text)`
   margin-left: 0.7rem;
 `;
 
+const StyledUpdated = styled(StyledProperty)`
+  ${mediaQueries[breakpoints.small]} {
+    grid-column-end: span 2;
+  }
+`;
+
 const propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -72,7 +86,7 @@ const RepoSummary = ({ title, description, fullName, license, language, lastUpda
       </StyledStarsContainer>
       {language ? <StyledProperty>{language}</StyledProperty> : null}
       {license ? <StyledProperty>{license}</StyledProperty> : null}
-      {lastUpdated ? <StyledProperty>Updated on {parseData(lastUpdated)}</StyledProperty> : null}
+      {lastUpdated ? <StyledUpdated>Updated on {parseData(lastUpdated)}</StyledUpdated> : null}
     </StyledBottomRow>
   </StyledContainer>
 );

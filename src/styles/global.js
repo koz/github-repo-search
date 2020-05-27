@@ -33,6 +33,7 @@ body {
 	background-color: ${black};
 	color: ${white};
 	line-height: 1;
+	width: 100%;
 	font-size: 1.6rem; /* resets default font-size to 16px (and scales what user defines in browser settings) */
 }
 input, body {
