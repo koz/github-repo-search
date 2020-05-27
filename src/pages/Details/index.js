@@ -10,12 +10,19 @@ import Text from '../../components/Text';
 import { blue } from '../../styles/colors';
 
 const StyledContainer = styled.div`
-  display: grid;
-  grid-template-columns: minmax(auto, 71rem) auto;
-  grid-column-gap: 13rem;
+  margin: 0 3.2rem 3rem;
+  display: flex;
+  flex-direction: column;
+
+  ${mediaQueries[breakpoints.medium]} {
+    margin: 0 5.4rem 3rem;
+  }
 
   ${mediaQueries[breakpoints.large]} {
-    padding: 10rem 18rem 0;
+    margin: 10rem 18rem 0;
+    display: grid;
+    grid-template-columns: minmax(auto, 71rem) auto;
+    grid-column-gap: 13rem;
   }
 `;
 
@@ -31,6 +38,14 @@ const StyledLink = styled(Text)`
   margin-top: 2rem;
   color: ${blue};
   display: inline-block;
+`;
+
+const OwnerContainer = styled.div`
+  margin-top: 4rem;
+
+  ${breakpoints.large} {
+    margin-top: 0;
+  }
 `;
 
 const Details = () => {
@@ -64,7 +79,7 @@ const Details = () => {
               </StyledLink>
             </StyledContentContainer>
           </div>
-          <div>
+          <OwnerContainer>
             {ownerData && (
               <OwnerInfo
                 avatar={ownerData.avatar}
@@ -77,7 +92,7 @@ const Details = () => {
                 site={ownerData.blog}
               />
             )}
-          </div>
+          </OwnerContainer>
         </>
       )}
     </StyledContainer>

@@ -10,7 +10,10 @@ import { white } from '../../styles/colors';
 
 const StyledList = styled.ul`
   list-style: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+  grid-column-gap: 3.2rem;
+  grid-row-gap: 1.6rem;
 `;
 
 const StyledListItem = styled.li`
@@ -18,10 +21,6 @@ const StyledListItem = styled.li`
   color: ${white};
   display: flex;
   align-items: center;
-
-  :not(:first-child) {
-    margin-left: 3.2rem;
-  }
 `;
 
 const StyledLabel = styled.span`
