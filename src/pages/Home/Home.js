@@ -77,7 +77,7 @@ const Home = () => {
     handleChange(e);
   };
   const repositoriesSize = repositories?.size || 0;
-  const showResults = !isLoading && !error && inputValue;
+  const showResults = !isLoading && !error && inputValue && repositories;
 
   const repositoriesElements = useMemo(() => {
     if (!repositories || !repositoriesSize) {

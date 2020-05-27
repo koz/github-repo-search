@@ -85,7 +85,7 @@ describe('<Home />', () => {
   });
 
   test('should render no results message if results count is 0', () => {
-    jest.spyOn(hook, 'default').mockReturnValue({ resultsCount: 0, query: 'test' });
+    jest.spyOn(hook, 'default').mockReturnValue({ resultsCount: 0, query: 'test', repositories: new Map() });
     const { queryByTestId } = renderWithContext(<Home />);
     expect(queryByTestId('no-results-message')).toBeInTheDocument();
   });
