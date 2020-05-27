@@ -15,7 +15,7 @@ export const requestHandler = async (r) => {
     };
   }
 
-  const { message } = data;
+  const { message } = data || {};
   throw new RequestError(message || r.statusText, r.status);
 };
 
