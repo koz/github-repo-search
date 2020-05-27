@@ -50,7 +50,9 @@ const Pagination = ({ className, pagination = {}, currentPage }) => {
       >
         <img src={arrowIcon} alt="Go to previous page" />
       </StyledLink>
-      <StyledCurrentPage data-testid="current-page">{currentPage}</StyledCurrentPage>
+      <StyledCurrentPage aria-current="page" data-testid="current-page">
+        {currentPage}
+      </StyledCurrentPage>
       <StyledLink
         data-testid="next-link"
         as={!hasNextPagination ? 'span' : null}
