@@ -9,3 +9,4 @@ export const usePaginationLinks = () => useSelector((state) => state?.search?.pa
 export const useSearchResponseTime = () => useSelector((state) => state?.search?.responseTime);
 export const useSearchLoading = () => useSelector((state) => state?.search?.isLoading);
 export const useSearchError = () => useSelector((state) => state?.search?.error);
+export const useSearchQuery = () => useSelector((state) => state?.search?.query);

@@ -10,6 +10,7 @@ import {
   useSearchResponseTime,
   useSearchLoading,
   useSearchError,
+  useSearchQuery,
 } from '../redux/selectors';
 
 export default () => {
@@ -24,22 +25,26 @@ export default () => {
   const responseTime = useSearchResponseTime();
   const isLoading = useSearchLoading();
   const error = useSearchError();
+  const searchQuery = useSearchQuery();
 
   useEffect(() => {
-    if (query && !repositories) {
+    if (!query) {
+      return;
+    }
+
+    const isSameQuery = query === searchQuery;
+    if (!repositories || !isSameQuery) {
       dispatch(getRepositories(query, page));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [query, page, repositories]);
+  }, [query, page]);
 
   const debouncedDispatch = useRef(
     debounce((value) => {
-      if (value) {
-        history.push({
-          pathname: '/',
-          search: new URLSearchParams({ q: value }).toString(),
-        });
-      }
+      history.push({
+        pathname: '/',
+        search: value ? new URLSearchParams({ q: value }).toString() : null,
+      });
     }, 300)
   ).current;
 
@@ -55,7 +60,7 @@ export default () => {
     pagination,
     page,
     resultsCount,
-    repositories,
+    repositories: query ? repositories : null,
     responseTime,
     isLoading,
     error,

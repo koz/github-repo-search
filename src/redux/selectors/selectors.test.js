@@ -1,4 +1,12 @@
-import { useTotalCount, useRepositories, useRepository, useOwner, useReadme, usePaginationLinks } from '.';
+import {
+  useTotalCount,
+  useRepositories,
+  useRepository,
+  useOwner,
+  useReadme,
+  usePaginationLinks,
+  useSearchQuery,
+} from '.';
 import renderHook from '../../../spec/utils/renderHook';
 
 describe('selectors', () => {
@@ -59,5 +67,18 @@ describe('selectors', () => {
     });
 
     expect(value).toStrictEqual(mockData);
+  });
+
+  test('useSearchQuery', () => {
+    const value = renderHook({
+      hook: useSearchQuery,
+      initialState: {
+        search: {
+          query: 'query',
+        },
+      },
+    });
+
+    expect(value).toStrictEqual('query');
   });
 });

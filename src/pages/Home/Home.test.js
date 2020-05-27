@@ -19,11 +19,13 @@ const mockMap = new Map([[1, mockData]]);
 
 describe('<Home />', () => {
   test('should render correctly', () => {
+    jest.spyOn(hook, 'default').mockReturnValue({});
     const { container } = renderWithContext(<Home />);
     expect(container).toBeDefined();
   });
 
   test('should render SearchForm', () => {
+    jest.spyOn(hook, 'default').mockReturnValue({});
     const { getByTestId } = renderWithContext(<Home />);
     expect(getByTestId('search-form')).toBeInTheDocument();
   });
