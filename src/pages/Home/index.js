@@ -69,9 +69,11 @@ const Home = () => {
     setInputValue(e.target.value);
     handleChange(e);
   };
+  const repositoriesSize = repositories?.size || 0;
+  const showResults = !isLoading && !error && inputValue;
 
   const repositoriesElements = useMemo(() => {
-    if (!repositories || !repositories.size) {
+    if (!repositories || !repositoriesSize) {
       return null;
     }
     return Array.from(repositories).map(
@@ -96,21 +98,19 @@ const Home = () => {
   return (
     <StyledContainer>
       <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
-      {isLoading && <StyledText>Loading results...</StyledText>}
-      {error && <StyledText>An error has occurred, try again later.</StyledText>}
-      {!isLoading && !error && inputValue && (
+      {isLoading && <StyledText data-testid="loading-message">Loading results...</StyledText>}
+      {error && <StyledText data-testid="error-message">An error has occurred, try again later.</StyledText>}
+      {showResults && (
         <>
-          {resultsCount > 0 && repositories ? (
+          {resultsCount > 0 ? (
             <StyledText size={sizes.small}>
-              Showing {repositories.size * (page - 1) + 1} to {repositories.size * page} of {formattedResults}{' '}
+              Showing {repositoriesSize * (page - 1) + 1} to {repositoriesSize * page} of {formattedResults}{' '}
               {resultsCount === 1 ? 'repository' : 'repositories'} found in {responseTime / 1000}s
             </StyledText>
           ) : (
-            <StyledText>No results found for this search :(</StyledText>
+            <StyledText data-testid="no-results-message">No results found for this search :(</StyledText>
           )}
-          {repositoriesElements ? (
-            <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
-          ) : null}
+          <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
           {pagination ? <StyledPagination pagination={pagination} currentPage={page} /> : null}
         </>
       )}
