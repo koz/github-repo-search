@@ -5,4 +5,5 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/spec/setup.js'],
   restoreMocks: true,
+  collectCoverageFrom: ['src/**/*.{js,jsx}'],
 };
