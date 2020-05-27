@@ -19,20 +19,35 @@ describe('api/utils', () => {
       });
     });
 
-    test('should throw error on response with ok false', () => {
+    test('should throw error on response with ok false', async () => {
       const data = {
         ok: false,
+        json: jest.fn(),
         status: '400',
         statusText: 'Error',
       };
 
       try {
-        requestHandler(data);
+        await requestHandler(data);
       } catch (e) {
-        expect(e).toStrictEqual({
-          message: data.statusText,
-          code: data.status,
-        });
+        expect(e.code).toEqual(data.status);
+        expect(e.message).toEqual(data.statusText);
+      }
+    });
+
+    test('should throw error with custom message on response with ok false', async () => {
+      const data = {
+        ok: false,
+        json: jest.fn().mockReturnValue({ message: 'Custom error message' }),
+        status: '400',
+        statusText: 'Error',
+      };
+
+      try {
+        await requestHandler(data);
+      } catch (e) {
+        expect(e.code).toEqual(data.status);
+        expect(e.message).toEqual('Custom error message');
       }
     });
   });
@@ -45,7 +60,7 @@ describe('api/utils', () => {
       expect(textMockMethod).toHaveBeenCalledTimes(1);
     });
 
-    test('should throw error on response with ok false', () => {
+    test('should throw error on response with ok false', async () => {
       const data = {
         ok: false,
         status: '400',
@@ -53,7 +68,7 @@ describe('api/utils', () => {
       };
 
       try {
-        fileRequestHandler(data);
+        await fileRequestHandler(data);
       } catch (e) {
         expect(e).toStrictEqual(new RequestError(data.statusText, data.status));
       }

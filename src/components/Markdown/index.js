@@ -56,6 +56,7 @@ const propTypes = {
 
 const Markdown = ({ className, content }) => (
   <StyledContainer
+    data-testid="markdown-render"
     className={className}
     options={{
       overrides: {

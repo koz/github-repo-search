@@ -16,12 +16,20 @@ describe('<OwnerInfo />', () => {
     expect(element).toHaveProperty('src', avatar);
   });
 
+  test('should render name info prop', () => {
+    const name = 'JohnDoe';
+    const { queryByTestId } = render(<OwnerInfo name={name} />);
+    const element = queryByTestId('name');
+    expect(element).toBeInTheDocument();
+    expect(element).toHaveTextContent(name);
+  });
+
   test('should render user info prop', () => {
     const user = 'JohnDoe';
     const { queryByTestId } = render(<OwnerInfo user={user} />);
     const element = queryByTestId('user');
     expect(element).toBeInTheDocument();
-    expect(element.textContent).toEqual(user);
+    expect(element).toHaveTextContent(user);
   });
 
   test('should render bio info prop', () => {
@@ -29,7 +37,7 @@ describe('<OwnerInfo />', () => {
     const { queryByTestId } = render(<OwnerInfo bio={bio} />);
     const element = queryByTestId('bio');
     expect(element).toBeInTheDocument();
-    expect(element.textContent).toEqual(bio);
+    expect(element).toHaveTextContent(bio);
   });
 
   test('should render company info prop', () => {
@@ -37,7 +45,7 @@ describe('<OwnerInfo />', () => {
     const { queryByTestId } = render(<OwnerInfo company={company} />);
     const element = queryByTestId('company');
     expect(element).toBeInTheDocument();
-    expect(element.textContent).toEqual(company);
+    expect(element).toHaveTextContent(company);
   });
 
   test('should render location info prop', () => {
@@ -45,7 +53,7 @@ describe('<OwnerInfo />', () => {
     const { queryByTestId } = render(<OwnerInfo location={location} />);
     const element = queryByTestId('location');
     expect(element).toBeInTheDocument();
-    expect(element.textContent).toEqual(location);
+    expect(element).toHaveTextContent(location);
   });
 
   test('should render site prop without http correctly', () => {
@@ -54,7 +62,7 @@ describe('<OwnerInfo />', () => {
     const element = queryByTestId('site');
     expect(element).toBeInTheDocument();
     expect(queryByTestId('site-link')).toHaveProperty('href', `http://${site}/`);
-    expect(element.textContent).toEqual(site);
+    expect(element).toHaveTextContent(site);
   });
 
   test('should render site prop with http correctly', () => {
@@ -63,7 +71,7 @@ describe('<OwnerInfo />', () => {
     const element = queryByTestId('site');
     expect(element).toBeInTheDocument();
     expect(queryByTestId('site-link')).toHaveProperty('href', `${site}/`);
-    expect(element.textContent).toEqual(site);
+    expect(element).toHaveTextContent(site);
   });
 
   test('should render site prop with https correctly', () => {
@@ -72,7 +80,7 @@ describe('<OwnerInfo />', () => {
     const element = queryByTestId('site');
     expect(element).toBeInTheDocument();
     expect(queryByTestId('site-link')).toHaveProperty('href', `${site}/`);
-    expect(element.textContent).toEqual(site);
+    expect(element).toHaveTextContent(site);
   });
 
   test('should render orgs info prop', () => {
@@ -84,5 +92,10 @@ describe('<OwnerInfo />', () => {
     expect(queryByTestId('orgs-title')).toBeInTheDocument();
     expect(queryAllByTestId('orgs-avatar')).toHaveLength(orgs.length);
     queryAllByTestId('orgs-avatar').forEach((avatar, i) => expect(avatar).toHaveProperty('src', orgs[i].avatar));
+  });
+
+  test('should not break in case of missing information', () => {
+    const { container } = render(<OwnerInfo />);
+    expect(container).toBeInTheDocument();
   });
 });

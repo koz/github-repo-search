@@ -38,22 +38,26 @@ const propTypes = {
 };
 
 const Pagination = ({ className, pagination = {}, currentPage }) => {
+  const hasPrevPagination = !!pagination.prev;
+  const hasNextPagination = !!pagination.next;
   return (
-    <StyledContainer className={className}>
+    <StyledContainer data-testid="pagination" className={className}>
       <StyledLink
-        as={!pagination.prev ? 'span' : null}
-        to={(location) => getPaginatedUrl(location, pagination.prev)}
-        disabled={!pagination.prev}
+        data-testid="prev-link"
+        as={!hasPrevPagination ? 'span' : null}
+        to={hasPrevPagination ? (location) => getPaginatedUrl(location, pagination.prev) : null}
+        disabled={!hasPrevPagination}
       >
-        <img src={arrowIcon} alt="Icon of arrow pointing left" />
+        <img src={arrowIcon} alt="Go to previous page" />
       </StyledLink>
-      <StyledCurrentPage>{currentPage}</StyledCurrentPage>
+      <StyledCurrentPage data-testid="current-page">{currentPage}</StyledCurrentPage>
       <StyledLink
-        as={!pagination.next ? 'span' : null}
-        to={(location) => getPaginatedUrl(location, pagination.next)}
-        disabled={!pagination.next}
+        data-testid="next-link"
+        as={!hasNextPagination ? 'span' : null}
+        to={hasNextPagination ? (location) => getPaginatedUrl(location, pagination.next) : null}
+        disabled={!hasNextPagination}
       >
-        <StyledRightArrow disabled={!pagination.next} src={arrowIcon} alt="Icon of arrow pointing right" />
+        <StyledRightArrow src={arrowIcon} alt="Go to next page" />
       </StyledLink>
     </StyledContainer>
   );
