@@ -40,19 +40,21 @@ const propTypes = {
 const Pagination = ({ className, pagination = {}, currentPage }) => (
   <StyledContainer data-testid="pagination" className={className}>
     <StyledLink
+      data-testid="prev-link"
       as={!pagination.prev ? 'span' : null}
       to={(location) => getPaginatedUrl(location, pagination.prev)}
       disabled={!pagination.prev}
     >
-      <img src={arrowIcon} alt="Icon of arrow pointing left" />
+      <img src={arrowIcon} alt="Go to previous page" />
     </StyledLink>
-    <StyledCurrentPage>{currentPage}</StyledCurrentPage>
+    <StyledCurrentPage data-testid="current-page">{currentPage}</StyledCurrentPage>
     <StyledLink
+      data-testid="next-link"
       as={!pagination.next ? 'span' : null}
       to={(location) => getPaginatedUrl(location, pagination.next)}
       disabled={!pagination.next}
     >
-      <StyledRightArrow disabled={!pagination.next} src={arrowIcon} alt="Icon of arrow pointing right" />
+      <StyledRightArrow src={arrowIcon} alt="Go to next page" />
     </StyledLink>
   </StyledContainer>
 );
