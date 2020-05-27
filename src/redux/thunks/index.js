@@ -36,7 +36,7 @@ export const getRepositories = (keyword, page) => async (dispatch) => {
       const parsedData = {
         totalCount: data.total_count,
         items: repositoriesMap,
-        pagination: linkHeader ? linkHeaderParser(linkHeader) : null,
+        pagination: linkHeaderParser(linkHeader),
         responseTime: responseDate - requestInitTime,
         page,
       };

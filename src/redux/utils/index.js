@@ -76,13 +76,15 @@ export const ownerMapper = (data, orgsData = []) => {
 export const readmeContentsFilter = (data = []) => data.find((item) => item?.name?.match(/^readme.md$/gi));
 
 export const linkHeaderParser = (header) =>
-  header.split(',').reduce((obj, i) => {
-    const newObj = { ...obj };
-    const rel = i.match(/rel="(.*)"/);
-    const key = rel && rel[1];
-    if (key) {
-      const value = i.match(/<.*page=(\d+)>/)[1];
-      newObj[key] = value;
-    }
-    return newObj;
-  }, {});
+  header
+    ? header.split(',').reduce((obj, i) => {
+        const newObj = { ...obj };
+        const rel = i.match(/rel="(.*)"/);
+        const key = rel && rel[1];
+        if (key) {
+          const value = i.match(/<.*page=(\d+)>/)[1];
+          newObj[key] = value;
+        }
+        return newObj;
+      }, {})
+    : null;

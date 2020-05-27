@@ -183,5 +183,9 @@ describe('redux/utils', () => {
         )
       ).toStrictEqual({ prev: '1' });
     });
+
+    test("should return null if there's no param", () => {
+      expect(linkHeaderParser()).toStrictEqual(null);
+    });
   });
 });
