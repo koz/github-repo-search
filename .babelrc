@@ -8,6 +8,7 @@
       {
         "ssr": false
       }
-    ]
+    ],
+    "@babel/plugin-syntax-dynamic-import"
   ]
 }

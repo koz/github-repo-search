@@ -2,7 +2,7 @@ import * as React from 'react';
 import { fireEvent } from '@testing-library/react';
 import renderWithContext from '../../../spec/utils/renderWithContext';
 import * as hook from '../../hooks/useSearchForm';
-import Home from '.';
+import Home from './Home';
 
 const mockData = {
   id: 1,
