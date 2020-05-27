@@ -17,11 +17,27 @@ describe('<SearchForm />', () => {
     expect(onChangeMock).toHaveBeenCalledTimes(1);
   });
 
-  test('should call onSubmit on form submit event', () => {
+  test("should not break on input change if there's no onChange prop", () => {
+    const { container, getByTestId } = render(<SearchForm />);
+    fireEvent.change(getByTestId('search-input'), { target: { value: '1' } });
+    expect(container).toBeInTheDocument();
+  });
+
+  test('should call onSubmit and preventDefault on form submit event', () => {
     const onSubmitMock = jest.fn();
+    const preventDefaultMock = jest.fn();
     const { getByTestId } = render(<SearchForm onSubmit={onSubmitMock} />);
-    fireEvent.submit(getByTestId('search-form'));
+    const submitEvent = new Event('submit');
+    Object.assign(submitEvent, { preventDefault: preventDefaultMock });
+    fireEvent(getByTestId('search-form'), submitEvent);
     expect(onSubmitMock).toHaveBeenCalledTimes(1);
+    expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+  });
+
+  test("should not break on submit event if there's no onSubmit prop", () => {
+    const { container, getByTestId } = render(<SearchForm />);
+    fireEvent.submit(getByTestId('search-form'));
+    expect(container).toBeInTheDocument();
   });
 
   test('should render value on input element', () => {
