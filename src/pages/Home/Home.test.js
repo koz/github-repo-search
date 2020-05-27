@@ -42,8 +42,7 @@ describe('<Home />', () => {
 
   test("should render results label in singular if there's only 1 result", () => {
     jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 1, query: 'test' });
-    const { queryByText, debug } = renderWithContext(<Home />);
-    console.log(debug());
+    const { queryByText } = renderWithContext(<Home />);
     expect(queryByText('repository', { exact: false })).toBeInTheDocument();
   });
 
