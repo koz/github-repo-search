@@ -1,4 +1,8 @@
-export const repoDataMapper = (data = {}) => {
+export const repoDataMapper = (data) => {
+  if (!data) {
+    return {};
+  }
+
   const {
     id,
     created_at: createdAt,
@@ -36,9 +40,14 @@ export const repoDataMapper = (data = {}) => {
 };
 
 export const errorDataMapper = (error) =>
-  error.code || error.message ? { code: error.code, message: error.message } : { message: 'An error occurred.' };
+  error && (error.code || error.message)
+    ? { code: error.code, message: error.message }
+    : { message: 'An error occurred.' };
 
 export const orgsMapper = (data) => {
+  if (!data) {
+    return {};
+  }
   const { login: name, avatar_url: avatar } = data;
   return {
     name,
@@ -46,7 +55,11 @@ export const orgsMapper = (data) => {
   };
 };
 
-export const ownerMapper = (data = {}, orgsData = []) => {
+export const ownerMapper = (data, orgsData = []) => {
+  if (!data) {
+    return {};
+  }
+
   const { avatar_url: avatar, bio, blog, company, location, name, login } = data;
   return {
     avatar,
@@ -65,7 +78,8 @@ export const readmeContentsFilter = (data = []) => data.find((item) => item?.nam
 export const linkHeaderParser = (header) =>
   header.split(',').reduce((obj, i) => {
     const newObj = { ...obj };
-    const key = i.match(/rel="(.*)"/)[1];
+    const rel = i.match(/rel="(.*)"/);
+    const key = rel && rel[1];
     if (key) {
       const value = i.match(/<.*page=(\d+)>/)[1];
       newObj[key] = value;
