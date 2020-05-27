@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
   output: {
     publicPath: '/',
+    chunkFilename: '[name].bundle.js',
   },
   module: {
     rules: [

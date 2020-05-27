@@ -1,5 +1,5 @@
 import React from 'react';
-import Details from './index';
+import Details from './Details';
 import renderWithContext from '../../../spec/utils/renderWithContext';
 import * as hook from '../../hooks/useRepositoryData';
 
