@@ -37,27 +37,31 @@ const propTypes = {
   currentPage: PropTypes.number,
 };
 
-const Pagination = ({ className, pagination = {}, currentPage }) => (
-  <StyledContainer data-testid="pagination" className={className}>
-    <StyledLink
-      data-testid="prev-link"
-      as={!pagination.prev ? 'span' : null}
-      to={(location) => getPaginatedUrl(location, pagination.prev)}
-      disabled={!pagination.prev}
-    >
-      <img src={arrowIcon} alt="Go to previous page" />
-    </StyledLink>
-    <StyledCurrentPage data-testid="current-page">{currentPage}</StyledCurrentPage>
-    <StyledLink
-      data-testid="next-link"
-      as={!pagination.next ? 'span' : null}
-      to={(location) => getPaginatedUrl(location, pagination.next)}
-      disabled={!pagination.next}
-    >
-      <StyledRightArrow src={arrowIcon} alt="Go to next page" />
-    </StyledLink>
-  </StyledContainer>
-);
+const Pagination = ({ className, pagination = {}, currentPage }) => {
+  const hasPrevPagination = !!pagination.prev;
+  const hasNextPagination = !!pagination.next;
+  return (
+    <StyledContainer data-testid="pagination" className={className}>
+      <StyledLink
+        data-testid="prev-link"
+        as={!hasPrevPagination ? 'span' : null}
+        to={hasPrevPagination ? (location) => getPaginatedUrl(location, pagination.prev) : null}
+        disabled={!hasPrevPagination}
+      >
+        <img src={arrowIcon} alt="Go to previous page" />
+      </StyledLink>
+      <StyledCurrentPage data-testid="current-page">{currentPage}</StyledCurrentPage>
+      <StyledLink
+        data-testid="next-link"
+        as={!hasNextPagination ? 'span' : null}
+        to={hasNextPagination ? (location) => getPaginatedUrl(location, pagination.next) : null}
+        disabled={!hasNextPagination}
+      >
+        <StyledRightArrow src={arrowIcon} alt="Go to next page" />
+      </StyledLink>
+    </StyledContainer>
+  );
+};
 
 Pagination.propTypes = propTypes;
 
