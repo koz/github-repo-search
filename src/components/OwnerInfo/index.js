@@ -98,7 +98,7 @@ const propTypes = {
 };
 
 const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) => (
-  <StyledContainer>
+  <StyledContainer data-testid="owner-info">
     {avatar && <StyledAvatar data-testid="avatar" src={avatar} />}
     {name && (
       <StyledTitle data-testid="name" as="h2" size={sizes.medium}>
