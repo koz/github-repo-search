@@ -1,6 +1,6 @@
 import React from 'react';
-import LoadingPageComponent from './index';
 import { render } from '@testing-library/react';
+import LoadingPageComponent from './index';
 
 describe('<LoadingPageComponent />', () => {
   test('should render', () => {
