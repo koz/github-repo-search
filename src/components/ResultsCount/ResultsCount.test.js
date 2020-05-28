@@ -40,12 +40,17 @@ describe('<ResultsCount />', () => {
   });
 
   test('should render empty message if repositoriesLength is 0', () => {
-    const { queryByTestId } = render(<ResultsCount data-testid="empty-message" repositoriesLength={0} />);
-    expect(queryByTestId('empty-message')).toBeInTheDocument();
+    const { queryByText } = render(<ResultsCount totalResults={0} />);
+    expect(queryByText('No results found for this search :(')).toBeInTheDocument();
   });
 
   test('should accept external className in empty message', () => {
-    const { container } = render(<ResultsCount className="test" repositoriesLength={0} />);
+    const { container } = render(<ResultsCount className="test" totalResults={0} />);
     expect(container.firstChild).toHaveClass('test');
+  });
+
+  test('should accept external data-testid in empty message', () => {
+    const { queryByTestId } = render(<ResultsCount data-testid="test" totalResults={0} />);
+    expect(queryByTestId('test')).toBeInTheDocument();
   });
 });
