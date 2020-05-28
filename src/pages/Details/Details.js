@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import useRepositoryData from '../../hooks/useRepositoryData';
 import DetailsProperties from '../../components/DetailsProperties';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
-import Markdown from '../../components/Markdown';
 import OwnerInfo from '../../components/OwnerInfo';
 import Text from '../../components/Text';
 import Link from '../../components/Link';
+import Readme from '../../components/Readme';
 
 const StyledContainer = styled.div`
   margin: 0 3.2rem 3rem;
@@ -30,7 +30,7 @@ const StyledContentContainer = styled.div`
   margin-top: 8rem;
 `;
 
-const StyledMarkdown = styled(Markdown)`
+const StyledReadme = styled(Readme)`
   margin-top: 8rem;
 `;
 
@@ -50,7 +50,7 @@ const StyledOwner = styled(OwnerInfo)`
 const Details = () => {
   const { owner, repo } = useParams();
   const { repository, readme, owner: ownerData } = useRepositoryData(owner, repo);
-  const repoUrl = useMemo(() => `https://www.github.com/${owner}/${repo}`, [owner, repo]);
+  const repoUrl = `https://www.github.com/${owner}/${repo}`;
   const isLoading = repository?.isLoading || ownerData?.isLoading || readme?.isLoading;
 
   return (
@@ -68,16 +68,7 @@ const Details = () => {
               />
             )}
             <StyledContentContainer>
-              {readme && (
-                <>
-                  {readme.error && (
-                    <Text>
-                      {readme?.error && readme?.error?.code === 404 ? readme.error.message : 'An error occurred'}
-                    </Text>
-                  )}
-                  {readme.content && !readme.error && <StyledMarkdown content={readme.content} />}
-                </>
-              )}
+              {readme && <StyledReadme data-testid="readme" error={readme.error} content={readme.content} />}
               <StyledLink data-testid="github-link" href={repoUrl}>
                 Open on GitHub
               </StyledLink>

@@ -51,28 +51,26 @@ describe('<Describe />', () => {
     expect(queryByText('Error message test')).toBeInTheDocument();
   });
 
-  test('should render readme generic error message', () => {
+  test('should render readme content', () => {
     jest.spyOn(hook, 'default').mockReturnValue({
       repository: {},
       readme: {
-        error: { code: 999, message: 'Error message test' },
+        content: 'Test Content',
       },
       owner: {},
     });
     const { queryByText } = renderWithContext(<Details />);
-    expect(queryByText('An error occurred')).toBeInTheDocument();
+    expect(queryByText('Test Content')).toBeInTheDocument();
   });
 
-  test('should render markdown render component', () => {
+  test('should not render readme component', () => {
     jest.spyOn(hook, 'default').mockReturnValue({
       repository: {},
-      readme: {
-        content: 'Content',
-      },
+      readme: null,
       owner: {},
     });
     const { queryByTestId } = renderWithContext(<Details />);
-    expect(queryByTestId('markdown-render')).toBeInTheDocument();
+    expect(queryByTestId('readme')).not.toBeInTheDocument();
   });
 
   test('should render github repo link', () => {
