@@ -47,11 +47,11 @@ A quick look at the top-level files and directories you'll see in this project.
 
 1. **`/spec`**: This directory contains the static build of the site. It is generated when you run `yarn build`.
 
-1. **`/src`**: This directory will contain all of the code related to the application.
+1. **`/src`**: This directory will contain all of the code related to the application. [Read more about it](#source-code-architecture).
 
 1. **`.babelrc`**: This file contains `Babel` parser configuration, check [Babel's documentation](https://babeljs.io/docs/en/config-files) for more reference.
 
-1. **`.env`**: [Dotenv](https://github.com/motdotla/dotenv) files are used to load different variables on the application. Currently being used to load a Github OAuth token to increase the API rate limit on requests.
+1. **`.env`**: [Dotenv](https://github.com/motdotla/dotenv) files are used to load different variables on the application. Currently being used to load a Github OAuth token to increase the API rate limit on requests. Check the section about the [API rate limit](#rate-limit)
 
 1. **`.eslintrc`**: This is a configuration file for [ESLint](https://eslint.org/).
 
@@ -87,19 +87,19 @@ A quick look at the top-level files and directories you'll see in this project.
 ├── index.js
 └── Routes.js
 
-1. **`api`**: This folder contains the functions that access directly Github's API. It also has a `utils` file with utility functions shared across the API functions.
+1. **`api`**: This folder contains the functions that access directly Github's API. It also has a `utils` file with utility functions shared across the API functions. More details on the [API section](#api).
 
 1. **`assets`**: This folder contains the static files used across the application, such as SVG icons.
 
 1. **`components`**: This folder contains all the components in this application, with the exception of page-level components.
 
-1. **`hooks`**: This folder contains all custom hooks used by the components.
+1. **`hooks`**: This folder contains all custom hooks used by the components. Read more about it on the [Hooks section](#hooks).
 
-1. **`pages`**: This folder contains the page level components.
+1. **`pages`**: This folder contains the page level components. Check the [Pages section](#pages) below.
 
-1. **`redux`**: This folder contains all the Redux logic, such as actions, action creators, reducers, selectors, thunks, and also utility functions.
+1. **`redux`**: This folder contains all the Redux logic, such as actions, action creators, reducers, selectors, thunks, and also utility functions. Check the [Redux section](#redux) for detailed information.
 
-1. **`styles`**: This folder contains shared styles such as breakpoints, text styles, global styles, colors constants.
+1. **`styles`**: This folder contains shared styles such as breakpoints, text styles, global styles, colors constants. More details in the [Styling section](#styling)
 
 1. **`App.js`**: This file is the root React component adding top-level configuration, such as a router, global styling, and store provider.
 
@@ -141,7 +141,7 @@ Page-level components are the top-level components rendered by `react-router` ro
 
 ### Redux
 
-Redux is being used to persist data across the application, in addition to `redux-thunk` to create asynchronous actions for data fetching.
+Redux is being used to persist data across the application, with [`redux-thunk`](https://github.com/reduxjs/redux-thunk) to create asynchronous actions for data fetching.
 
 ##### Actions
 
@@ -149,11 +149,11 @@ The action types are defined in constants shared between action creators and red
 
 ##### Reducers
 
-Each reducer has it's own files and `reducers/index.js` file exports all of them combined using `combineReducers`.
+Each reducer has it's own files and `reducers/index.js` file exports all of them combined using [`combineReducers`](https://redux.js.org/api/combinereducers).
 
 ##### Selectors
 
-Functions using `useSelector` hook from `react-redux` are defined and exported on `selectors/index.js` to access the store state.
+Functions using [`useSelector`](https://react-redux.js.org/api/hooks) hook from `react-redux` are defined and exported on `selectors/index.js` to access the store state.
 
 ##### Thunks
 
@@ -167,6 +167,6 @@ The `createStore.js` file exports a function that receives an initial state and 
 
 ### Styling
 
-The components are styled using `styled-components`, the styled components are usually defined inside the component file. Shared styled components such as `<Text />`, should be inside the `components` folder.
+The components are styled using [`styled-components`](https://styled-components.com/), the styled components are usually defined inside the component file. Shared styled components such as `<Text />`, should be inside the `components` folder.
 
 Constants such as breakpoint values, color HEX, and also shared styles such as text styles (that could be applied to different components), are defined inside `/styles`.
