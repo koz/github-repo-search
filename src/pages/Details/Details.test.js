@@ -63,16 +63,6 @@ describe('<Describe />', () => {
     expect(queryByText('An error occurred')).toBeInTheDocument();
   });
 
-  test("should render readme generic error message if there's no readme", () => {
-    jest.spyOn(hook, 'default').mockReturnValue({
-      repository: {},
-      readme: null,
-      owner: {},
-    });
-    const { queryByText } = renderWithContext(<Details />);
-    expect(queryByText('An error occurred')).toBeInTheDocument();
-  });
-
   test('should render markdown render component', () => {
     jest.spyOn(hook, 'default').mockReturnValue({
       repository: {},

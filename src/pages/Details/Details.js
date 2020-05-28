@@ -69,10 +69,15 @@ const Details = () => {
               />
             )}
             <StyledContentContainer>
-              {!readme || !readme.content || readme.error ? (
-                <Text>{readme?.error && readme?.error?.code === 404 ? readme.error.message : 'An error occurred'}</Text>
-              ) : (
-                <StyledMarkdown content={readme.content} />
+              {readme && (
+                <>
+                  {readme.error && (
+                    <Text>
+                      {readme?.error && readme?.error?.code === 404 ? readme.error.message : 'An error occurred'}
+                    </Text>
+                  )}
+                  {readme.content && !readme.error && <StyledMarkdown content={readme.content} />}
+                </>
               )}
               <StyledLink data-testid="github-link" as="a" href={repoUrl}>
                 Open on GitHub
