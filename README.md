@@ -16,7 +16,7 @@
     yarn start
     ```
 
-❕Check the GitHub OAuth token [configuration instructions](#rate-limit) for a better use of the application.
+❕Check the GitHub OAuth token [configuration instructions](#rate-limit) for better use of the application.
 
 ## Root Directory Overview
 
@@ -65,7 +65,7 @@ A quick look at the top-level files and directories you'll see in this project.
 
 1. **`README.md`**: The file that you're reading right now!
 
-1. **`webpack.config.js`**: This is a configuration file for [Webpack](https://webpack.js.org/), the code bundler and development server for this project.
+1. **`webpack.config.js`**: This is a configuration file for [Webpack](https://webpack.js.org/), the code bundler, and development server for this project.
 
 1. **`yarn.lock`** This is an automatically generated file based on the exact versions of the npm dependencies that were installed for this project.
 
@@ -91,7 +91,7 @@ A quick look at the top-level files and directories you'll see in this project.
 
 1. **`assets`**: This folder contains the static files used across the application, such as SVG icons.
 
-1. **`components`**: This folder contains all the components in this application, with the exception of page-level components.
+1. **`components`**: This folder contains all the components in this application, except for page-level components.
 
 1. **`hooks`**: This folder contains all custom hooks used by the components. Read more about it on the [Hooks section](#hooks).
 
@@ -117,7 +117,7 @@ The endpoints being used are:
 - `https://api.github.com/repos/{owner}/{repo}/contents` - Used for listing the contents of a specific repository, such as README files.
 - `https://api.github.com/users/{owner}` - Used for getting details about a specific user.
 - `https://api.github.com/users/{owner}/orgs` - Used for listing publicized organization memberships of a specific user.
-- `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}` - User for getting raw content files from a repository, such as markdown content from README files.
+- `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}` - User for getting raw content files from a repository, such as a markdown content from README files.
 
 ##### Rate limit
 
