@@ -139,6 +139,7 @@ This application has custom hooks that handle the connection with redux store, a
 ### Pages
 
 Page-level components are the top-level components rendered by `react-router` routes, those components are responsible for getting the necessary data, and pass it to the children components it uses to assemble the page.
+The page components also have a slightly different file structure from the other components, because it's lazy-loaded for code-splitting. On `index.js` file the component is actually exported wrapped by [loadable](https://loadable-components.com/), and having `LoadingPageComponent` as a fallback.
 
 ### Redux
 
