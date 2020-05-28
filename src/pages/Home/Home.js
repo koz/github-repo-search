@@ -83,17 +83,13 @@ const Home = () => {
       {error && <StyledText data-testid="error-message">An error has occurred, try again later.</StyledText>}
       {showResults && (
         <>
-          {resultsCount > 0 ? (
-            <StyledResultsCount
-              data-testid="results-count"
-              repositoriesLength={repositoriesSize}
-              currentPage={page}
-              totalResults={resultsCount}
-              responseTime={responseTime}
-            />
-          ) : (
-            <StyledText data-testid="no-results-message">No results found for this search :(</StyledText>
-          )}
+          <StyledResultsCount
+            data-testid="results-count"
+            repositoriesLength={repositoriesSize}
+            currentPage={page}
+            totalResults={resultsCount}
+            responseTime={responseTime}
+          />
           <StyledResultsList repositories={repositories} data-testid="repositories-list" />
           {pagination ? <StyledPagination pagination={pagination} currentPage={page} /> : null}
         </>

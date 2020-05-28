@@ -20,6 +20,10 @@ const ResultsCount = ({
   responseTime,
   'data-testid': testId,
 }) => {
+  if (totalResults === 0) {
+    return <Text data-testid={testId}>No results found for this search :(</Text>;
+  }
+
   const firstPageElement = repositoriesLength * (currentPage - 1) + 1;
   const lastPageElement = repositoriesLength * currentPage;
   const formattedResults = formatNumber(totalResults);

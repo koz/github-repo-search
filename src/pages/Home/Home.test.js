@@ -66,12 +66,6 @@ describe('<Home />', () => {
     expect(queryByTestId('error-message')).toBeInTheDocument();
   });
 
-  test('should render no results message if results count is 0', () => {
-    jest.spyOn(hook, 'default').mockReturnValue({ resultsCount: 0, query: 'test', repositories: new Map() });
-    const { queryByTestId } = renderWithContext(<Home />);
-    expect(queryByTestId('no-results-message')).toBeInTheDocument();
-  });
-
   test("should render loading message if there's loading true", () => {
     jest.spyOn(hook, 'default').mockReturnValue({ resultsCount: 1, isLoading: true });
     const { queryByTestId } = renderWithContext(<Home />);

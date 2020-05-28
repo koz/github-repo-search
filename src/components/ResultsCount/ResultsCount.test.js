@@ -38,4 +38,9 @@ describe('<ResultsCount />', () => {
     const { queryByText } = render(<ResultsCount responseTime={10000} />);
     expect(queryByText('10s', { exact: false })).toBeInTheDocument();
   });
+
+  test('should render empty message if repositoriesLength is 0', () => {
+    const { queryByTestId } = render(<ResultsCount data-testid="empty-message" repositoriesLength={0} />);
+    expect(queryByTestId('empty-message')).toBeInTheDocument();
+  });
 });
