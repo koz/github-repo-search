@@ -39,15 +39,15 @@ A quick look at the top-level files and directories you'll see in this project.
     ├── webpack.config.js
     └── yarn.lock
 
-1. **`/coverage`**: This directory contains the latest tests coverage report from `jest`.
+1. **`/coverage`**: This directory contains the latest tests coverage report from `jest`. More details in the [section](#coverage) below.
 
-1. **`/dist`**: This directory contains the static build of the site. It is generated when you run `yarn build`. More details in the [section](#coverage) below.
+1. **`/dist`**: This directory contains the static build of the site. It is generated when you run `yarn build`.
 
 1. **`/node_modules`**: This directory contains all of the modules of code that the project depends on (npm packages).
 
-1. **`/spec`**: This directory contains files related to `jest` testing, like utilities and setup files. [Check more about it](#testing).
+1. **`/spec`**: This directory contains files related to `jest` testing, like utilities and setup files. Check more about it in the [testing section](#testing).
 
-1. **`/src`**: This directory will contain all of the code related to the application. [Read more about it](#source-code-architecture).
+1. **`/src`**: This directory will contain all of the code related to the application. Read more about it in the [source corde section](#source-code-architecture).
 
 1. **`.babelrc`**: This file contains `Babel` parser configuration, check [Babel's documentation](https://babeljs.io/docs/en/config-files) for more reference.
 
@@ -117,7 +117,7 @@ The endpoints being used are:
 - `https://api.github.com/repos/{owner}/{repo}/contents` - Used for listing the contents of a specific repository, such as README files.
 - `https://api.github.com/users/{owner}` - Used for getting details about a specific user.
 - `https://api.github.com/users/{owner}/orgs` - Used for listing publicized organization memberships of a specific user.
-- `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}` - User for getting raw content files from a repository, such as a markdown content from README files.
+- `https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}` - User for getting raw content files from a repository, such as a markdown content from README files.
 
 ##### Rate limit
 
@@ -139,6 +139,7 @@ This application has custom hooks that handle the connection with redux store, a
 ### Pages
 
 Page-level components are the top-level components rendered by `react-router` routes, those components are responsible for getting the necessary data, and pass it to the children components it uses to assemble the page.
+
 The page components also have a slightly different file structure from the other components, because it's lazy-loaded for code-splitting. On `index.js` file the component is actually exported wrapped by [loadable](https://loadable-components.com/), and having `LoadingPageComponent` as a fallback.
 
 ### Redux
