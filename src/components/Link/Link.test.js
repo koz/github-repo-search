@@ -2,16 +2,14 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Link from './index';
 
-/* Disabling a11y eslint rule for tests */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 describe('<Link />', () => {
   test('should accept external className', () => {
-    const { container } = render(<Link className="test" />);
+    const { container } = render(<Link className="test" href="http://test" />);
     expect(container.firstChild).toHaveClass('test');
   });
 
   test('should render a tag', () => {
-    const { container } = render(<Link />);
+    const { container } = render(<Link href="http://test" />);
     expect(container.firstChild.tagName).toEqual('A');
   });
 
@@ -21,12 +19,12 @@ describe('<Link />', () => {
   });
 
   test('should render children', () => {
-    const { container } = render(<Link>Test content</Link>);
+    const { container } = render(<Link href="http://test">Test content</Link>);
     expect(container).toHaveTextContent('Test content');
   });
 
   test('should pass data-testid', () => {
-    const { queryByTestId } = render(<Link data-testid="test" />);
+    const { queryByTestId } = render(<Link data-testid="test" href="http://test" />);
     expect(queryByTestId('test')).toBeInTheDocument();
   });
 });
