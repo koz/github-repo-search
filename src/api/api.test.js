@@ -1,4 +1,4 @@
-import { getRepos, getRepo, getOwner, getOwnerOrgs, getRepoContents, getFileTextContent } from './index';
+import { getRepos, getRepo, getOwner, getOwnerOrgs, getRepoContents, getFileTextContent, fetchWithAuth } from './index';
 import * as utils from './utils';
 
 describe('api', () => {
@@ -12,6 +12,10 @@ describe('api', () => {
   });
 
   describe('getRepos', () => {
+    process.env = {
+      GITHUB_OAUTH_TOKEN: 'test',
+    };
+
     test('should call fetch', async () => {
       await getRepos();
       expect(global.fetch).toHaveBeenCalledTimes(1);
@@ -21,12 +25,16 @@ describe('api', () => {
       const keyword = '123 abc';
 
       await getRepos(keyword);
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/search/repositories?q=123%20abc`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/search/repositories?q=123%20abc`, {
+        headers: { authorization: 'token test' },
+      });
     });
 
     test('should call fetch with page', async () => {
       await getRepos('', '2');
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/search/repositories?page=2`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/search/repositories?page=2`, {
+        headers: { authorization: 'token test' },
+      });
     });
 
     test('should call requestHandler with the result of request', async () => {
@@ -50,7 +58,9 @@ describe('api', () => {
       const repo = 'testRepo';
 
       await getRepo(owner, repo);
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/repos/${owner}/${repo}`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/repos/${owner}/${repo}`, {
+        headers: { authorization: 'token test' },
+      });
     });
 
     test('should call requestHandler with the result of request', async () => {
@@ -73,7 +83,9 @@ describe('api', () => {
       const owner = 'ownerRepo';
 
       await getOwner(owner);
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/users/${owner}`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/users/${owner}`, {
+        headers: { authorization: 'token test' },
+      });
     });
 
     test('should call requestHandler with the result of request', async () => {
@@ -96,7 +108,9 @@ describe('api', () => {
       const owner = 'ownerRepo';
 
       await getOwnerOrgs(owner);
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/users/${owner}/orgs`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/users/${owner}/orgs`, {
+        headers: { authorization: 'token test' },
+      });
     });
 
     test('should call requestHandler with the result of request', async () => {
@@ -120,7 +134,9 @@ describe('api', () => {
       const repo = 'repoTest';
 
       await getRepoContents(owner, repo);
-      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/repos/${owner}/${repo}/contents`);
+      expect(global.fetch).toHaveBeenCalledWith(`https://api.github.com/repos/${owner}/${repo}/contents`, {
+        headers: { authorization: 'token test' },
+      });
     });
 
     test('should call requestHandler with the result of request', async () => {
@@ -153,6 +169,22 @@ describe('api', () => {
 
       await getFileTextContent();
       expect(mock).toHaveBeenCalledWith(data);
+    });
+  });
+
+  describe('fetchWithAuth', () => {
+    test('should call fetch with url and auth header', () => {
+      process.env = {
+        GITHUB_OAUTH_TOKEN: '123 test',
+      };
+      fetchWithAuth('url/test');
+      expect(global.fetch).toBeCalledWith('url/test', { headers: { authorization: 'token 123 test' } });
+    });
+
+    test("should call fetch without auth header if there's no token", () => {
+      process.env = {};
+      fetchWithAuth('url/test');
+      expect(global.fetch).toBeCalledWith('url/test', null);
     });
   });
 });
