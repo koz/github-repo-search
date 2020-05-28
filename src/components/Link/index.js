@@ -16,11 +16,12 @@ const propTypes = {
   href: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
+  target: PropTypes.string,
   'data-testid': PropTypes.string,
 };
 
-const Link = ({ href, children, className, 'data-testid': testId }) => (
-  <StyledText as="a" className={className} href={href} data-testid={testId}>
+const Link = ({ href, target, children, className, 'data-testid': testId }) => (
+  <StyledText target={target} as="a" className={className} href={href} data-testid={testId}>
     {children}
   </StyledText>
 );

@@ -69,7 +69,7 @@ const Details = () => {
             )}
             <StyledContentContainer>
               {readme && <StyledReadme data-testid="readme" error={readme.error} content={readme.content} />}
-              <StyledLink data-testid="github-link" href={repoUrl}>
+              <StyledLink target="_blank" data-testid="github-link" href={repoUrl}>
                 Open on GitHub
               </StyledLink>
             </StyledContentContainer>

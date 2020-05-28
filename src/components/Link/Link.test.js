@@ -27,4 +27,9 @@ describe('<Link />', () => {
     const { queryByTestId } = render(<Link data-testid="test" href="http://test" />);
     expect(queryByTestId('test')).toBeInTheDocument();
   });
+
+  test('should accept external target prop', () => {
+    const { container } = render(<Link target="_blank" href="http://test/href" />);
+    expect(container.firstChild).toHaveProperty('target', '_blank');
+  });
 });
