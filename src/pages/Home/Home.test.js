@@ -32,26 +32,14 @@ describe('<Home />', () => {
 
   test("should render results if there's data", () => {
     jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 10000, query: 'test' });
-    const { queryByText } = renderWithContext(<Home />);
-    expect(queryByText('10,000', { exact: false })).toBeInTheDocument();
+    const { queryByTestId } = renderWithContext(<Home />);
+    expect(queryByTestId('results-count')).toBeInTheDocument();
   });
 
   test("should not render results if there's no data", () => {
-    jest.spyOn(hook, 'default').mockReturnValue({});
-    const { queryByText } = renderWithContext(<Home />);
-    expect(queryByText('10,000', { exact: false })).not.toBeInTheDocument();
-  });
-
-  test("should render results label in singular if there's only 1 result", () => {
-    jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 1, query: 'test' });
-    const { queryByText } = renderWithContext(<Home />);
-    expect(queryByText('repository', { exact: false })).toBeInTheDocument();
-  });
-
-  test("should render results label in plural if there's more than 1 result", () => {
-    jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 2, query: 'test' });
-    const { queryByText } = renderWithContext(<Home />);
-    expect(queryByText('repositories', { exact: false })).toBeInTheDocument();
+    jest.spyOn(hook, 'default').mockReturnValue({ resultsCount: 0 });
+    const { queryByTestId } = renderWithContext(<Home />);
+    expect(queryByTestId('results-count')).not.toBeInTheDocument();
   });
 
   test("should render list if there's repositories", () => {

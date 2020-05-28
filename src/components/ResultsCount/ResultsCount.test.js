@@ -8,9 +8,9 @@ describe('<ResultsCount />', () => {
     expect(container.firstChild).toHaveClass('test');
   });
 
-  test('should accept external className', () => {
-    const { container } = render(<ResultsCount className="test" />);
-    expect(container.firstChild).toHaveClass('test');
+  test('should accept external test-id', () => {
+    const { queryByTestId } = render(<ResultsCount data-testid="test" />);
+    expect(queryByTestId('test')).toBeInTheDocument();
   });
 
   test('should render formatted respositories length value', () => {

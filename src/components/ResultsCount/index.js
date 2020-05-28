@@ -9,14 +9,22 @@ const propTypes = {
   currentPage: PropTypes.number,
   totalResults: PropTypes.number,
   responseTime: PropTypes.number,
+  'data-testid': PropTypes.string,
 };
 
-const ResultsCount = ({ className, repositoriesLength, currentPage, totalResults, responseTime }) => {
+const ResultsCount = ({
+  className,
+  repositoriesLength,
+  currentPage,
+  totalResults,
+  responseTime,
+  'data-testid': testId,
+}) => {
   const firstPageElement = repositoriesLength * (currentPage - 1) + 1;
   const lastPageElement = repositoriesLength * currentPage;
   const formattedResults = formatNumber(totalResults);
   return (
-    <Text className={className}>
+    <Text data-testid={testId} className={className}>
       Showing {firstPageElement} to {lastPageElement} of {formattedResults}{' '}
       {totalResults === 1 ? 'repository' : 'repositories'} found in {millisecondsToSeconds(responseTime)}s
     </Text>
