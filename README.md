@@ -75,17 +75,17 @@ A quick look at the top-level files and directories you'll see in this project.
 
 ### Source code architecture
 
-.
-├── api
-├── assets
-├── components
-├── hooks
-├── pages
-├── redux
-├── styles
-├── App.js
-├── index.js
-└── Routes.js
+    .
+    ├── api
+    ├── assets
+    ├── components
+    ├── hooks
+    ├── pages
+    ├── redux
+    ├── styles
+    ├── App.js
+    ├── index.js
+    └── Routes.js
 
 1. **`api`**: This folder contains the functions that access directly Github's API. It also has a `utils` file with utility functions shared across the API functions. More details on the [API section](#api).
 
