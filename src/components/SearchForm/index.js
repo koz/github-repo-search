@@ -5,8 +5,6 @@ import Input from '../Input';
 
 const StyledForm = styled.form`
   display: flex;
-  padding-bottom: 2rem;
-  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.3);
   width: 100%;
 `;
 

@@ -7,7 +7,7 @@ import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import Markdown from '../../components/Markdown';
 import OwnerInfo from '../../components/OwnerInfo';
 import Text from '../../components/Text';
-import { blue } from '../../styles/colors';
+import Link from '../../components/Link';
 
 const StyledContainer = styled.div`
   margin: 0 3.2rem 3rem;
@@ -34,9 +34,8 @@ const StyledMarkdown = styled(Markdown)`
   margin-top: 8rem;
 `;
 
-const StyledLink = styled(Text)`
+const StyledLink = styled(Link)`
   margin-top: 2rem;
-  color: ${blue};
   display: inline-block;
 `;
 
@@ -79,7 +78,7 @@ const Details = () => {
                   {readme.content && !readme.error && <StyledMarkdown content={readme.content} />}
                 </>
               )}
-              <StyledLink data-testid="github-link" as="a" href={repoUrl}>
+              <StyledLink data-testid="github-link" href={repoUrl}>
                 Open on GitHub
               </StyledLink>
             </StyledContentContainer>

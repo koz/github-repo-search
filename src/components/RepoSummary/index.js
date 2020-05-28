@@ -64,6 +64,12 @@ const StyledUpdated = styled(StyledProperty)`
   }
 `;
 
+const StyledTitle = styled(Text)`
+  ${StyledContainer}:hover & {
+    text-decoration: underline;
+  }
+`;
+
 const propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -76,7 +82,7 @@ const propTypes = {
 
 const RepoSummary = ({ title, description, fullName, license, language, lastUpdated, stars = 0 }) => (
   <StyledContainer>
-    <Text size={sizes.large}>{title}</Text>
+    <StyledTitle size={sizes.large}>{title}</StyledTitle>
     <StyledDescription>{description}</StyledDescription>
     <StyledFullName>{fullName}</StyledFullName>
     <StyledBottomRow>

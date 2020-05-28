@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import MarkdownRender from 'markdown-to-jsx';
 import Text from '../Text';
 import { sizes } from '../../styles/text';
-import { blue } from '../../styles/colors';
+import Link from '../Link';
 
 const StyledContainer = styled(MarkdownRender)`
   width: 100%;
@@ -39,10 +39,6 @@ const StyledHR = styled.hr`
   margin-bottom: 3rem;
   opacity: 0.7;
   border-top: none;
-`;
-
-const StyledLink = styled(Text)`
-  color: ${blue};
 `;
 
 const StyledImage = styled.img`
@@ -104,10 +100,7 @@ const Markdown = ({ className, content }) => (
           component: StyledHR,
         },
         a: {
-          component: StyledLink,
-          props: {
-            as: 'a',
-          },
+          component: Link,
         },
         img: {
           component: StyledImage,

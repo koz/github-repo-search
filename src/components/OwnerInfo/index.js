@@ -6,7 +6,7 @@ import { sizes } from '../../styles/text';
 import jobIcon from '../../assets/icons/job.svg';
 import linkIcon from '../../assets/icons/link.svg';
 import locationIcon from '../../assets/icons/location.svg';
-import { blue } from '../../styles/colors';
+import Link from '../Link';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -77,10 +77,6 @@ const StyledProperties = styled.div`
   margin-top: 3rem;
 `;
 
-const StyledLink = styled(Text)`
-  color: ${blue};
-`;
-
 const propTypes = {
   avatar: PropTypes.string,
   user: PropTypes.string,
@@ -123,9 +119,9 @@ const OwnerInfo = ({ avatar, user, name, bio, company, location, orgs, site }) =
       {site && (
         <StyledIconItem data-testid="site">
           <img src={linkIcon} alt="" />
-          <StyledLink data-testid="site-link" as="a" href={site.match(/^http(s?):\/\//) ? site : `//${site}`}>
+          <Link data-testid="site-link" href={site.match(/^http(s?):\/\//) ? site : `//${site}`}>
             {site}
-          </StyledLink>
+          </Link>
         </StyledIconItem>
       )}
     </StyledProperties>
