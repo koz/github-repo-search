@@ -6,6 +6,6 @@ import App from './App';
 describe('<App />', () => {
   test('should render', () => {
     const { container } = render(<App />);
-    expect(container).toBeDefined();
+    expect(container).toBeInTheDocument();
   });
 });

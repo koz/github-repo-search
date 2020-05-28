@@ -21,7 +21,7 @@ describe('<Home />', () => {
   test('should render correctly', () => {
     jest.spyOn(hook, 'default').mockReturnValue({});
     const { container } = renderWithContext(<Home />);
-    expect(container).toBeDefined();
+    expect(container).toBeInTheDocument();
   });
 
   test('should render SearchForm', () => {

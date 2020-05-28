@@ -7,7 +7,7 @@ describe('<RepoSummary />', () => {
     const { container } = render(
       <RepoSummary title="" language="" lastUpdated="" license="" description="" fullName="" />
     );
-    expect(container).toBeDefined();
+    expect(container).toBeInTheDocument();
   });
 
   test('should render the correct content', () => {
@@ -31,12 +31,12 @@ describe('<RepoSummary />', () => {
       />
     );
 
-    expect(queryByText(title)).toBeDefined();
-    expect(queryByText(description)).toBeDefined();
-    expect(queryByText(fullName)).toBeDefined();
-    expect(queryByText(license)).toBeDefined();
-    expect(queryByText(language)).toBeDefined();
-    expect(queryByText(String(stars))).toBeDefined();
+    expect(queryByText(title)).toBeInTheDocument();
+    expect(queryByText(description)).toBeInTheDocument();
+    expect(queryByText(fullName)).toBeInTheDocument();
+    expect(queryByText(license)).toBeInTheDocument();
+    expect(queryByText(language)).toBeInTheDocument();
+    expect(queryByText(String(stars))).toBeInTheDocument();
   });
 
   test('should render lastUpdated info formatted', () => {
@@ -46,6 +46,6 @@ describe('<RepoSummary />', () => {
       <RepoSummary title="" language="" lastUpdated={lastUpdated} license="" description="" fullName="" />
     );
 
-    expect(queryByText('Updated on May 19, 2020')).toBeDefined();
+    expect(queryByText('Updated on May 19, 2020')).toBeInTheDocument();
   });
 });

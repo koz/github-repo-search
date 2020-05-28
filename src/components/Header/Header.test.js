@@ -8,7 +8,7 @@ import * as hook from '../../hooks/useBackButton';
 describe('<Header />', () => {
   test('should render correctly', () => {
     const { container } = renderWithRouter(<Header />);
-    expect(container).toBeDefined();
+    expect(container).toBeInTheDocument();
   });
 
   test('should render link to home', () => {

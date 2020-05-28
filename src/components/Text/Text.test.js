@@ -6,7 +6,7 @@ import { sizes } from '../../styles/text';
 describe('<Text />', () => {
   test('should render correctly', () => {
     const { container } = render(<Text />);
-    expect(container).toBeDefined();
+    expect(container).toBeInTheDocument();
   });
 
   test('should return different classes based on size prop', () => {
