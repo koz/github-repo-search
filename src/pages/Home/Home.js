@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SearchForm from '../../components/SearchForm';
 import Text from '../../components/Text';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
-import useSearchForm from '../../hooks/useSearchForm';
+import useSearchResults from '../../hooks/useSearchResults';
 import Pagination from '../../components/Pagination';
 import ResultsList from '../../components/ResultsList';
 import ResultsCount from '../../components/ResultsCount';
@@ -59,7 +59,7 @@ const StyledResultsCount = styled(ResultsCount)`
 
 const Home = () => {
   const { handleChange, page, query } = useSearchQueryString();
-  const { pagination, resultsCount, repositories, responseTime, isLoading, error } = useSearchForm({ page, query });
+  const { pagination, resultsCount, repositories, responseTime, isLoading, error } = useSearchResults({ page, query });
   const [inputValue, setInputValue] = useState(query || '');
   const handleChangeFn = (e) => {
     setInputValue(e.target.value);

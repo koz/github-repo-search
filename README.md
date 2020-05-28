@@ -133,7 +133,8 @@ This application has custom hooks that handle the connection with redux store, a
 
 - `useBackButton` - This hook exports a handleClick callback function and a state to determine whether the back button should be shown or not.
 - `useRepositoryData` - This hook exports repository and owner data and also README markdown content. It's also responsible for dispatching the necessary actions to fetch those if the data is not already present.
-- `useSearchForm` - This hook export everything related to the search, such as query, pagination information, current page, results' count, repositories list, request's response time, loading, and error state, and a handle change callback to be used in the input. It also watches the query string from the URL to detect pagination and query from there, and fetch all the data when not present.
+- `useSearchQueryString` - This hook handles the query string from the URL, exporting the page and query from it and also a handleChange to be used in a search input to update the URL.
+- `useSearchResults` - This hook export everything related to the search results, such as pagination information,results' count, repositories list, request's response time, loading, and error state. It uses the pagination and query it receives as params to fetch all the data that's not present.
 
 ### Pages
 

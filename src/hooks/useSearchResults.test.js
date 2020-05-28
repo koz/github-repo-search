@@ -1,11 +1,11 @@
 import * as redux from 'react-redux';
 import { createMemoryHistory } from 'history';
-import useSearchForm from './useSearchForm';
+import useSearchResults from './useSearchResults';
 import * as thunks from '../redux/thunks';
 import render from '../../spec/utils/renderHook';
 import * as selectors from '../redux/selectors';
 
-describe('useSearchForm', () => {
+describe('useSearchResults', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.clearAllTimers();
@@ -18,7 +18,7 @@ describe('useSearchForm', () => {
       prev: 'path/to/prev',
     };
     jest.spyOn(selectors, 'usePaginationLinks').mockReturnValue(mockData);
-    const { pagination } = render({ hook: useSearchForm }, {});
+    const { pagination } = render({ hook: useSearchResults }, {});
     expect(pagination).toStrictEqual(mockData);
   });
 
@@ -28,7 +28,7 @@ describe('useSearchForm', () => {
     jest.spyOn(selectors, 'useSearchQuery').mockReturnValue('keyword');
     jest.spyOn(selectors, 'useRepositories').mockReturnValue(new Map());
     jest.spyOn(redux, 'useDispatch').mockReturnValue(mockDispatch);
-    render({ hook: useSearchForm }, { page: 2, query: 'keyword test' });
+    render({ hook: useSearchResults }, { page: 2, query: 'keyword test' });
 
     expect(thunkMock).toBeCalledWith('keyword test', 2);
     expect(thunkMock).toBeCalledTimes(1);
@@ -43,7 +43,7 @@ describe('useSearchForm', () => {
     jest.spyOn(redux, 'useDispatch').mockReturnValue(mockDispatch);
     jest.spyOn(selectors, 'useSearchQuery').mockReturnValue('keyword');
     jest.spyOn(selectors, 'useRepositories').mockReturnValue(new Map());
-    render({ hook: useSearchForm, history }, { query: 'keyword' });
+    render({ hook: useSearchResults, history }, { query: 'keyword' });
     expect(thunkMock).not.toBeCalled();
     expect(mockDispatch).not.toBeCalled();
   });
@@ -53,7 +53,7 @@ describe('useSearchForm', () => {
     const history = createMemoryHistory();
     const thunkMock = jest.spyOn(thunks, 'getRepositories').mockReturnValue({ type: 'test' });
     jest.spyOn(redux, 'useDispatch').mockReturnValue(mockDispatch);
-    render({ hook: useSearchForm, history }, { query: 'keyword', page: 1 });
+    render({ hook: useSearchResults, history }, { query: 'keyword', page: 1 });
 
     expect(thunkMock).toBeCalledWith('keyword', 1);
     expect(thunkMock).toBeCalledTimes(1);
@@ -63,14 +63,14 @@ describe('useSearchForm', () => {
 
   test('should scroll top if query changes', () => {
     global.scrollTo = jest.fn();
-    render({ hook: useSearchForm }, { query: 'keyword' });
+    render({ hook: useSearchResults }, { query: 'keyword' });
 
     expect(global.scrollTo).toBeCalledWith({ top: 0, behavior: 'smooth' });
   });
 
   test("should not return repositories if there's no query", () => {
     jest.spyOn(selectors, 'useRepositories').mockReturnValue(new Map());
-    const { repositories } = render({ hook: useSearchForm }, {});
+    const { repositories } = render({ hook: useSearchResults }, {});
 
     expect(repositories).toEqual(null);
   });
