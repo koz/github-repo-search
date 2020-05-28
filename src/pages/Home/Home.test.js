@@ -58,7 +58,6 @@ describe('<Home />', () => {
     jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 1, query: 'test' });
     const { queryByTestId } = renderWithContext(<Home />);
     expect(queryByTestId('repositories-list')).toBeInTheDocument();
-    expect(queryByTestId('repositories-list-item')).toBeInTheDocument();
   });
 
   test("should not render list if there's no query data", () => {
@@ -71,13 +70,6 @@ describe('<Home />', () => {
     jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 1, query: 'test', error: {} });
     const { queryByTestId } = renderWithContext(<Home />);
     expect(queryByTestId('repositories-list')).not.toBeInTheDocument();
-  });
-
-  test('should render list item with link to detail page', () => {
-    jest.spyOn(hook, 'default').mockReturnValue({ repositories: mockMap, resultsCount: 1, query: 'test' });
-    const { queryByTestId } = renderWithContext(<Home />);
-    const listItemElement = queryByTestId('repositories-list-item');
-    expect(listItemElement.firstChild).toHaveAttribute('href', `/${mockData.fullName}`);
   });
 
   test('should render error message', () => {

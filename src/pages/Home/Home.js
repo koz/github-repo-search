@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm';
 import Text from '../../components/Text';
 import { mediaQueries, breakpoints } from '../../styles/mediaQueries';
 import useSearchForm from '../../hooks/useSearchForm';
 import { sizes } from '../../styles/text';
-import RepoSummary from '../../components/RepoSummary';
 import Pagination from '../../components/Pagination';
+import ResultsList from '../../components/ResultsList';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -39,16 +38,10 @@ const StyledText = styled(Text)`
   }
 `;
 
-const StyledResultsList = styled.ul`
+const StyledResultsList = styled(ResultsList)`
   list-style: none;
   margin-top: 8rem;
   width: 100%;
-`;
-
-const StyledListItem = styled.li`
-  :not(:first-child) {
-    margin-top: 5rem;
-  }
 `;
 
 const StyledPagination = styled(Pagination)`
@@ -79,29 +72,6 @@ const Home = () => {
   const repositoriesSize = repositories?.size || 0;
   const showResults = !isLoading && !error && inputValue && repositories;
 
-  const repositoriesElements = useMemo(() => {
-    if (!repositories || !repositoriesSize) {
-      return null;
-    }
-    return Array.from(repositories).map(
-      ([id, { name, description, language, updatedAt, license, fullName, stars }]) => (
-        <StyledListItem data-testid="repositories-list-item" key={id}>
-          <Link to={`/${fullName}`}>
-            <RepoSummary
-              title={name}
-              fullName={fullName}
-              description={description}
-              language={language}
-              lastUpdated={updatedAt}
-              license={license?.name}
-              stars={stars}
-            />
-          </Link>
-        </StyledListItem>
-      )
-    );
-  }, [repositories]);
-
   return (
     <StyledContainer>
       <StyledSearchForm data-testid="search-form" value={inputValue} onChange={handleChangeFn} />
@@ -117,7 +87,7 @@ const Home = () => {
           ) : (
             <StyledText data-testid="no-results-message">No results found for this search :(</StyledText>
           )}
-          <StyledResultsList data-testid="repositories-list">{repositoriesElements}</StyledResultsList>
+          <StyledResultsList repositories={repositories} data-testid="repositories-list" />
           {pagination ? <StyledPagination pagination={pagination} currentPage={page} /> : null}
         </>
       )}
