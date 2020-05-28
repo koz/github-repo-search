@@ -58,7 +58,7 @@ export default () => {
     ),
     query,
     pagination,
-    page,
+    page: Number(page),
     resultsCount,
     repositories: query ? repositories : null,
     responseTime,

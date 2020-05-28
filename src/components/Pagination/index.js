@@ -34,7 +34,7 @@ const propTypes = {
     first: PropTypes.string,
     last: PropTypes.string,
   }),
-  currentPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  currentPage: PropTypes.number,
 };
 
 const Pagination = ({ className, pagination = {}, currentPage }) => {

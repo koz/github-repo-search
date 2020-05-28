@@ -60,7 +60,7 @@ describe('useSearchForm', () => {
   test('should return a page', () => {
     router.useLocation.mockReturnValueOnce({ search: 'page=2' });
     const { page } = render({ hook: useSearchForm });
-    expect(page).toBe('2');
+    expect(page).toBe(2);
   });
 
   test('should return a handleChange function', () => {
