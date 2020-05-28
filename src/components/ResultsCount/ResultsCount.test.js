@@ -43,4 +43,9 @@ describe('<ResultsCount />', () => {
     const { queryByTestId } = render(<ResultsCount data-testid="empty-message" repositoriesLength={0} />);
     expect(queryByTestId('empty-message')).toBeInTheDocument();
   });
+
+  test('should accept external className in empty message', () => {
+    const { container } = render(<ResultsCount className="test" repositoriesLength={0} />);
+    expect(container.firstChild).toHaveClass('test');
+  });
 });

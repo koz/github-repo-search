@@ -21,7 +21,11 @@ const ResultsCount = ({
   'data-testid': testId,
 }) => {
   if (totalResults === 0) {
-    return <Text data-testid={testId}>No results found for this search :(</Text>;
+    return (
+      <Text className={className} data-testid={testId}>
+        No results found for this search :(
+      </Text>
+    );
   }
 
   const firstPageElement = repositoriesLength * (currentPage - 1) + 1;

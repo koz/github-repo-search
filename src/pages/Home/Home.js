@@ -7,6 +7,7 @@ import useSearchForm from '../../hooks/useSearchForm';
 import Pagination from '../../components/Pagination';
 import ResultsList from '../../components/ResultsList';
 import ResultsCount from '../../components/ResultsCount';
+import useSearchQueryString from '../../hooks/useSearchQueryString';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -57,23 +58,13 @@ const StyledResultsCount = styled(ResultsCount)`
 `;
 
 const Home = () => {
-  const {
-    handleChange,
-    query,
-    pagination,
-    page,
-    resultsCount,
-    repositories,
-    responseTime,
-    isLoading,
-    error,
-  } = useSearchForm();
+  const { handleChange, page, query } = useSearchQueryString();
+  const { pagination, resultsCount, repositories, responseTime, isLoading, error } = useSearchForm({ page, query });
   const [inputValue, setInputValue] = useState(query || '');
   const handleChangeFn = (e) => {
     setInputValue(e.target.value);
     handleChange(e);
   };
-  const repositoriesSize = repositories?.size || 0;
   const showResults = !isLoading && !error && inputValue && repositories;
 
   return (
@@ -85,13 +76,13 @@ const Home = () => {
         <>
           <StyledResultsCount
             data-testid="results-count"
-            repositoriesLength={repositoriesSize}
+            repositoriesLength={repositories.size || 0}
             currentPage={page}
             totalResults={resultsCount}
             responseTime={responseTime}
           />
           <StyledResultsList repositories={repositories} data-testid="repositories-list" />
-          {pagination ? <StyledPagination pagination={pagination} currentPage={page} /> : null}
+          {pagination ? <StyledPagination data-testid="pagination" pagination={pagination} currentPage={page} /> : null}
         </>
       )}
     </StyledContainer>

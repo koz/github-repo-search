@@ -14,6 +14,11 @@ describe('<Pagination />', () => {
     expect(container.firstChild).toHaveClass('test');
   });
 
+  test('should accept external data-testid', () => {
+    const { queryByTestId } = render(<Pagination data-testid="test" />);
+    expect(queryByTestId('test')).toBeInTheDocument();
+  });
+
   test("should render left arrow link if there's previous pagination", () => {
     const { queryByTestId, queryByAltText } = renderWithRouter(
       <Pagination className="test" pagination={{ prev: '1' }} />

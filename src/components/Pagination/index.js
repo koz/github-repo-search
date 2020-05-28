@@ -35,13 +35,14 @@ const propTypes = {
     last: PropTypes.string,
   }),
   currentPage: PropTypes.number,
+  'data-testid': PropTypes.string,
 };
 
-const Pagination = ({ className, pagination = {}, currentPage }) => {
+const Pagination = ({ className, pagination = {}, currentPage, 'data-testid': testId }) => {
   const hasPrevPagination = !!pagination.prev;
   const hasNextPagination = !!pagination.next;
   return (
-    <StyledContainer data-testid="pagination" className={className}>
+    <StyledContainer data-testid={testId} className={className}>
       <StyledLink
         data-testid="prev-link"
         as={!hasPrevPagination ? 'span' : null}
