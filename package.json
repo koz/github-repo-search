@@ -1,5 +1,5 @@
 {
-  "name": "salto-assignment",
+  "name": "github-search",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "lint": "eslint src/"
   },
   "keywords": [],
-  "author": "",
+  "author": "Koz",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.9.6",
