@@ -37,7 +37,7 @@ module.exports = {
       filename: './index.html',
     }),
     new DefinePlugin({
-      'process.env': JSON.stringify(dotenv.config().parsed),
+      'process.env': JSON.stringify(dotenv.config().parsed || ''),
     }),
   ],
   devServer: {
