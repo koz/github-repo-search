@@ -76,7 +76,7 @@ const Home = () => {
         <>
           <StyledResultsCount
             data-testid="results-count"
-            repositoriesLength={repositories.size || 0}
+            repositoriesLength={repositories.size}
             currentPage={page}
             totalResults={resultsCount}
             responseTime={responseTime}
