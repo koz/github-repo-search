@@ -41,11 +41,11 @@ A quick look at the top-level files and directories you'll see in this project.
 
 1. **`/coverage`**: This directory contains the latest tests coverage report from `jest`.
 
-1. **`/dist`**: This directory contains files related to `jest` testing, like utilities and setup files.
+1. **`/dist`**: This directory contains the static build of the site. It is generated when you run `yarn build`. More details in the [section](#coverage) below.
 
 1. **`/node_modules`**: This directory contains all of the modules of code that the project depends on (npm packages).
 
-1. **`/spec`**: This directory contains the static build of the site. It is generated when you run `yarn build`.
+1. **`/spec`**: This directory contains files related to `jest` testing, like utilities and setup files. [Check more about it](#testing).
 
 1. **`/src`**: This directory will contain all of the code related to the application. [Read more about it](#source-code-architecture).
 
@@ -170,3 +170,22 @@ The `createStore.js` file exports a function that receives an initial state and 
 The components are styled using [`styled-components`](https://styled-components.com/), the styled components are usually defined inside the component file. Shared styled components such as `<Text />`, should be inside the `components` folder.
 
 Constants such as breakpoint values, color HEX, and also shared styles such as text styles (that could be applied to different components), are defined inside `/styles`.
+
+### Testing
+
+This projects use [Jest](https://jestjs.io/) for testing, with [`jest-dom`](https://github.com/testing-library/jest-dom) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro) to test React components.
+
+##### Utils
+
+The `spec/utils` folder contains some utilities to reduce boilerplates and facilitate custom hooks testing.
+
+- `renderWithContext.js`: This file exports three render functions implemented on top of the React Testing Library's [`render` function](https://testing-library.com/docs/react-testing-library/api#render), for tests of components that use `react-router` and/or `redux` logic inside.
+  - `renderWithRouter` render a component wrapped inside a Router, with the possibility of receiving a custom history, for better testing.
+  - `renderWithProvider` render a component wrapped inside a Redux Provider, that can receive an initial state as param.
+  - `renderWithContext` uses the same API as the two above to render a component wrapped inside a Redux Provider and a Router.
+- `renderHook.js`: This file export a render function using the `renderWithContext` described above, for rendering a custom React hook, returning the value returned by the hook.
+
+##### Coverage
+
+The `jest.config.js` file has the collect coverage option on, so every time a `yarn test` is used, a new coverage report is showed on the terminal and also generated inside the `coverage` folder.
+To check a more detailed coverage report, open the `coverage/lcov-report/index.html` on a browser.

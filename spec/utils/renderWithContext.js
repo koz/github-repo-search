@@ -6,11 +6,10 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import reducer from '../../src/redux/reducers';
 
-export default (content, { history, state, rerender } = {}) => {
+export default (content, { history, state } = {}) => {
   const store = createStore(state);
-  const renderFn = rerender || render;
   return {
-    ...renderFn(
+    ...render(
       <Provider store={createStore(state)}>
         <Router history={history || createMemoryHistory()}>{content}</Router>
       </Provider>
