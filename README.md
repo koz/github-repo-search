@@ -16,6 +16,8 @@
     yarn start
     ```
 
+❕Check the GitHub OAuth token [configuration instructions](#rate-limit) for a better use of the application.
+
 ## Root Directory Overview
 
 A quick look at the top-level files and directories you'll see in this project.
@@ -27,6 +29,7 @@ A quick look at the top-level files and directories you'll see in this project.
     ├── spec
     ├── src
     ├── .babelrc
+    ├── .env
     ├── .eslintrc
     ├── .gitignore
     ├── .prettierrc
@@ -47,6 +50,8 @@ A quick look at the top-level files and directories you'll see in this project.
 1. **`/src`**: This directory will contain all of the code related to the application.
 
 1. **`.babelrc`**: This file contains `Babel` parser configuration, check [Babel's documentation](https://babeljs.io/docs/en/config-files) for more reference.
+
+1. **`.env`**: [Dotenv](https://github.com/motdotla/dotenv) files are used to load different variables on the application. Currently being used to load a Github OAuth token to increase the API rate limit on requests.
 
 1. **`.eslintrc`**: This is a configuration file for [ESLint](https://eslint.org/).
 
@@ -113,6 +118,14 @@ The endpoints being used are:
 - `https://api.github.com/users/{owner}` - Used for getting details about a specific user.
 - `https://api.github.com/users/{owner}/orgs` - Used for listing publicized organization memberships of a specific user.
 - `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}` - User for getting raw content files from a repository, such as markdown content from README files.
+
+##### Rate limit
+
+GitHub API has a very small [rate limit](https://developer.github.com/v3/#rate-limiting) of 60 requests per hour if there's no authentication. To get around this a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) can be generated on GitHub and set to a variable name `GITHUB_OAUTH_TOKEN` in a `.env` file on the project root.
+
+```
+GITHUB_OAUTH_TOKEN={token}
+```
 
 ### Hooks
 
