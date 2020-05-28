@@ -8,6 +8,11 @@ describe('<OwnerInfo />', () => {
     expect(container).toBeInTheDocument();
   });
 
+  test('should accept external className', () => {
+    const { container } = render(<OwnerInfo className="test" />);
+    expect(container.firstChild).toHaveClass('test');
+  });
+
   test('should render avatar prop as img source', () => {
     const avatar = 'http://avatar/address';
     const { queryByTestId } = render(<OwnerInfo avatar={avatar} />);

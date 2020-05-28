@@ -39,7 +39,7 @@ const StyledLink = styled(Link)`
   display: inline-block;
 `;
 
-const OwnerContainer = styled.div`
+const StyledOwner = styled(OwnerInfo)`
   margin-top: 4rem;
 
   ${breakpoints.large} {
@@ -83,20 +83,18 @@ const Details = () => {
               </StyledLink>
             </StyledContentContainer>
           </div>
-          <OwnerContainer>
-            {ownerData && (
-              <OwnerInfo
-                avatar={ownerData.avatar}
-                user={ownerData.login}
-                name={ownerData.name}
-                bio={ownerData.bio}
-                company={ownerData.company}
-                location={ownerData.location}
-                orgs={ownerData.orgs}
-                site={ownerData.blog}
-              />
-            )}
-          </OwnerContainer>
+          {ownerData && (
+            <StyledOwner
+              avatar={ownerData.avatar}
+              user={ownerData.login}
+              name={ownerData.name}
+              bio={ownerData.bio}
+              company={ownerData.company}
+              location={ownerData.location}
+              orgs={ownerData.orgs}
+              site={ownerData.blog}
+            />
+          )}
         </>
       )}
     </StyledContainer>
