@@ -69,18 +69,33 @@ const Markdown = ({ className, content }) => (
         },
         h2: {
           component: StyledHeading,
+          props: {
+            as: 'h2',
+          },
         },
         h3: {
           component: StyledHeading,
+          props: {
+            as: 'h3',
+          },
         },
         h4: {
           component: StyledHeading,
+          props: {
+            as: 'h4',
+          },
         },
         h5: {
           component: StyledHeading,
+          props: {
+            as: 'h5',
+          },
         },
         h6: {
           component: StyledHeading,
+          props: {
+            as: 'h6',
+          },
         },
         p: {
           component: StyledBody,
@@ -99,7 +114,9 @@ const Markdown = ({ className, content }) => (
         },
         li: {
           component: StyledBody,
-          as: 'li',
+          props: {
+            as: 'li',
+          },
         },
       },
     }}
